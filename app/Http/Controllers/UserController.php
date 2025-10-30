@@ -20,4 +20,15 @@ class UserController extends Controller
 
         return response()->json($data);
     }
+
+    public function register(CreateUserRequest $request)
+    {
+        $validated = $request->validated();
+
+        $this->userService->create($validated);
+
+        $token = $request->user()->createToken('auth_token')->plainTextToken;
+
+        return ['token' => $token];
+    }
 }
