@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Contracts;
 
+use App\Models\User;
+
 interface UserRepositoryInterface
 {
-    public function insert(array $data) : array;
+    public function insert(array $data) : User;
 
     public function findWhere(array $where) : array;
 

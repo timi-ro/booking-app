@@ -18,16 +18,16 @@ class UserController extends Controller
 
         $data = $this->userService->create($validated);
 
-        return response()->json($data);
+        return response()->json($data->toArray());
     }
 
     public function register(CreateUserRequest $request)
     {
         $validated = $request->validated();
 
-        $this->userService->create($validated);
+        $user = $this->userService->create($validated);
 
-        $token = $request->user()->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return ['token' => $token];
     }
