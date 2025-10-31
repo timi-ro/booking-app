@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 
 class UserService
@@ -10,7 +11,7 @@ class UserService
     {
     }
 
-    public function create(array $data): array
+    public function create(array $data): User
     {
         $response = $this->userRepository->insert($data);
         return $response;
