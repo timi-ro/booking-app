@@ -7,14 +7,20 @@ use App\Repositories\Contracts\UserRepositoryInterface;
 
 class UserEloquentRepository implements UserRepositoryInterface
 {
-    public function insert(array $data): User
+    public function create(array $data): array
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role' => $data['role'],
         ]);
+
+        $token = $user->createToken('api_' . $data['role'])->plainTextToken;
+        $arrayUser = $user->toArray();
+        $arrayUser['token'] = $token;
+
+        return $arrayUser;
     }
 
     public function findWhere(array $where): array
