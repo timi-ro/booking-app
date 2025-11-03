@@ -25,7 +25,9 @@ class UserEloquentRepository implements UserRepositoryInterface
 
     public function findWhere(array $where): array
     {
-        return [];
+        $user = User::where($where)->first();
+
+        return $user ? $user->toArray() : [];
     }
 
     public function update(array $data): void
