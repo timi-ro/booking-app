@@ -2,6 +2,7 @@
 
 use App\Constants\UserRoles;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\AgencyArea;
 use App\Http\Middleware\CustomerArea;
 use Illuminate\Support\Facades\Route;
 
@@ -17,8 +18,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/test-customer-area', [AuthController::class, 'testCustomerArea']);
     });
 
-    //TODO: add agency area
-
+    Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {
+        Route::get('/test-agency-area', [AuthController::class, 'testAgencyArea']);
+    });
 });
 
 

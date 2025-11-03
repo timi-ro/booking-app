@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-//TODO: what is Closure
 use App\Constants\UserRoles;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-class CustomerArea
+class AgencyArea
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,7 @@ class CustomerArea
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role != UserRoles::CUSTOMER) {
+        if(auth()->user()->role != UserRoles::AGENCY) {
             // TODO: use response template
             throw new \Exception("You are not allowed to access this page");
         }

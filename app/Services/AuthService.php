@@ -13,7 +13,14 @@ class AuthService
 
     public function register(array $data): array
     {
-        //TODO: add duplicate account check
+        // Check for duplicate email
+        $duplicateEmail = !empty($this->userRepository->findWhere(['email' => $data['email']]));
+
+        if ($duplicateEmail) {
+            // TODO: use response template
+            throw new \Exception('An account with this email already exists.');
+        }
+
         return $this->userRepository->create($data);
     }
 
