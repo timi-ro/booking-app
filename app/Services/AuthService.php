@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\User\DuplicateEmailException;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,7 @@ class AuthService
         $duplicateEmail = !empty($this->userRepository->findWhere(['email' => $data['email']]));
 
         if ($duplicateEmail) {
-            // TODO: use response template
-            throw new \Exception('An account with this email already exists.');
+            throw new DuplicateEmailException();
         }
 
         return $this->userRepository->create($data);

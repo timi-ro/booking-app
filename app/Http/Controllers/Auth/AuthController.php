@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Services\AuthService;
@@ -15,12 +16,19 @@ class AuthController extends Controller
 
     public function register(UserRegisterRequest $request)
     {
-        $validated = $request->validated();
+//        try {
+            $validated = $request->validated();
 
-        $user = $this->authService->register($validated);
+            $user = $this->authService->register($validated);
 
-        //TODO: add response template
-        return response()->json($user);
+            //TODO: add response template
+            return response()->json($user);
+//        } catch (\Throwable $th) {
+//            return  response()->json([
+//                'message' => $th->getMessage(),
+//                'error' => $th->getTraceAsString(),
+//            ],422);
+//        }
     }
 
     public function login(UserLoginRequest $request)
