@@ -2,13 +2,12 @@
 
 namespace App\Http\Middleware;
 
-//TODO: what is Closure
 use App\Constants\UserRoles;
 use App\Exceptions\User\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-class CustomerArea
+class AdminArea
 {
     /**
      * Handle an incoming request.
@@ -17,7 +16,7 @@ class CustomerArea
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role != UserRoles::CUSTOMER) {
+        if(auth()->user()->role != UserRoles::ADMIN) {
             throw new AuthenticationException();
         }
 

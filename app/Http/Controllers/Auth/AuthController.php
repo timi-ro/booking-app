@@ -16,19 +16,11 @@ class AuthController extends Controller
 
     public function register(UserRegisterRequest $request)
     {
-//        try {
-            $validated = $request->validated();
+        $validated = $request->validated();
 
-            $user = $this->authService->register($validated);
+        $user = $this->authService->register($validated);
 
-            //TODO: add response template
-            return response()->json($user);
-//        } catch (\Throwable $th) {
-//            return  response()->json([
-//                'message' => $th->getMessage(),
-//                'error' => $th->getTraceAsString(),
-//            ],422);
-//        }
+        return response()->json($user);
     }
 
     public function login(UserLoginRequest $request)

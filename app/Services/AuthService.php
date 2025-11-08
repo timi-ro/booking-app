@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\User\DuplicateEmailException;
+use App\Exceptions\User\InvalidCredentialsException;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,8 +28,7 @@ class AuthService
     public function login(array $data): string
     {
         if (! Auth::attempt($data)) {
-            //TODO: throw and handle an exception
-            dd("Wrong username or password");
+            throw new InvalidCredentialsException();
         }
 
         $user = Auth::user();

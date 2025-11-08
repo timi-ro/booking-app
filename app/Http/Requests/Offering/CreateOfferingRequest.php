@@ -11,7 +11,7 @@ class CreateOfferingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class CreateOfferingRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'price' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video' => 'mimes:mp4,mov,avi,flv,wmv|max:51200', // ~50MB
+            'address' => 'required|string|max:5000',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Constants\UserRoles;
+use App\Exceptions\User\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,7 @@ class AgencyArea
     public function handle(Request $request, Closure $next): Response
     {
         if(auth()->user()->role != UserRoles::AGENCY) {
-            // TODO: use response template
-            throw new \Exception("You are not allowed to access this page");
+            throw new AuthenticationException();
         }
 
         return $next($request);
