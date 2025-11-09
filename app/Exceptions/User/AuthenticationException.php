@@ -2,6 +2,7 @@
 
 namespace App\Exceptions\User;
 
+use App\Helpers\ResponseHelper;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,6 @@ class AuthenticationException extends Exception
 
     public function render()
     {
-        return response()->json([
-            'message' => $this->message,
-        ], $this->httpStatusCode);
+        return ResponseHelper::generateException($this, $this->httpStatusCode);
     }
 }
