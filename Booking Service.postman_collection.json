@@ -18,7 +18,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "4|rQCzXbQZnkQWhggYueAUtthJ0nFqHVPhvrPQebGP86b04715",
+									"value": "2|rQCzXbQZnkQWhggYueAUtthJ0nFqHVPhvrPQebGP86b04715",
 									"type": "string"
 								}
 							]
@@ -611,14 +611,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/offering/create",
+							"raw": "{{baseURL}}api/agency/offerings",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
-								"offering",
-								"create"
+								"offerings"
 							]
 						}
 					},

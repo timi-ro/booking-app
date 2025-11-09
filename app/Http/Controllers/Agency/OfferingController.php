@@ -16,11 +16,11 @@ class OfferingController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('offerings/images', 'public');
+            $validated['image'] = $request->file('image');//->store('offerings/images', 'public');
         }
 
         if ($request->hasFile('video')) {
-            $validated['video'] = $request->file('video')->store('offerings/videos', 'public');
+            $validated['video'] = $request->file('video');//->store('offerings/videos', 'public');
         }
 
         $offering = $this->offeringService->createOffering($validated);

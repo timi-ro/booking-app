@@ -23,7 +23,6 @@ class UserRegisterRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'string', 'min:8'],
-            //TODO: make constant from all roles
             'role' => ['required', 'in:' . UserRoles::concatWithSeparator(",")],
         ];
     }

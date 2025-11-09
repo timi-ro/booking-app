@@ -20,7 +20,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {
-        Route::post('/offering/create', [OfferingController::class, 'create']);
+        Route::post('/offerings', [OfferingController::class, 'create']);
+//        Route::put('/offerings', [OfferingController::class, 'update']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {

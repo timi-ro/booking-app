@@ -20,10 +20,6 @@ class AuthService
         $duplicateEmail = !empty($this->userRepository->findWhere(['email' => $data['email']]));
 
         if ($duplicateEmail) {
-            // For Testing Sentry Log
-            Log::warning('User {email} already exists.', ['email' => $data['email']]);
-            Log::channel('sentry')->error('This will only go to Sentry');
-
             throw new DuplicateEmailException();
         }
 
