@@ -14,6 +14,9 @@ class Offering extends Model
     protected $fillable = [
         'title',
         'description',
-        'price'
+        'price',
+        'image',
+        'video',
+        'address_info',
     ];
 }

@@ -25,9 +25,9 @@ class CreateOfferingRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:5000',
             'price' => 'required|numeric',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'video' => 'mimes:mp4,mov,avi,flv,wmv|max:51200', // ~50MB
-            'address' => 'required|string|max:5000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // max 2 MB
+            'video' => 'required|mimes:mp4,mov,avi,flv,wmv|max:51200', // max 50 MB
+            'address_info' => 'required|string|max:5000',
         ];
     }
 }

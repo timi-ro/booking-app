@@ -13,9 +13,9 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
             'title' => $data['title'],
             'description' => $data['description'],
             'price' => $data['price'],
-            'image' => $data['image'] ?? null,
-            'video' => $data['video'] ?? null,
-            'address' => $data['address'],
+            'image' => $data['image'],
+            'video' => $data['video'],
+            'address_info' => $data['address_info'],
         ]);
 
         return $offering->toArray();

@@ -13,18 +13,18 @@ class OfferingController extends Controller
 
     public function create(CreateOfferingRequest $request)
     {
+        $validated = $request->validated();
+
         if ($request->hasFile('image')) {
-            $request['image'] = $request->file('image')->store('offerings/images', 'public');
-        }
-        if ($request->hasFile('video')) {
-            $request['video'] = $request->file('video')->store('offerings/videos', 'public');
+            $validated['image'] = $request->file('image')->store('offerings/images', 'public');
         }
 
-        $validated = $request->validated();
+        if ($request->hasFile('video')) {
+            $validated['video'] = $request->file('video')->store('offerings/videos', 'public');
+        }
 
         $offering = $this->offeringService->createOffering($validated);
 
         return response()->json($offering);
-
     }
 }
