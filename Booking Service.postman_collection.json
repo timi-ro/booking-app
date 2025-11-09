@@ -359,13 +359,19 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseURL}}api/auth/login",
+							"raw": "{{baseURL}}api/auth/login?XDEBUG_SESSION=start",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"auth",
 								"login"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION",
+									"value": "start"
+								}
 							]
 						}
 					},
@@ -551,7 +557,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "10|Ua8B1rJ0SbrNv752N04s8LSP4svU2PppFOSmSV9ybbcd2aaf",
+									"value": "16|HEOw1nzTCgsOCbNBlCoCtXCiQPptOHgo383PnVlm83d45147",
 									"type": "string"
 								}
 							]
@@ -562,6 +568,11 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -569,32 +580,32 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Test Offering 2",
+									"value": "Test Offering 7",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "test description 2",
+									"value": "test description 7",
 									"type": "text"
 								},
 								{
-									"key": "address",
-									"value": "test address 2",
+									"key": "address_info",
+									"value": "test address 7",
 									"type": "text"
-								},
-								{
-									"key": "video",
-									"type": "file",
-									"src": []
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": []
+									"src": "postman-cloud:///1f0bd4f4-fea5-4a30-813d-82b5316e2cec"
+								},
+								{
+									"key": "video",
+									"type": "file",
+									"src": "postman-cloud:///1f0bd4f4-f322-4dc0-83be-679a54194494"
 								},
 								{
 									"key": "price",
-									"value": "100.35",
+									"value": "77.77",
 									"type": "text"
 								}
 							]
@@ -611,7 +622,102 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Test Offering 3",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "test description 3",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "test address 3",
+											"type": "text"
+										},
+										{
+											"key": "video",
+											"type": "file",
+											"src": "/Users/fatima/Downloads/persian-calligraphy.jpeg"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/Users/fatima/Downloads/My video - Date.mp4"
+										},
+										{
+											"key": "price",
+											"value": "10.55",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}api/agency/offering/create",
+									"host": [
+										"{{baseURL}}api"
+									],
+									"path": [
+										"agency",
+										"offering",
+										"create"
+									]
+								}
+							},
+							"status": "Content Too Large",
+							"code": 413,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8000"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.14"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 09 Nov 2025 08:42:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"The POST data is too large.\",\n    \"exception\": \"Illuminate\\\\Http\\\\Exceptions\\\\PostTooLargeException\",\n    \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePostSize.php\",\n    \"line\": 24,\n    \"trace\": [\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php\",\n            \"line\": 109,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php\",\n            \"line\": 61,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php\",\n            \"line\": 58,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/InvokeDeferredCallbacks.php\",\n            \"line\": 22,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\InvokeDeferredCallbacks\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Http/Middleware/ValidatePathEncoding.php\",\n            \"line\": 26,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 219,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\ValidatePathEncoding\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php\",\n            \"line\": 137,\n            \"function\": \"{closure:{closure:Illuminate\\\\Pipeline\\\\Pipeline::carry():194}:195}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php\",\n            \"line\": 175,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php\",\n            \"line\": 144,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/Application.php\",\n            \"line\": 1220,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/public/index.php\",\n            \"line\": 20,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"/Users/fatima/Projects/booking-app/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php\",\n            \"line\": 23,\n            \"function\": \"require_once\"\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		}
