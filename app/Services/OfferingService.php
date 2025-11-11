@@ -34,12 +34,6 @@ class OfferingService
 
     public function updateOffering(Offering $offering, array $data): array
     {
-        $existingOffering = $this->offeringRepository->findWhere(['id' => $offering['id']]);
-
-        if (empty($existingOffering)) {
-            throw new InvalidRequestException('Offering not found');
-        }
-
         return $this->offeringRepository->update($offering, $data);
     }
 

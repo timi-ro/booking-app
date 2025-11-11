@@ -47,12 +47,4 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
     {
         $offering->delete();
     }
-
-    public function findWhere(array $where): array
-    {
-        $where = array_merge($where, ['deleted_at' => null]);
-        $user = Offering::where($where)->first();
-
-        return $user ? $user->toArray() : [];
-    }
 }
