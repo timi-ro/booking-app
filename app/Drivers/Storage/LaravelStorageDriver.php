@@ -13,8 +13,17 @@ class LaravelStorageDriver implements StorageDriverInterface
         return Storage::disk($disk)->put($path, $content);
     }
 
-    public function getFile()
+    public function getFile(string $path, string $disk = "local")
     {
-        // TODO: Implement getFile() method.
+        return Storage::disk($disk)->get($path);
+    }
+
+    public function deleteFile(string $path, string $disk = "local"): bool
+    {
+        if (Storage::disk($disk)->exists($path)) {
+            return Storage::disk($disk)->delete($path);
+        }
+
+        return false;
     }
 }

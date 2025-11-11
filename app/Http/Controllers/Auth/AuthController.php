@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\User\AuthenticationException;
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Services\AuthService;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -21,7 +23,7 @@ class AuthController extends Controller
 
         $user = $this->authService->register($validated);
 
-        return response()->json($user);
+        return ResponseHelper::generateResponse($user, Response::HTTP_CREATED);
     }
 
     public function login(UserLoginRequest $request)
@@ -30,7 +32,7 @@ class AuthController extends Controller
 
         $token = $this->authService->login($request);
 
-        return response()->json(['token' => $token]);
+        return ResponseHelper::generateResponse(['token' => $token]);
     }
 
     public function testCustomerArea()

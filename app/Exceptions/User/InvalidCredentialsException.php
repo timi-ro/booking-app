@@ -2,6 +2,7 @@
 
 namespace App\Exceptions\User;
 
+use App\Helpers\ResponseHelper;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,8 +15,6 @@ class InvalidCredentialsException extends Exception
 
     public function render()
     {
-        return response()->json([
-            'message' => $this->message,
-        ], $this->httpStatusCode);
+        return ResponseHelper::generateResponse(['message' => $this->message], $this->httpStatusCode);
     }
 }

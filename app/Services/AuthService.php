@@ -6,7 +6,6 @@ use App\Exceptions\User\DuplicateEmailException;
 use App\Exceptions\User\InvalidCredentialsException;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
