@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agency;
 
+use App\Exceptions\User\AuthenticationException;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\CreateOfferingRequest;
@@ -47,9 +48,14 @@ class OfferingController extends Controller
     public function update(UpdateOfferingRequest $request, Offering $offering)
     {
         $validated = $request->validated();
+        $userId = $request->user()->id;
 
-        $validated['user_id'] = auth()->id();
+        if ($userId !== $offering->user()->first()->id)
+        {
+            throw new AuthenticationException('You don\'t have permission to update offering');
+        }
 
+        $validated['user_id'] = $userId;
         $updatedOffering = $this->offeringService->updateOffering($offering, $validated);
 
         return ResponseHelper::generateResponse($updatedOffering);
