@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('offerings', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->nullable()->after('id');
+            $table->softDeletes();
         });
 
         // Assign default user to existing records
