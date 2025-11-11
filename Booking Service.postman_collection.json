@@ -18,7 +18,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "18|Nzvz0oy21Abmpg9hFsifBol1jOxXlz8QjD2XpuUT571f9f5d",
+									"value": "22|Fd3A6E1cgiAxS5yIknp5GVnbpJ69QohqrdPprmqV1ff3337c",
 									"type": "string"
 								}
 							]
@@ -42,12 +42,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Helly R",
+									"value": "LiLy R",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "hellyr@yahoo.com",
+									"value": "Lilyr@yahoo.com",
 									"type": "text"
 								},
 								{
@@ -557,7 +557,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "21|V9IOBtaZbtkV0Rx9Nm5ditVI6NwSlATrgAvzeR9j525caa69",
+									"value": "23|yT0Mrl8fjf6FPKm8xZeWo15Jr66uacDVrwLdKzZF304f6a52",
 									"type": "string"
 								}
 							]
@@ -631,7 +631,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "19|nHPXmYEHq7Gh4Bg65tpH9eUUZ3mhelqHHWkOLAHl48a484cb",
+									"value": "23|yT0Mrl8fjf6FPKm8xZeWo15Jr66uacDVrwLdKzZF304f6a52",
 									"type": "string"
 								}
 							]
@@ -641,25 +641,12 @@
 							{
 								"key": "Accept",
 								"value": "application/json",
-								"type": "text",
-								"disabled": true
-							},
-							{
-								"key": "Content-Type",
-								"value": "multipart/form-data",
-								"type": "text",
-								"disabled": true
-							},
-							{
-								"key": "X-HTTP-Method-Override",
-								"value": "PUT",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"test title 2\",\n    \"description\": \"test desc 2\",\n    \"address_info\": \"test address 2\",\n    \"price\": 22.22,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
+							"raw": "{\n    \"title\": \"test title 11\",\n    \"description\": \"test desc 11\",\n    \"address_info\": \"test address 11\",\n    \"price\": 111.05,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -667,14 +654,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/offerings/2",
+							"raw": "{{baseURL}}api/agency/offerings/11",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
 								"offerings",
-								"2"
+								"11"
 							]
 						}
 					},
