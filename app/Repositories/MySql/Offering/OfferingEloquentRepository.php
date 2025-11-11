@@ -26,7 +26,6 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
     {
         $query = Offering::where('user_id', $userId);
 
-        // Paginate
         $offerings = $query->paginate($pageSize, ['*'], 'page', $page);
 
         return [

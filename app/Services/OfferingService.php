@@ -40,8 +40,6 @@ class OfferingService
             throw new InvalidRequestException('Offering not found');
         }
 
-        $data = $this->prepareDataForUpdate($data);
-
         return $this->offeringRepository->update($offering, $data);
     }
 

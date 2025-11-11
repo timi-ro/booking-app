@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-//TODO: what is Closure
 use App\Constants\UserRoles;
 use App\Exceptions\User\AuthenticationException;
 use Closure;

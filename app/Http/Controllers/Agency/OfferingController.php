@@ -48,14 +48,6 @@ class OfferingController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image');
-        }
-
-        if ($request->hasFile('video')) {
-            $validated['video'] = $request->file('video');
-        }
-
         $validated['user_id'] = auth()->id();
 
         $updatedOffering = $this->offeringService->updateOffering($offering, $validated);

@@ -54,8 +54,6 @@ class UpdateOfferingRequest extends FormRequest
             'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string|max:5000',
             'price' => 'sometimes|required|numeric|min:0',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // max 2 MB
-            'video' => 'sometimes|mimes:mp4,mov,avi,flv,wmv|max:51200', // max 50 MB
             'address_info' => 'sometimes|required|string|max:5000',
         ];
     }
