@@ -52,7 +52,7 @@ class OfferingService
      * @param array $data
      * @return array
      */
-    public function prepareDataForUpdate(array $data): array
+    private function prepareDataForUpdate(array $data): array
     {
         $userId = auth()->user()->id;
         if ($data['video']) {

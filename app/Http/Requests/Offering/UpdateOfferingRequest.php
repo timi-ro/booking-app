@@ -51,10 +51,10 @@ class UpdateOfferingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'sometimes|required|string|max:5000',
-            'price' => 'sometimes|required|numeric|min:0',
-            'address_info' => 'sometimes|required|string|max:5000',
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['sometimes', 'required', 'string', 'max:5000'],
+            'price' => ['sometimes', 'required', 'numeric', 'min:0'],
+            'address_info' => ['sometimes', 'required', 'string', 'max:5000'],
         ];
     }
 }

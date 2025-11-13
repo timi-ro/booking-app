@@ -17,8 +17,8 @@ class ListOfferingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'page' => 'integer|min:1|max:10000',
-            'page_size' => 'integer|min:1|max:200',
+            'page' => ['integer', ',min:1', 'max:10000'],
+            'page_size' => ['integer', 'min:1', 'max:200'],
         ];
     }
 }

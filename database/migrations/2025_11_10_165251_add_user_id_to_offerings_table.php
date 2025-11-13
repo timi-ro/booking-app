@@ -16,11 +16,8 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        // Assign default user to existing records
-        DB::table('offerings')->update(['user_id' => 2]);
-
         Schema::table('offerings', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
