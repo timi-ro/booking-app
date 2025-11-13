@@ -56,7 +56,12 @@ class OfferingService
             ->each(fn($path) => $this->storageDriver->deleteFile($path));
 
         $this->offeringRepository->delete($id);
+    }
 
+    public function exist(int $id): bool
+    {
+        $offering  = $this->offeringRepository->findWhere(['id' => $id]);
+        return (bool)$offering;
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\UserRoles;
+use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Middleware\AdminArea;
@@ -23,8 +24,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         //TODO: add caching mechanism for list
         Route::get('/offerings', [OfferingController::class, 'index']);
         Route::post('/offerings', [OfferingController::class, 'create']);
-        Route::put('/offerings/{offering}', [OfferingController::class, 'update']);
+        Route::put('/offerings/{id}', [OfferingController::class, 'update']);
         Route::delete('/offerings/{id}', [OfferingController::class, 'delete']);
+
+        Route::post('/medias', [MediaController::class, 'upload']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {

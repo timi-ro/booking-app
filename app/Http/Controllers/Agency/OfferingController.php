@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agency;
 
+use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\CreateOfferingRequest;
@@ -44,6 +45,9 @@ class OfferingController extends Controller
         return ResponseHelper::generateResponse($offerings);
     }
 
+    /**
+     * @throws OfferingNotFoundException
+     */
     public function update(UpdateOfferingRequest $request, int $id)
     {
         $validated = $request->validated();
@@ -54,6 +58,9 @@ class OfferingController extends Controller
         return ResponseHelper::generateResponse([], Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * @throws OfferingNotFoundException
+     */
     public function delete(int $id)
     {
         $this->offeringService->deleteOffering($id);
