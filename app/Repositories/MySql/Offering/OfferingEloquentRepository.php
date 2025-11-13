@@ -37,14 +37,20 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
         ];
     }
 
-    public function update(Offering $offering, array $data): array
+    public function update(int $id, array $data): void
     {
-        $offering->update($data);
-        return $offering->fresh()->toArray();
+         Offering::where(['id' => $id])->update($data);
     }
 
-    public function delete(Offering $offering): void
+    public function delete(int $id): void
     {
-        $offering->delete();
+        Offering::destroy($id);
+    }
+
+    public function findWhere(array $where): array
+    {
+        $offering = Offering::where($where)->first();
+
+        return $offering ? $offering->toArray() : [];
     }
 }

@@ -4,8 +4,7 @@ namespace App\Services;
 
 use App\Constants\OfferingFilePaths;
 use App\Drivers\Contracts\StorageDriverInterface;
-use App\Exceptions\Offering\InvalidRequestException;
-use App\Models\Offering;
+use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
 
 class OfferingService
@@ -32,19 +31,31 @@ class OfferingService
         return $this->offeringRepository->index($userId, $page, $pageSize);
     }
 
-    public function updateOffering(Offering $offering, array $data): array
+    public function updateOffering(int $id, array $data): void
     {
-        return $this->offeringRepository->update($offering, $data);
+        $offering = $this->offeringRepository->findWhere(['id' => $id]);
+
+        if (empty($offering) || auth()->user()->id != $offering['user_id']) {
+            throw new OfferingNotFoundException();
+        }
+
+        $this->offeringRepository->update($id, $data);
     }
 
-    public function deleteOffering(Offering $offering):void
+    public function deleteOffering(int $id):void
     {
+        $offering = $this->offeringRepository->findWhere(['id' => $id]);
+
+        if (empty($offering) || auth()->user()->id != $offering['user_id']) {
+            throw new OfferingNotFoundException();
+        }
+
         collect(['video', 'image'])
             ->map(fn($field) => $offering[$field] ?? null)
             ->filter()
             ->each(fn($path) => $this->storageDriver->deleteFile($path));
 
-        $this->offeringRepository->delete($offering);
+        $this->offeringRepository->delete($id);
 
     }
 

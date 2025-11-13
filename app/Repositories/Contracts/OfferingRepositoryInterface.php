@@ -10,7 +10,9 @@ interface OfferingRepositoryInterface
 
     public function index(int $userId, int $page, int $pageSize): array;
 
-    public function update(Offering $offering, array $data): array;
+    public function update(int $id, array $data): void;
 
-    public function delete(Offering $offering): void;
+    public function delete(int $id): void;
+
+    public function findWhere(array $where): array;
 }

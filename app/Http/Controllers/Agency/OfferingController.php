@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\CreateOfferingRequest;
 use App\Http\Requests\Offering\ListOfferingRequest;
 use App\Http\Requests\Offering\UpdateOfferingRequest;
-use App\Models\Offering;
 use App\Services\OfferingService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,22 +39,24 @@ class OfferingController extends Controller
         $userId = auth()->user()->id;
         $offerings = $this->offeringService->listOfferings($userId, $validated);
 
+        // TODO: use laravel api resource align with helper
+        // TODO: handle dates
         return ResponseHelper::generateResponse($offerings);
     }
 
-    public function update(UpdateOfferingRequest $request, Offering $offering)
+    public function update(UpdateOfferingRequest $request, int $id)
     {
         $validated = $request->validated();
 
         $validated['user_id'] = $request->user()->id;
-        $updatedOffering = $this->offeringService->updateOffering($offering, $validated);
+        $this->offeringService->updateOffering($id, $validated);
 
-        return ResponseHelper::generateResponse($updatedOffering);
+        return ResponseHelper::generateResponse([], Response::HTTP_NO_CONTENT);
     }
 
-    public function delete(Offering $offering)
+    public function delete(int $id)
     {
-        $this->offeringService->deleteOffering($offering);
+        $this->offeringService->deleteOffering($id);
         return ResponseHelper::generateResponse([], Response::HTTP_NO_CONTENT);
     }
 }
