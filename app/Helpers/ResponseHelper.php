@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseHelper
 {
-    //TODO: add response helper all over the project
     public static function generateResponse($data, int $status = Response::HTTP_OK, string $errorMessage = "")
     {
         return response()->json([

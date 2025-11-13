@@ -16,8 +16,35 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
             'image' => $data['image'],
             'video' => $data['video'],
             'address_info' => $data['address_info'],
+            'user_id' => $data['user_id'],
         ]);
 
         return $offering->toArray();
+    }
+
+    public function index(int $userId, int $page, int $pageSize): array
+    {
+        $query = Offering::where('user_id', $userId);
+
+        $offerings = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        return [
+            'data' => $offerings->items(),
+            'current_page' => $offerings->currentPage(),
+            'per_page' => $offerings->perPage(),
+            'total' => $offerings->total(),
+            'last_page' => $offerings->lastPage(),
+        ];
+    }
+
+    public function update(Offering $offering, array $data): array
+    {
+        $offering->update($data);
+        return $offering->fresh()->toArray();
+    }
+
+    public function delete(Offering $offering): void
+    {
+        $offering->delete();
     }
 }
