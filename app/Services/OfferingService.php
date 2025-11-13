@@ -65,6 +65,8 @@ class OfferingService
             $data['image'] = $imagePath;
         }
 
+        $data['user_id'] = $userId;
+
         return $data;
     }
 }

@@ -28,7 +28,6 @@ class OfferingController extends Controller
             $validated['video'] = $request->file('video');
         }
 
-        $validated['user_id'] = auth()->user()->id;
         $offering = $this->offeringService->createOffering($validated);
 
         return ResponseHelper::generateResponse($offering, Response::HTTP_CREATED);
