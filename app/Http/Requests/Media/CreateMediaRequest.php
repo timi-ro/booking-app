@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Media;
 
+use App\Constants\MediaCollections;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateMediaRequest extends FormRequest
 {
@@ -22,10 +24,11 @@ class CreateMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => ['required'],
+            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg,webp,mp4,mov,avi', 'max:51200'], // max 50MB
             //TODO: rule in
-            'entity' => ['required'],
-            'entity_id' => ['required'],
+            'entity' => ['required', 'string', 'in:offering'], // only offering for now
+            'entity_id' => ['required', 'integer', 'exists:offerings,id'], // must exist
+            'collection' => ['required', 'string', Rule::in(MediaCollections::allOfferingCollections())],
         ];
     }
 

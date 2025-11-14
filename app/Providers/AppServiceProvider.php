@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Drivers\Contracts\QueueDriverInterface;
 use App\Drivers\Contracts\StorageDriverInterface;
+use App\Drivers\Queue\LaravelQueueDriver;
 use App\Drivers\Storage\LaravelStorageDriver;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
@@ -24,8 +26,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserEloquentRepository::class);
         $this->app->bind(OfferingRepositoryInterface::class, OfferingEloquentRepository::class);
         $this->app->bind(MediaRepositoryInterface::class, MediaEloquentRepository::class);
+
         //drivers
         $this->app->bind(StorageDriverInterface::class, LaravelStorageDriver::class);
+        $this->app->bind(QueueDriverInterface::class, LaravelQueueDriver::class);
     }
 
     /**
