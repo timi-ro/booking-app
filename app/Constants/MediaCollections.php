@@ -4,7 +4,6 @@ namespace App\Constants;
 
 class MediaCollections
 {
-    // Offering collections
     public const OFFERING_IMAGE = 'offering_image';
     public const OFFERING_VIDEO = 'offering_video';
 

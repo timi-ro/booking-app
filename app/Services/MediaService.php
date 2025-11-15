@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Constants\MediaCollections;
+use App\Constants\MediaEntities;
 use App\Constants\MediaFilePaths;
 use App\Drivers\Contracts\QueueDriverInterface;
 use App\Drivers\Contracts\StorageDriverInterface;
@@ -28,7 +28,7 @@ class MediaService
             throw new InvalidMediaEntityException();
         }
 
-        $this->queueMediaProcessing($data['file'], $mediableType, $data['entity'], $data['entity_id'], $data['collection']);
+        $this->queueMediaProcessing($data, $mediableType);
 
         return [
             'status' => 'processing',
@@ -38,22 +38,23 @@ class MediaService
         ];
     }
 
-    protected function queueMediaProcessing(UploadedFile $file, string $mediableType, string $entity, int $entityId, string $collection): void
+    protected function queueMediaProcessing(array $data, string $mediableType): void
     {
+        $file = $data['file'];
         $tempPath = $this->storeTempFile($file);
         $fullTempPath = $this->storageDriver->getPath($tempPath);
         $mimeType = $file->getClientMimeType();
 
         $this->queueDriver->dispatchMediaProcessing([
             'user_id' => (string) auth()->user()->id,
-            'entity' => $entity,
-            'entity_id' => $entityId,
+            'entity' => $data['entity'],
+            'entity_id' => $data['entity_id'],
             'temp_file_path' => $fullTempPath,
             'original_file_name' => $file->getClientOriginalName(),
             'mime_type' => $mimeType,
             'file_size' => $file->getSize(),
             'mediable_type' => $mediableType,
-            'collection' => $collection,
+            'collection' => $data['collection'],
         ]);
     }
 
@@ -70,7 +71,7 @@ class MediaService
     protected function getMediableType(string $entityName): ?string
     {
         return match ($entityName) {
-            'offering' => Offering::class,
+            MediaEntities::MEDIA_OFFERING => Offering::class,
             default => null,
         };
     }

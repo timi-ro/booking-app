@@ -557,7 +557,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "23|yT0Mrl8fjf6FPKm8xZeWo15Jr66uacDVrwLdKzZF304f6a52",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
 									"type": "string"
 								}
 							]
@@ -580,17 +580,17 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Test Offering 7",
+									"value": "Test Offering 15",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "test description 7",
+									"value": "test description 15",
 									"type": "text"
 								},
 								{
 									"key": "address_info",
-									"value": "test address 7",
+									"value": "test address 15",
 									"type": "text"
 								},
 								{
@@ -605,7 +605,7 @@
 								},
 								{
 									"key": "price",
-									"value": "77.77",
+									"value": "133.3",
 									"type": "text"
 								}
 							]
@@ -631,7 +631,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "23|yT0Mrl8fjf6FPKm8xZeWo15Jr66uacDVrwLdKzZF304f6a52",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
 									"type": "string"
 								}
 							]
@@ -642,11 +642,16 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"test title 11\",\n    \"description\": \"test desc 11\",\n    \"address_info\": \"test address 11\",\n    \"price\": 111.05,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
+							"raw": "{\n    \"title\": \"test title 16\",\n    \"description\": \"test desc 16\",\n    \"address_info\": \"test address 16\",\n    \"price\": 100.05,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -654,14 +659,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/offerings/11",
+							"raw": "{{baseURL}}api/agency/offerings/16",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
 								"offerings",
-								"11"
+								"16"
 							]
 						}
 					},
@@ -678,7 +683,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "20|vDhV6RtUOAvxt0NpaFyhziwa6h8sVAeixRl1uMEz6751700d",
+									"value": "27|jmU0WpTKe8CinqF28r8odGODMa3a6cwkFPOsn7XMe4e50940",
 									"type": "string"
 								}
 							]
@@ -732,7 +737,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "20|vDhV6RtUOAvxt0NpaFyhziwa6h8sVAeixRl1uMEz6751700d",
+									"value": "27|jmU0WpTKe8CinqF28r8odGODMa3a6cwkFPOsn7XMe4e50940",
 									"type": "string"
 								}
 							]
@@ -756,14 +761,78 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/offerings/10",
+							"raw": "{{baseURL}}api/agency/offerings/15",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
 								"offerings",
-								"10"
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media",
+			"item": [
+				{
+					"name": "upload",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "entity",
+									"value": "offering",
+									"type": "text"
+								},
+								{
+									"key": "entity_id",
+									"value": "16",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1f0bd4f4-fea5-4a30-813d-82b5316e2cec"
+								},
+								{
+									"key": "collection",
+									"value": "offering_image",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/agency/medias",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"agency",
+								"medias"
 							]
 						}
 					},

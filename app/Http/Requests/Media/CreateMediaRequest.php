@@ -3,34 +3,53 @@
 namespace App\Http\Requests\Media;
 
 use App\Constants\MediaCollections;
+use App\Constants\MediaEntities;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateMediaRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg,webp,mp4,mov,avi', 'max:51200'], // max 50MB
-            //TODO: rule in
-            'entity' => ['required', 'string', 'in:offering'], // only offering for now
-            'entity_id' => ['required', 'integer', 'exists:offerings,id'], // must exist
-            'collection' => ['required', 'string', Rule::in(MediaCollections::allOfferingCollections())],
+            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg,webp,mp4,mov,avi', 'max:51200'],
+            'entity' => ['required', 'string', 'in:' . MediaEntities::allEntitiesList(',')],
+            'entity_id' => ['required', 'integer', 'exists:offerings,id'],
+            'collection' => ['required', 'string', 'in:' . MediaCollections::allOfferingCollectionsList(',')],
         ];
     }
 
-    //TODO: overwrite the request validation response
+    public function messages(): array
+    {
+        return [
+            'file.required' => 'Please upload a file',
+            'file.file' => 'The uploaded item must be a valid file',
+            'file.mimes' => 'File must be an image (jpeg, png, jpg, gif, svg, webp) or video (mp4, mov, avi)',
+            'file.max' => 'File size must not exceed 50MB',
+
+            'entity.required' => 'Entity type is required',
+            'entity.in' => 'Invalid entity type selected',
+
+            'entity_id.required' => 'Entity ID is required',
+            'entity_id.integer' => 'Entity ID must be a valid number',
+            'entity_id.exists' => 'The selected entity does not exist',
+
+            'collection.required' => 'Collection name is required',
+            'collection.in' => 'Invalid collection name selected',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'file' => 'media file',
+            'entity' => 'entity type',
+            'entity_id' => 'entity identifier',
+            'collection' => 'media collection',
+        ];
+    }
 }
