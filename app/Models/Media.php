@@ -13,7 +13,8 @@ class Media extends Model
         'mime_type',
         'size',
         'mediable_type',
-        'mediable_id'
+        'mediable_id',
+        'collection',
     ];
 
     public function mediable(): MorphTo
