@@ -40,6 +40,8 @@ class MediaService
         $fullTempPath = $this->storageDriver->getPath($tempPath);
         $mimeType = $file->getClientMimeType();
 
+        //TODO: create in queue state
+
         ProcessMediaUpload::dispatch(
             userId: auth()->user()->id,
             entity: $data['entity'],

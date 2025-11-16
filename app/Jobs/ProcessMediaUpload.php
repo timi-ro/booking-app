@@ -50,15 +50,17 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         MediaRepositoryInterface $mediaRepository
     ): void {
         try {
+            //TODO: UPDATE state to processing
             $this->validateTempFile();
 
             $fileContents = $this->readTempFile();
             $finalPath = $this->generateFinalPath();
             $storedPath = $this->storeFile($storageDriver, $finalPath, $fileContents);
-
+            //TODO: success status
             $this->createMediaRecord($mediaRepository, $storedPath);
 
         } catch (\Exception $e) {
+            //TODO: failed status
             throw new MediaUploadFailedException($e->getMessage(), $e->getCode());
         } finally {
             $this->cleanupTempFile();

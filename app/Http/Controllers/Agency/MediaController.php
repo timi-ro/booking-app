@@ -25,6 +25,8 @@ class MediaController extends Controller
 
         $media = $this->mediaService->upload($validated);
 
+
+        //TODO: only return uuid
         return ResponseHelper::generateResponse([$media]);
     }
 }

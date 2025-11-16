@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/offerings/{id}', [OfferingController::class, 'delete']);
 
         Route::post('/medias', [MediaController::class, 'upload']);
+        //TODO : medias/validate/{uuid}
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {
