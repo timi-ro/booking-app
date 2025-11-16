@@ -18,7 +18,7 @@ class CreateMediaRequest extends FormRequest
         return [
             'file' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg,webp,mp4,mov,avi', 'max:51200'],
             'entity' => ['required', 'string', 'in:' . MediaEntities::allEntitiesList(',')],
-            'entity_id' => ['required', 'integer', 'exists:offerings,id'],
+            'entity_id' => ['required', 'integer'],
             'collection' => ['required', 'string', 'in:' . MediaCollections::allOfferingCollectionsList(',')],
         ];
     }

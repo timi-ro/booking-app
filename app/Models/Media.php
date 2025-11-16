@@ -17,7 +17,7 @@ class Media extends Model
         'collection',
     ];
 
-    public function mediable(): MorphTo
+    public function mediable()
     {
         return $this->morphTo();
     }
