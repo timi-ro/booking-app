@@ -7,8 +7,11 @@ use App\Constants\MediaFilePaths;
 use App\Drivers\Contracts\QueueDriverInterface;
 use App\Drivers\Contracts\StorageDriverInterface;
 use App\Exceptions\Media\InvalidMediaEntityException;
+use App\Exceptions\Media\MediableNotFoundException;
+use App\Jobs\ProcessMediaUpload;
 use App\Models\Offering;
 use App\Repositories\Contracts\MediaRepositoryInterface;
+use App\Repositories\Contracts\OfferingRepositoryInterface;
 use Illuminate\Http\UploadedFile;
 
 class MediaService
@@ -17,6 +20,7 @@ class MediaService
         protected MediaRepositoryInterface $mediaRepository,
         protected StorageDriverInterface $storageDriver,
         protected QueueDriverInterface $queueDriver,
+        protected OfferingRepositoryInterface $offeringRepository,
     ) {
     }
 
@@ -28,7 +32,25 @@ class MediaService
             throw new InvalidMediaEntityException();
         }
 
-        $this->queueMediaProcessing($data, $mediableType);
+        // TODO: Try this way as well, no need for temp but might have some cons (study pros and cons)
+        // $encoded_file = base64_encode(file_get_contents($data['file']));
+
+        $file = $data['file'];
+        $tempPath = $this->storeTempFile($file);
+        $fullTempPath = $this->storageDriver->getPath($tempPath);
+        $mimeType = $file->getClientMimeType();
+
+        ProcessMediaUpload::dispatch(
+            userId: auth()->user()->id,
+            entity: $data['entity'],
+            entityId: $data['entity_id'],
+            tempFilePath: $fullTempPath,
+            originalFileName: $data['file']->getClientOriginalName(),
+            mimeType: $mimeType,
+            fileSize: $data['file']->getSize(),
+            mediableType: $mediableType,
+            collection: $data['collection'],
+        );
 
         return [
             'status' => 'processing',
@@ -38,24 +60,16 @@ class MediaService
         ];
     }
 
-    protected function queueMediaProcessing(array $data, string $mediableType): void
+    public function validateMediable(string $entityType, int $entityId): void
     {
-        $file = $data['file'];
-        $tempPath = $this->storeTempFile($file);
-        $fullTempPath = $this->storageDriver->getPath($tempPath);
-        $mimeType = $file->getClientMimeType();
+        $entity = match ($entityType) {
+            MediaEntities::MEDIA_OFFERING => $this->offeringRepository->findWhere(['id' => $entityId]),
+            default => throw new MediableNotFoundException("Unknown entity type: {$entityType}")
+        };
 
-        $this->queueDriver->dispatchMediaProcessing([
-            'user_id' => (string) auth()->user()->id,
-            'entity' => $data['entity'],
-            'entity_id' => $data['entity_id'],
-            'temp_file_path' => $fullTempPath,
-            'original_file_name' => $file->getClientOriginalName(),
-            'mime_type' => $mimeType,
-            'file_size' => $file->getSize(),
-            'mediable_type' => $mediableType,
-            'collection' => $data['collection'],
-        ]);
+        if (!$entity) {
+            throw new MediableNotFoundException();
+        }
     }
 
     protected function storeTempFile(UploadedFile $file): string
