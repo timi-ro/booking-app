@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Agency;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Media\CreateMediaRequest;
-use App\Services\MediaEntityResolver;
 use App\Services\MediaService;
 
 class MediaController extends Controller
 {
     public function __construct(
-        protected MediaService        $mediaService,
-        protected MediaEntityResolver $mediaEntityResolver,
+        protected MediaService $mediaService,
     )
     {
     }

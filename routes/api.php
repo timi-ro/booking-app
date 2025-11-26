@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\UserRoles;
+use App\Http\Controllers\Agency\AvailabilityController;
 use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
 use App\Http\Controllers\Auth\AuthController;
@@ -29,6 +30,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('/medias', [MediaController::class, 'upload']);
         //TODO : medias/validate/{uuid}
+
+        Route::post('/availabilities', [AvailabilityController::class, 'create']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {
