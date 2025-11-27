@@ -21,10 +21,8 @@ class MediaController extends Controller
 
         $this->mediaService->validateMediable($validated['entity'], $validated['entity_id']);
 
-        $media = $this->mediaService->upload($validated);
+        $uuid = $this->mediaService->upload($validated);
 
-
-        //TODO: only return uuid
-        return ResponseHelper::generateResponse([$media]);
+        return ResponseHelper::generateResponse(['uuid' => $uuid]);
     }
 }

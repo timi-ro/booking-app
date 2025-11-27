@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Constants\MediaFilePaths;
+use App\Constants\MediaStatuses;
 use App\Drivers\Contracts\StorageDriverInterface;
 use App\Exceptions\Media\MediaUploadFailedException;
 use App\Repositories\Contracts\MediaRepositoryInterface;
@@ -37,6 +38,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         public readonly string $userId,
         public readonly string $entity,
         public readonly int $entityId,
+        public readonly int $mediaId,
         public readonly string $tempFilePath,
         public readonly string $originalFileName,
         public readonly string $mimeType,
@@ -50,17 +52,29 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         MediaRepositoryInterface $mediaRepository
     ): void {
         try {
-            //TODO: UPDATE state to processing
+            // Update status to processing
+            $mediaRepository->update($this->mediaId, [
+                'status' => MediaStatuses::MEDIA_STATUS_PROCESSING,
+            ]);
+
             $this->validateTempFile();
 
             $fileContents = $this->readTempFile();
             $finalPath = $this->generateFinalPath();
             $storedPath = $this->storeFile($storageDriver, $finalPath, $fileContents);
-            //TODO: success status
-            $this->createMediaRecord($mediaRepository, $storedPath);
+
+            // Update media record with final path and completed status
+            $mediaRepository->update($this->mediaId, [
+                'path' => $storedPath,
+                'status' => MediaStatuses::MEDIA_STATUS_COMPLETED,
+            ]);
 
         } catch (\Exception $e) {
-            //TODO: failed status
+            // Update status to failed
+            $mediaRepository->update($this->mediaId, [
+                'status' => MediaStatuses::MEDIA_STATUS_FAILED,
+            ]);
+
             throw new MediaUploadFailedException($e->getMessage(), $e->getCode());
         } finally {
             $this->cleanupTempFile();
@@ -122,24 +136,6 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         );
     }
 
-    /**
-     * Create the media database record.
-     */
-    protected function createMediaRecord(
-        MediaRepositoryInterface $mediaRepository,
-        string $storedPath
-    ): void {
-        $mediaRepository->create([
-            'mediable_type' => $this->mediableType,
-            'mediable_id' => $this->entityId,
-            'disk' => config('media.default_disk', 'local'),
-            'path' => $storedPath,
-            'mime_type' => $this->mimeType,
-            'size' => $this->fileSize,
-            'collection' => $this->collection,
-            'original_filename' => $this->originalFileName,
-        ]);
-    }
 
     /**
      * Clean up the temporary file.
@@ -156,7 +152,13 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
      */
     public function failed(\Throwable $exception): void
     {
+        // Update media status to failed
+        app(MediaRepositoryInterface::class)->update($this->mediaId, [
+            'status' => MediaStatuses::MEDIA_STATUS_FAILED,
+        ]);
+
         Log::critical('Media upload job failed permanently after all retries', [
+            'media_id' => $this->mediaId,
             'temp_path' => $this->tempFilePath,
             'entity' => $this->entity,
             'entity_id' => $this->entityId,
