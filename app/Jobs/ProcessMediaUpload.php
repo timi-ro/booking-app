@@ -80,7 +80,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     /**
      * Decode the base64 encoded file content.
      */
-    protected function decodeFileContent(): string
+    private function decodeFileContent(): string
     {
         $contents = base64_decode($this->encodedFileContent, true);
 
@@ -94,7 +94,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     /**
      * Generate the final storage path for the media file.
      */
-    protected function generateFinalPath(): string
+    private function generateFinalPath(): string
     {
         return sprintf(
             '%s%s/%s',
@@ -107,7 +107,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     /**
      * Store the file using the storage driver.
      */
-    protected function storeFile(
+    private function storeFile(
         StorageDriverInterface $storageDriver,
         string $finalPath,
         string $fileContents

@@ -109,7 +109,7 @@ class MediaService
         }
     }
 
-    protected function getMediableType(string $entityName): ?string
+    private function getMediableType(string $entityName): ?string
     {
         return match ($entityName) {
             MediaEntities::MEDIA_OFFERING => Offering::class,
