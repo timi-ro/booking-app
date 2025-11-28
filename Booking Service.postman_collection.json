@@ -42,12 +42,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "LiLy R",
+									"value": "Cocoa R",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "Lilyr@yahoo.com",
+									"value": "cocoar@yahoo.com",
 									"type": "text"
 								},
 								{
@@ -62,7 +62,7 @@
 								},
 								{
 									"key": "role",
-									"value": "agency",
+									"value": "customer",
 									"type": "text"
 								}
 							]
@@ -378,6 +378,56 @@
 					"response": []
 				},
 				{
+					"name": "Login Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "cocoar@yahoo.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/auth/login?XDEBUG_SESSION=start",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION",
+									"value": "start"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Me",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -580,32 +630,22 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "Test Offering 15",
+									"value": "Test Offering 20",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "test description 15",
+									"value": "test description 20",
 									"type": "text"
 								},
 								{
 									"key": "address_info",
-									"value": "test address 15",
+									"value": "test address 20",
 									"type": "text"
 								},
 								{
-									"key": "image",
-									"type": "file",
-									"src": "postman-cloud:///1f0bd4f4-fea5-4a30-813d-82b5316e2cec"
-								},
-								{
-									"key": "video",
-									"type": "file",
-									"src": "postman-cloud:///1f0bd4f4-f322-4dc0-83be-679a54194494"
-								},
-								{
 									"key": "price",
-									"value": "133.3",
+									"value": "200",
 									"type": "text"
 								}
 							]
@@ -810,7 +850,7 @@
 								},
 								{
 									"key": "entity_id",
-									"value": "16",
+									"value": "20",
 									"type": "text"
 								},
 								{
@@ -833,6 +873,259 @@
 							"path": [
 								"agency",
 								"medias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}api/agency/medias/validate/{{uuid}}",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"agency",
+								"medias",
+								"validate",
+								"{{uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "entity",
+									"value": "offering",
+									"type": "text"
+								},
+								{
+									"key": "entity_id",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1f0bd4f4-fea5-4a30-813d-82b5316e2cec"
+								},
+								{
+									"key": "collection",
+									"value": "offering_image",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/agency/medias/d9249c34-9ad7-417b-a41c-69f86ed4cb5d",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"agency",
+								"medias",
+								"d9249c34-9ad7-417b-a41c-69f86ed4cb5d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Availability",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "28|MkPKcwhSGGwldXyjvhILm95i6CXgdEf7AgAv3ipK0701daad",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"offering_id\": \"20\",\n    \"details\": {\n        \"days\": [\n            \"monday\",\n            \"tuesday\",\n            \"wednesday\"\n        ],\n        \"time_slots\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"17:00\"\n            },\n            {\n                \"start\": \"18:00\",\n                \"end\": \"22:00\"\n            }\n        ],\n        \"date_range\": {\n            \"start\": \"2025-01-01\",\n            \"end\": \"2025-12-31\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/agency/availabilities",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"agency",
+								"availabilities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "browse",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "30|Fe5ls9wlHUq0CO9oXZMumBYYTiZLuKGU1FDiGxLG37b8006e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}api/customer/offerings?search=Test&min_price=120",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"customer",
+								"offerings"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Test"
+								},
+								{
+									"key": "min_price",
+									"value": "120"
+								}
+							]
+						},
+						"description": "Query Parameters (all optional):\n\n- search: Search in title/description\n    \n- min_price: Minimum price filter\n    \n- max_price: Maximum price filter\n    \n- sort_by: Sort field (price, created_at, title)\n    \n- sort_direction: Sort direction (asc, desc)\n    \n- page: Page number (default: 1)\n    \n- page_size: Items per page (default: 15, max: 200)"
+					},
+					"response": []
+				},
+				{
+					"name": "show details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "30|Fe5ls9wlHUq0CO9oXZMumBYYTiZLuKGU1FDiGxLG37b8006e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseURL}}api/customer/offerings/20",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"customer",
+								"offerings",
+								"20"
 							]
 						}
 					},
