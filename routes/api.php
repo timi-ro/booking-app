@@ -5,6 +5,7 @@ use App\Http\Controllers\Agency\AvailabilityController;
 use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Customer\OfferingController as CustomerOfferingController;
 use App\Http\Middleware\AdminArea;
 use App\Http\Middleware\AgencyArea;
 use App\Http\Middleware\CustomerArea;
@@ -19,6 +20,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['middleware' => CustomerArea::class, 'prefix' => UserRoles::CUSTOMER], function () {
         Route::get('/test-customer-area', [AuthController::class, 'testCustomerArea']);
+        Route::get('/offerings', [CustomerOfferingController::class, 'index']);
+        Route::get('/offerings/{id}', [CustomerOfferingController::class, 'show']);
     });
 
     Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {

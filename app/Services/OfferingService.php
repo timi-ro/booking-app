@@ -32,9 +32,28 @@ class OfferingService
         return $this->offeringRepository->index($userId, $page, $pageSize);
     }
 
+    public function browseOfferings(array $filters): array
+    {
+        $page = $filters['page'] ?? 1;
+        $pageSize = $filters['page_size'] ?? 15;
+
+        return $this->offeringRepository->listAllWithFilters($filters, $page, $pageSize);
+    }
+
+    public function getOfferingDetails(int $id): ?array
+    {
+        $offering = $this->offeringRepository->findWhere(['id' => $id, 'deleted_at' => null]);
+
+        if (empty($offering)) {
+            throw new OfferingNotFoundException();
+        }
+
+        return $this->offeringRepository->findByIdWithRelations($id);
+    }
+
     public function updateOffering(int $id, array $data): void
     {
-        $offering = $this->offeringRepository->findWhere(['id' => $id]);
+        $offering = $this->offeringRepository->findWhere(['id' => $id, 'deleted_at' => null]);
 
         if (empty($offering) || auth()->user()->id != $offering['user_id']) {
             throw new OfferingNotFoundException();
