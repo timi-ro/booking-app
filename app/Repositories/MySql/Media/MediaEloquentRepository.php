@@ -17,4 +17,9 @@ class MediaEloquentRepository implements MediaRepositoryInterface
     {
         Media::where(['id' => $id])->update($data);
     }
+
+    public function findByUuid(string $uuid): ?array
+    {
+        return Media::where('uuid', $uuid)->first()?->toArray();
+    }
 }

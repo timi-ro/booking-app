@@ -18,7 +18,8 @@ class OfferingService
 
     public function createOffering(array $data): array
     {
-        $data = $this->prepareDataForUpdate($data);
+        $userId = auth()->user()->id;
+        $data['user_id'] = $userId;
 
         return $this->offeringRepository->create($data);
     }
@@ -62,27 +63,5 @@ class OfferingService
     {
         $offering  = $this->offeringRepository->findWhere(['id' => $id]);
         return (bool)$offering;
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    private function prepareDataForUpdate(array $data): array
-    {
-        $userId = auth()->user()->id;
-        if ($data['video']) {
-            $videoPath = $this->storageDriver->putFile($userId . OfferingFilePaths::OFFERINGS_VIDEOS_PATH, $data['video']);
-            $data['video'] = $videoPath;
-        }
-
-        if ($data['image']) {
-            $imagePath = $this->storageDriver->putFile($userId . OfferingFilePaths::OFFERINGS_IMAGES_PATH, $data['image']);
-            $data['image'] = $imagePath;
-        }
-
-        $data['user_id'] = $userId;
-
-        return $data;
     }
 }

@@ -25,4 +25,25 @@ class MediaController extends Controller
 
         return ResponseHelper::generateResponse(['uuid' => $uuid]);
     }
+
+    public function validate(string $uuid)
+    {
+        $media = $this->mediaService->getByUuid($uuid);
+
+        if (!$media) {
+            return ResponseHelper::generateResponse(
+                [],
+                'Media not found',
+                404
+            );
+        }
+
+        return ResponseHelper::generateResponse([
+            'uuid' => $media['uuid'],
+            'status' => $media['status'],
+            'original_filename' => $media['original_filename'],
+            'mime_type' => $media['mime_type'],
+            'size' => $media['size'],
+        ]);
+    }
 }

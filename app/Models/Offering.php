@@ -20,8 +20,6 @@ class Offering extends Model
         'title',
         'description',
         'price',
-        'image',
-        'video',
         'address_info',
     ];
 

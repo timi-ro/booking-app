@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/offerings/{id}', [OfferingController::class, 'delete']);
 
         Route::post('/medias', [MediaController::class, 'upload']);
-        //TODO : medias/validate/{uuid}
+        Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
 
         Route::post('/availabilities', [AvailabilityController::class, 'create']);
     });

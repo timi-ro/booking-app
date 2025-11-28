@@ -73,6 +73,11 @@ class MediaService
         return $uuid;
     }
 
+    public function getByUuid(string $uuid): ?array
+    {
+        return $this->mediaRepository->findByUuid($uuid);
+    }
+
     public function validateMediable(string $entityType, int $entityId): void
     {
         $entity = match ($entityType) {

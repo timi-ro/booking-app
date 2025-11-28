@@ -13,8 +13,6 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
             'title' => $data['title'],
             'description' => $data['description'],
             'price' => $data['price'],
-            'image' => $data['image'],
-            'video' => $data['video'],
             'address_info' => $data['address_info'],
             'user_id' => $data['user_id'],
         ]);
