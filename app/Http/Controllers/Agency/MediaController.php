@@ -46,4 +46,21 @@ class MediaController extends Controller
             'size' => $media['size'],
         ]);
     }
+
+    public function delete(string $uuid)
+    {
+        $media = $this->mediaService->getByUuid($uuid);
+
+        if (!$media) {
+            return ResponseHelper::generateResponse(
+                [],
+                'Media not found',
+                404
+            );
+        }
+
+        $this->mediaService->deleteByUuid($uuid);
+
+        return ResponseHelper::generateResponse(['message' => 'Media deleted successfully']);
+    }
 }

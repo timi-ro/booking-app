@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::post('/medias', [MediaController::class, 'upload']);
         Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
+        Route::get('/medias/{uuid}', [MediaController::class, 'delete']);
 
         Route::post('/availabilities', [AvailabilityController::class, 'create']);
     });

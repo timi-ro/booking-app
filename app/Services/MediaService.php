@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Constants\MediaEntities;
-use App\Constants\MediaFilePaths;
 use App\Constants\MediaStatuses;
 use App\Drivers\Contracts\QueueDriverInterface;
 use App\Drivers\Contracts\StorageDriverInterface;
+use App\Exceptions\Media\DuplicateMediaException;
 use App\Exceptions\Media\InvalidMediaEntityException;
 use App\Exceptions\Media\MediableNotFoundException;
 use App\Jobs\ProcessMediaUpload;
@@ -34,12 +34,11 @@ class MediaService
             throw new InvalidMediaEntityException();
         }
 
-        // TODO: Try this way as well, no need for temp but might have some cons (study pros and cons)
-        // $encoded_file = base64_encode(file_get_contents($data['file']));
+        // Validate that this entity doesn't already have media of this collection type
+        $this->validateUniqueMedia($mediableType, $data['entity_id'], $data['collection']);
 
         $file = $data['file'];
-        $tempPath = $this->storeTempFile($file);
-        $fullTempPath = $this->storageDriver->getPath($tempPath);
+        $encodedFile = base64_encode(file_get_contents($file->getRealPath()));
         $mimeType = $file->getClientMimeType();
         $uuid = (string) Str::uuid();
 
@@ -62,7 +61,7 @@ class MediaService
             entity: $data['entity'],
             entityId: $data['entity_id'],
             mediaId: $mediaRecord['id'],
-            tempFilePath: $fullTempPath,
+            encodedFileContent: $encodedFile,
             originalFileName: $data['file']->getClientOriginalName(),
             mimeType: $mimeType,
             fileSize: $data['file']->getSize(),
@@ -78,6 +77,26 @@ class MediaService
         return $this->mediaRepository->findByUuid($uuid);
     }
 
+    public function deleteByUuid(string $uuid): void
+    {
+        $media = $this->getByUuid($uuid);
+
+        $this->mediaRepository->delete($media['id']);
+    }
+
+    public function validateUniqueMedia(string $mediableType, int $mediableId, string $collection): void
+    {
+        $exists = $this->mediaRepository->existsByMediableAndCollection(
+            $mediableType,
+            $mediableId,
+            $collection
+        );
+
+        if ($exists) {
+            throw new DuplicateMediaException("This entity already has a media file of type '{$collection}'.");
+        }
+    }
+
     public function validateMediable(string $entityType, int $entityId): void
     {
         $entity = match ($entityType) {
@@ -88,16 +107,6 @@ class MediaService
         if (!$entity) {
             throw new MediableNotFoundException();
         }
-    }
-
-    protected function storeTempFile(UploadedFile $file): string
-    {
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-        $tempPath = MediaFilePaths::TEMP_PATH . '/' . $filename;
-
-        $this->storageDriver->putFile($tempPath, file_get_contents($file));
-
-        return $tempPath;
     }
 
     protected function getMediableType(string $entityName): ?string

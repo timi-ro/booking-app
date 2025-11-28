@@ -22,4 +22,17 @@ class MediaEloquentRepository implements MediaRepositoryInterface
     {
         return Media::where('uuid', $uuid)->first()?->toArray();
     }
+
+    public function existsByMediableAndCollection(string $mediableType, int $mediableId, string $collection): bool
+    {
+        return Media::where('mediable_type', $mediableType)
+            ->where('mediable_id', $mediableId)
+            ->where('collection', $collection)
+            ->exists();
+    }
+
+    public function delete(int $id): void
+    {
+        Media::destroy($id);
+    }
 }

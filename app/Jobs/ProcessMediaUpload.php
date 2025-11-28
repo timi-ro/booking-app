@@ -39,7 +39,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         public readonly string $entity,
         public readonly int $entityId,
         public readonly int $mediaId,
-        public readonly string $tempFilePath,
+        public readonly string $encodedFileContent,
         public readonly string $originalFileName,
         public readonly string $mimeType,
         public readonly int $fileSize,
@@ -57,9 +57,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
                 'status' => MediaStatuses::MEDIA_STATUS_PROCESSING,
             ]);
 
-            $this->validateTempFile();
-
-            $fileContents = $this->readTempFile();
+            $fileContents = $this->decodeFileContent();
             $finalPath = $this->generateFinalPath();
             $storedPath = $this->storeFile($storageDriver, $finalPath, $fileContents);
 
@@ -76,34 +74,18 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
             ]);
 
             throw new MediaUploadFailedException($e->getMessage(), $e->getCode());
-        } finally {
-            $this->cleanupTempFile();
         }
     }
 
     /**
-     * Validate that the temporary file exists and is readable.
+     * Decode the base64 encoded file content.
      */
-    protected function validateTempFile(): void
+    protected function decodeFileContent(): string
     {
-        if (!file_exists($this->tempFilePath)) {
-            throw new MediaUploadFailedException("Temporary file not found: {$this->tempFilePath}");
-        }
-
-        if (!is_readable($this->tempFilePath)) {
-            throw new MediaUploadFailedException("Temporary file is not readable: {$this->tempFilePath}");
-        }
-    }
-
-    /**
-     * Read contents from the temporary file.
-     */
-    protected function readTempFile(): string
-    {
-        $contents = file_get_contents($this->tempFilePath);
+        $contents = base64_decode($this->encodedFileContent, true);
 
         if ($contents === false) {
-            throw new MediaUploadFailedException("Failed to read temporary file: {$this->tempFilePath}");
+            throw new MediaUploadFailedException("Failed to decode file content");
         }
 
         return $contents;
@@ -136,17 +118,6 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         );
     }
 
-
-    /**
-     * Clean up the temporary file.
-     */
-    protected function cleanupTempFile(): void
-    {
-        if (file_exists($this->tempFilePath)) {
-            @unlink($this->tempFilePath);
-        }
-    }
-
     /**
      * Handle a job failure.
      */
@@ -159,7 +130,6 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
 
         Log::critical('Media upload job failed permanently after all retries', [
             'media_id' => $this->mediaId,
-            'temp_path' => $this->tempFilePath,
             'entity' => $this->entity,
             'entity_id' => $this->entityId,
             'exception' => $exception->getMessage(),
