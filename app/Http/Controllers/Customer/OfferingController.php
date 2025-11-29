@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\BrowseOfferingsRequest;
@@ -27,11 +28,7 @@ class OfferingController extends Controller
         $offering = $this->offeringService->getOfferingDetails($id);
 
         if (!$offering) {
-            return ResponseHelper::generateResponse(
-                [],
-                'Offering not found',
-                404
-            );
+            throw new OfferingNotFoundException();
         }
 
         return ResponseHelper::generateResponse($offering);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agency;
 
+use App\Exceptions\Media\MediableNotFoundException;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Media\CreateMediaRequest;
@@ -31,11 +32,7 @@ class MediaController extends Controller
         $media = $this->mediaService->getByUuid($uuid);
 
         if (!$media) {
-            return ResponseHelper::generateResponse(
-                [],
-                'Media not found',
-                404
-            );
+            throw new MediableNotFoundException();
         }
 
         return ResponseHelper::generateResponse([
@@ -52,11 +49,7 @@ class MediaController extends Controller
         $media = $this->mediaService->getByUuid($uuid);
 
         if (!$media) {
-            return ResponseHelper::generateResponse(
-                [],
-                'Media not found',
-                404
-            );
+            throw new MediableNotFoundException();
         }
 
         $this->mediaService->deleteByUuid($uuid);
