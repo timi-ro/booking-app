@@ -17,7 +17,7 @@ class HealthController extends Controller
 
     public function healthCheck()
     {
-        //TODO:
+        //TODO: parallel run
         // check db (redis & mysql)
         // check storage (ping & driver, [upload , download, delete {speed}])
         // sys info (cpu, memory, ping with detail )
