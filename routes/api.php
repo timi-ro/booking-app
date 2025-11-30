@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/ping', fn() => ['ok' => true]);
 
+Route::get('/health', fn() => ['ok' => true]);
+
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
