@@ -1,9 +1,11 @@
 <?php
 
 use App\Constants\UserRoles;
+use App\Http\Controllers\Agency\AvailabilityController;
 use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Customer\OfferingController as CustomerOfferingController;
 use App\Http\Middleware\AdminArea;
 use App\Http\Middleware\AgencyArea;
 use App\Http\Middleware\CustomerArea;
@@ -18,6 +20,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['middleware' => CustomerArea::class, 'prefix' => UserRoles::CUSTOMER], function () {
         Route::get('/test-customer-area', [AuthController::class, 'testCustomerArea']);
+        Route::get('/offerings', [CustomerOfferingController::class, 'index']);
+        Route::get('/offerings/{id}', [CustomerOfferingController::class, 'show']);
     });
 
     Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {
@@ -28,7 +32,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/offerings/{id}', [OfferingController::class, 'delete']);
 
         Route::post('/medias', [MediaController::class, 'upload']);
-        //TODO : medias/validate/{uuid}
+        Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
+        Route::get('/medias/{uuid}', [MediaController::class, 'delete']);
+
+        Route::post('/availabilities', [AvailabilityController::class, 'create']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {

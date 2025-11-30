@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Constants\MediaFilePaths;
+use App\Constants\MediaStatuses;
 use App\Drivers\Contracts\StorageDriverInterface;
 use App\Exceptions\Media\MediaUploadFailedException;
 use App\Repositories\Contracts\MediaRepositoryInterface;
@@ -37,7 +38,8 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         public readonly string $userId,
         public readonly string $entity,
         public readonly int $entityId,
-        public readonly string $tempFilePath,
+        public readonly int $mediaId,
+        public readonly string $encodedFileContent,
         public readonly string $originalFileName,
         public readonly string $mimeType,
         public readonly int $fileSize,
@@ -50,46 +52,40 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         MediaRepositoryInterface $mediaRepository
     ): void {
         try {
-            //TODO: UPDATE state to processing
-            $this->validateTempFile();
+            // Update status to processing
+            $mediaRepository->update($this->mediaId, [
+                'status' => MediaStatuses::MEDIA_STATUS_PROCESSING,
+            ]);
 
-            $fileContents = $this->readTempFile();
+            $fileContents = $this->decodeFileContent();
             $finalPath = $this->generateFinalPath();
             $storedPath = $this->storeFile($storageDriver, $finalPath, $fileContents);
-            //TODO: success status
-            $this->createMediaRecord($mediaRepository, $storedPath);
+
+            // Update media record with final path and completed status
+            $mediaRepository->update($this->mediaId, [
+                'path' => $storedPath,
+                'status' => MediaStatuses::MEDIA_STATUS_COMPLETED,
+            ]);
 
         } catch (\Exception $e) {
-            //TODO: failed status
+            // Update status to failed
+            $mediaRepository->update($this->mediaId, [
+                'status' => MediaStatuses::MEDIA_STATUS_FAILED,
+            ]);
+
             throw new MediaUploadFailedException($e->getMessage(), $e->getCode());
-        } finally {
-            $this->cleanupTempFile();
         }
     }
 
     /**
-     * Validate that the temporary file exists and is readable.
+     * Decode the base64 encoded file content.
      */
-    protected function validateTempFile(): void
+    private function decodeFileContent(): string
     {
-        if (!file_exists($this->tempFilePath)) {
-            throw new MediaUploadFailedException("Temporary file not found: {$this->tempFilePath}");
-        }
-
-        if (!is_readable($this->tempFilePath)) {
-            throw new MediaUploadFailedException("Temporary file is not readable: {$this->tempFilePath}");
-        }
-    }
-
-    /**
-     * Read contents from the temporary file.
-     */
-    protected function readTempFile(): string
-    {
-        $contents = file_get_contents($this->tempFilePath);
+        $contents = base64_decode($this->encodedFileContent, true);
 
         if ($contents === false) {
-            throw new MediaUploadFailedException("Failed to read temporary file: {$this->tempFilePath}");
+            throw new MediaUploadFailedException("Failed to decode file content");
         }
 
         return $contents;
@@ -98,7 +94,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     /**
      * Generate the final storage path for the media file.
      */
-    protected function generateFinalPath(): string
+    private function generateFinalPath(): string
     {
         return sprintf(
             '%s%s/%s',
@@ -111,7 +107,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     /**
      * Store the file using the storage driver.
      */
-    protected function storeFile(
+    private function storeFile(
         StorageDriverInterface $storageDriver,
         string $finalPath,
         string $fileContents
@@ -123,41 +119,17 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
     }
 
     /**
-     * Create the media database record.
-     */
-    protected function createMediaRecord(
-        MediaRepositoryInterface $mediaRepository,
-        string $storedPath
-    ): void {
-        $mediaRepository->create([
-            'mediable_type' => $this->mediableType,
-            'mediable_id' => $this->entityId,
-            'disk' => config('media.default_disk', 'local'),
-            'path' => $storedPath,
-            'mime_type' => $this->mimeType,
-            'size' => $this->fileSize,
-            'collection' => $this->collection,
-            'original_filename' => $this->originalFileName,
-        ]);
-    }
-
-    /**
-     * Clean up the temporary file.
-     */
-    protected function cleanupTempFile(): void
-    {
-        if (file_exists($this->tempFilePath)) {
-            @unlink($this->tempFilePath);
-        }
-    }
-
-    /**
      * Handle a job failure.
      */
     public function failed(\Throwable $exception): void
     {
+        // Update media status to failed
+        app(MediaRepositoryInterface::class)->update($this->mediaId, [
+            'status' => MediaStatuses::MEDIA_STATUS_FAILED,
+        ]);
+
         Log::critical('Media upload job failed permanently after all retries', [
-            'temp_path' => $this->tempFilePath,
+            'media_id' => $this->mediaId,
             'entity' => $this->entity,
             'entity_id' => $this->entityId,
             'exception' => $exception->getMessage(),

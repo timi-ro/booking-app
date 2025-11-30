@@ -20,8 +20,6 @@ class Offering extends Model
         'title',
         'description',
         'price',
-        'image',
-        'video',
         'address_info',
     ];
 
@@ -35,5 +33,8 @@ class Offering extends Model
         return $this->morphMany(Media::class, 'mediable');
     }
 
-
+    public function availabilities()
+    {
+        return $this->hasMany(Availability::class);
+    }
 }
