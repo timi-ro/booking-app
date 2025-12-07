@@ -6,7 +6,7 @@ use App\Filters\Contracts\FilterInterface;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
-class PriceRangeFilter implements FilterInterface
+class EloquentOfferingPriceRangeFilter implements FilterInterface
 {
     public function __construct(
         protected ?float $minPrice,

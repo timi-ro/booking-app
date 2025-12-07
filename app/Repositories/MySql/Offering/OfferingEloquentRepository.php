@@ -2,8 +2,8 @@
 
 namespace App\Repositories\MySql\Offering;
 
-use App\Filters\Offering\PriceRangeFilter;
-use App\Filters\Offering\SearchFilter;
+use App\Filters\Offering\EloquentOfferingPriceRangeFilter;
+use App\Filters\Offering\EloquentOfferingSearchFilter;
 use App\Filters\Shared\SortFilter;
 use App\Models\Offering;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
@@ -44,8 +44,8 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
         $query = app(Pipeline::class)
             ->send(Offering::query())
             ->through([
-                new SearchFilter($filters['search'] ?? null),
-                new PriceRangeFilter(
+                new EloquentOfferingSearchFilter($filters['search'] ?? null),
+                new EloquentOfferingPriceRangeFilter(
                     $filters['min_price'] ?? null,
                     $filters['max_price'] ?? null
                 ),

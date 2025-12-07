@@ -6,7 +6,7 @@ use App\Filters\Contracts\FilterInterface;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 
-class SearchFilter implements FilterInterface
+class EloquentOfferingSearchFilter implements FilterInterface
 {
     public function __construct(protected ?string $search)
     {
