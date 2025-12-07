@@ -17,13 +17,34 @@ class CreateAvailabilityRequest extends FormRequest
             // Check if details exists and is an array
             'details' => 'required|array',
 
-            // Validate nested keys inside details
-            'details.days' => 'required|array|min:1',
-            'details.days.*' => 'required|string|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            // Validate each day as a key with time slots
+            'details.monday' => 'sometimes|array',
+            'details.monday.*.start' => 'required|date_format:H:i',
+            'details.monday.*.end' => 'required|date_format:H:i|after:details.monday.*.start',
 
-            'details.time_slots' => 'required|array|min:1',
-            'details.time_slots.*.start' => 'required|date_format:H:i',
-            'details.time_slots.*.end' => 'required|date_format:H:i',
+            'details.tuesday' => 'sometimes|array',
+            'details.tuesday.*.start' => 'required|date_format:H:i',
+            'details.tuesday.*.end' => 'required|date_format:H:i|after:details.tuesday.*.start',
+
+            'details.wednesday' => 'sometimes|array',
+            'details.wednesday.*.start' => 'required|date_format:H:i',
+            'details.wednesday.*.end' => 'required|date_format:H:i|after:details.wednesday.*.start',
+
+            'details.thursday' => 'sometimes|array',
+            'details.thursday.*.start' => 'required|date_format:H:i',
+            'details.thursday.*.end' => 'required|date_format:H:i|after:details.thursday.*.start',
+
+            'details.friday' => 'sometimes|array',
+            'details.friday.*.start' => 'required|date_format:H:i',
+            'details.friday.*.end' => 'required|date_format:H:i|after:details.friday.*.start',
+
+            'details.saturday' => 'sometimes|array',
+            'details.saturday.*.start' => 'required|date_format:H:i',
+            'details.saturday.*.end' => 'required|date_format:H:i|after:details.saturday.*.start',
+
+            'details.sunday' => 'sometimes|array',
+            'details.sunday.*.start' => 'required|date_format:H:i',
+            'details.sunday.*.end' => 'required|date_format:H:i|after:details.sunday.*.start',
 
             'details.date_range' => 'required|array',
             'details.date_range.start' => 'required|date',
