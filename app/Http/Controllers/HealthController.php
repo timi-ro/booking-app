@@ -2,26 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ResponseHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\UserLoginRequest;
-use App\Http\Requests\Auth\UserRegisterRequest;
-use App\Services\AuthService;
+use App\Enums\HealthStatus;
+use App\Services\HealthCheckService;
 use Symfony\Component\HttpFoundation\Response;
 
 class HealthController extends Controller
 {
+    private const PING_STATUS = 'ok';
+
     public function __construct(
+        protected HealthCheckService $healthCheckService
     ) {
     }
 
+    /**
+     * Shallow health check - just confirms app is running
+     * Used by load balancers and liveness probes
+     */
+    public function ping()
+    {
+        return response()->json([
+            'status' => self::PING_STATUS,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * Deep health check - checks all critical services
+     * Used by readiness probes and monitoring
+     */
     public function healthCheck()
     {
-        //TODO:
-        // check db (redis & mysql)
-        // check storage (ping & driver, [upload , download, delete {speed}])
-        // sys info (cpu, memory, ping with detail )
-        // email driver check (sen & driver info)
-        // cache driver detail
+        $health = $this->healthCheckService->checkAllServices();
+
+        $statusCode = $health['status'] === HealthStatus::HEALTHY->value
+            ? Response::HTTP_OK
+            : Response::HTTP_SERVICE_UNAVAILABLE;
+
+        return response()->json($health, $statusCode);
     }
 }

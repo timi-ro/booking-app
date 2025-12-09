@@ -691,7 +691,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"test title 16\",\n    \"description\": \"test desc 16\",\n    \"address_info\": \"test address 16\",\n    \"price\": 100.05,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
+							"raw": "{\n    \"title\": \"test title 20\",\n    \"description\": \"test desc 16\",\n    \"address_info\": \"test address 16\",\n    \"price\": 100.05,\n    \"video\": \"\",\n    \"image\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -699,14 +699,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/offerings/16",
+							"raw": "{{baseURL}}api/agency/offerings/20",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
 								"offerings",
-								"16"
+								"20"
 							]
 						}
 					},
@@ -907,7 +907,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/medias/validate/{{uuid}}",
+							"raw": "{{baseURL}}api/agency/medias/validate/135fa038-b7bd-4dc7-853f-af7e8cc955a0",
 							"host": [
 								"{{baseURL}}api"
 							],
@@ -915,7 +915,7 @@
 								"agency",
 								"medias",
 								"validate",
-								"{{uuid}}"
+								"135fa038-b7bd-4dc7-853f-af7e8cc955a0"
 							]
 						}
 					},
@@ -971,14 +971,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseURL}}api/agency/medias/d9249c34-9ad7-417b-a41c-69f86ed4cb5d",
+							"raw": "{{baseURL}}api/agency/medias/71b7ba0f-810b-4e27-aaa6-c2c664e7a635",
 							"host": [
 								"{{baseURL}}api"
 							],
 							"path": [
 								"agency",
 								"medias",
-								"d9249c34-9ad7-417b-a41c-69f86ed4cb5d"
+								"71b7ba0f-810b-4e27-aaa6-c2c664e7a635"
 							]
 						}
 					},
@@ -1012,7 +1012,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"offering_id\": \"20\",\n    \"details\": {\n        \"days\": [\n            \"monday\",\n            \"tuesday\",\n            \"wednesday\"\n        ],\n        \"time_slots\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"17:00\"\n            },\n            {\n                \"start\": \"18:00\",\n                \"end\": \"22:00\"\n            }\n        ],\n        \"date_range\": {\n            \"start\": \"2025-01-01\",\n            \"end\": \"2025-12-31\"\n        }\n    }\n}",
+							"raw": "{\n    \"offering_id\": \"20\",\n    \"details\": {\n        \"monday\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"17:00\"\n            },\n            {\n                \"start\": \"18:00\",\n                \"end\": \"22:00\"\n            }\n        ],\n        \"tuesday\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"17:00\"\n            },\n            {\n                \"start\": \"18:00\",\n                \"end\": \"22:00\"\n            }\n        ],\n        \"friday\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"17:00\"\n            },\n            {\n                \"start\": \"18:00\",\n                \"end\": \"20:00\"\n            }\n        ],\n        \"saturday\": [\n            {\n                \"start\": \"09:00\",\n                \"end\": \"12:00\"\n            },\n            {\n                \"start\": \"13:00\",\n                \"end\": \"18:00\"\n            }\n        ],\n        \"date_range\": {\n            \"start\": \"2025-01-01\",\n            \"end\": \"2025-12-31\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1028,7 +1028,8 @@
 								"agency",
 								"availabilities"
 							]
-						}
+						},
+						"description": "### Use below structure for filling the data in body as a json stirng:\n\n``` json\n{\n    \"offering_id\": 1,\n    \"details\": {\n      \"monday\": [\n        {\"start\": \"09:00\", \"end\": \"12:00\"},\n        {\"start\": \"14:00\", \"end\": \"17:00\"}\n      ],\n      \"tuesday\": [\n        {\"start\": \"09:00\", \"end\": \"12:00\"}\n      ],\n      \"friday\": [\n        {\"start\": \"10:00\", \"end\": \"15:00\"}\n      ],\n      \"date_range\": {\n        \"start\": \"2024-01-01\",\n        \"end\": \"2024-12-31\"\n      }\n    }\n  }\n\n ```"
 					},
 					"response": []
 				}
@@ -1066,7 +1067,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{baseURL}}api/customer/offerings?search=Test&min_price=120",
+							"raw": "{{baseURL}}api/customer/offerings?search=test&min_price=130&max_price=200",
 							"host": [
 								"{{baseURL}}api"
 							],
@@ -1077,11 +1078,15 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "Test"
+									"value": "test"
 								},
 								{
 									"key": "min_price",
-									"value": "120"
+									"value": "130"
+								},
+								{
+									"key": "max_price",
+									"value": "200"
 								}
 							]
 						},
@@ -1126,6 +1131,77 @@
 								"customer",
 								"offerings",
 								"20"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "healthCheck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "30|Fe5ls9wlHUq0CO9oXZMumBYYTiZLuKGU1FDiGxLG37b8006e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}api/health",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ping",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "30|Fe5ls9wlHUq0CO9oXZMumBYYTiZLuKGU1FDiGxLG37b8006e",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}api/ping",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"ping"
 							]
 						}
 					},
