@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('offering_id');
-            $table->json('details')->nullable();
+            $table->json('details');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('offering_id')
