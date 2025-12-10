@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\HealthStatus;
 use App\Services\HealthCheckService;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
 class HealthController extends Controller
@@ -38,6 +39,9 @@ class HealthController extends Controller
         $statusCode = $health['status'] === HealthStatus::HEALTHY->value
             ? Response::HTTP_OK
             : Response::HTTP_SERVICE_UNAVAILABLE;
+
+        // TODO: add redis
+//        dd(Redis::ping());
 
         return response()->json($health, $statusCode);
     }
