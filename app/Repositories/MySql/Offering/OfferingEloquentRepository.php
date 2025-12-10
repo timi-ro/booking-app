@@ -2,8 +2,12 @@
 
 namespace App\Repositories\MySql\Offering;
 
+use App\Filters\Offering\EloquentOfferingPriceRangeFilter;
+use App\Filters\Offering\EloquentOfferingSearchFilter;
+use App\Filters\Shared\SortFilter;
 use App\Models\Offering;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
+use Illuminate\Pipeline\Pipeline;
 
 class OfferingEloquentRepository implements OfferingRepositoryInterface
 {
@@ -37,30 +41,21 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
 
     public function listAllWithFilters(array $filters, int $page, int $pageSize): array
     {
-        $query = Offering::query();
-
-        // Search filter (title or description)
-        if (!empty($filters['search'])) {
-            $search = $filters['search'];
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
-            });
-        }
-
-        // Price range filters
-        if (isset($filters['min_price'])) {
-            $query->where('price', '>=', $filters['min_price']);
-        }
-
-        if (isset($filters['max_price'])) {
-            $query->where('price', '<=', $filters['max_price']);
-        }
-
-        // Sorting
-        $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortDirection = $filters['sort_direction'] ?? 'desc';
-        $query->orderBy($sortBy, $sortDirection);
+        $query = app(Pipeline::class)
+            ->send(Offering::query())
+            ->through([
+                new EloquentOfferingSearchFilter($filters['search'] ?? null),
+                new EloquentOfferingPriceRangeFilter(
+                    $filters['min_price'] ?? null,
+                    $filters['max_price'] ?? null
+                ),
+                new SortFilter(
+                    $filters['sort_by'] ?? 'created_at',
+                    $filters['sort_direction'] ?? 'desc',
+                    ['created_at', 'price', 'title', 'updated_at']
+                ),
+            ])
+            ->thenReturn();
 
         $offerings = $query->paginate($pageSize, ['*'], 'page', $page);
 

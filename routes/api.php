@@ -6,14 +6,15 @@ use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Customer\OfferingController as CustomerOfferingController;
+use App\Http\Controllers\HealthController;
 use App\Http\Middleware\AdminArea;
 use App\Http\Middleware\AgencyArea;
 use App\Http\Middleware\CustomerArea;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/ping', fn() => ['ok' => true]);
+Route::get('/ping', [HealthController::class, 'ping']);
 
-Route::get('/health', fn() => ['ok' => true]);
+Route::get('/health', [HealthController::class, 'healthCheck']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
