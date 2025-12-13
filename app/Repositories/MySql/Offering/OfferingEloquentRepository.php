@@ -70,7 +70,7 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
 
     public function findByIdWithRelations(int $id): ?array
     {
-        $offering = Offering::with(['media', 'availabilities'])
+        $offering = Offering::with(['media', 'offeringDays.timeSlots'])
             ->find($id);
 
         return $offering ? $offering->toArray() : null;

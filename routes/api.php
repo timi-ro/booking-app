@@ -1,9 +1,10 @@
 <?php
 
 use App\Constants\UserRoles;
-use App\Http\Controllers\Agency\AvailabilityController;
 use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
+use App\Http\Controllers\Agency\OfferingDayController;
+use App\Http\Controllers\Agency\OfferingTimeSlotController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Customer\OfferingController as CustomerOfferingController;
 use App\Http\Controllers\HealthController;
@@ -38,7 +39,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
         Route::get('/medias/{uuid}', [MediaController::class, 'delete']);
 
-        Route::post('/availabilities', [AvailabilityController::class, 'create']);
+        // Offering Days
+        Route::post('/offering-days', [OfferingDayController::class, 'create']);
+        Route::get('/offering-days', [OfferingDayController::class, 'index']);
+        Route::put('/offering-days/{id}', [OfferingDayController::class, 'update']);
+        Route::delete('/offering-days/{id}', [OfferingDayController::class, 'delete']);
+
+        // Time Slots
+        Route::post('/time-slots', [OfferingTimeSlotController::class, 'create']);
+        Route::post('/time-slots/bulk', [OfferingTimeSlotController::class, 'bulkCreate']);
+        Route::get('/time-slots', [OfferingTimeSlotController::class, 'index']);
+        Route::put('/time-slots/{id}', [OfferingTimeSlotController::class, 'update']);
+        Route::delete('/time-slots/{id}', [OfferingTimeSlotController::class, 'delete']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {
