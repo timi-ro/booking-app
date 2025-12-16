@@ -47,7 +47,8 @@ class BookingService
             $offeringTimeSlotId,
             $timeSlot['offering_id'],
             $userId,
-            (float) $totalPrice
+            (float) $totalPrice,
+            $customerNotes
         );
 
         return [

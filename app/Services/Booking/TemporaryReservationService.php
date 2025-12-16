@@ -14,7 +14,7 @@ class TemporaryReservationService
     /**
      * Create a temporary reservation in Redis.
      */
-    public function createReservation(int $offeringTimeSlotId, int $offeringId, int $userId, float $totalPrice): string
+    public function createReservation(int $offeringTimeSlotId, int $offeringId, int $userId, float $totalPrice, ?string $customerNotes = null): string
     {
         $reservationId = Str::uuid()->toString();
 
@@ -29,16 +29,17 @@ class TemporaryReservationService
             'offering_id' => $offeringId,
             'user_id' => $userId,
             'total_price' => $totalPrice,
+            'customer_notes' => $customerNotes,
             'reserved_at' => now()->toIso8601String(),
             'reservation_id' => $reservationId,
         ]);
 
-        // Store main reservation with TTL
-        Redis::setex($mainKey, self::TTL, $data);
+        // Store main reservation with TTL using dedicated bookings connection (no prefix)
+        Redis::connection('bookings')->setex($mainKey, self::TTL, $data);
 
         // Add reservation_id to slot index set with TTL
-        Redis::sadd($slotIndexKey, $reservationId);
-        Redis::expire($slotIndexKey, self::TTL);
+        Redis::connection('bookings')->sadd($slotIndexKey, $reservationId);
+        Redis::connection('bookings')->expire($slotIndexKey, self::TTL);
 
         return $reservationId;
     }
@@ -49,7 +50,7 @@ class TemporaryReservationService
     public function getReservation(string $reservationId): ?array
     {
         $key = $this->makeMainKey($reservationId);
-        $data = Redis::get($key);
+        $data = Redis::connection('bookings')->get($key);
 
         return $data ? json_decode($data, true) : null;
     }
@@ -68,11 +69,11 @@ class TemporaryReservationService
 
         // Remove from main key
         $mainKey = $this->makeMainKey($reservationId);
-        Redis::del($mainKey);
+        Redis::connection('bookings')->del($mainKey);
 
         // Remove from slot index
         $slotIndexKey = $this->makeSlotIndexKey($reservation['offering_time_slot_id']);
-        Redis::srem($slotIndexKey, $reservationId);
+        Redis::connection('bookings')->srem($slotIndexKey, $reservationId);
 
         return true;
     }
@@ -83,17 +84,17 @@ class TemporaryReservationService
     public function countReservationsForSlot(int $offeringTimeSlotId): int
     {
         $slotIndexKey = $this->makeSlotIndexKey($offeringTimeSlotId);
-        $reservationIds = Redis::smembers($slotIndexKey);
+        $reservationIds = Redis::connection('bookings')->smembers($slotIndexKey);
 
         // Count only non-expired reservations
         $validCount = 0;
         foreach ($reservationIds as $reservationId) {
             $mainKey = $this->makeMainKey($reservationId);
-            if (Redis::exists($mainKey)) {
+            if (Redis::connection('bookings')->exists($mainKey)) {
                 $validCount++;
             } else {
                 // Clean up expired reservation from index
-                Redis::srem($slotIndexKey, $reservationId);
+                Redis::connection('bookings')->srem($slotIndexKey, $reservationId);
             }
         }
 
@@ -106,7 +107,7 @@ class TemporaryReservationService
     public function hasReservation(int $offeringTimeSlotId, int $userId): bool
     {
         $slotIndexKey = $this->makeSlotIndexKey($offeringTimeSlotId);
-        $reservationIds = Redis::smembers($slotIndexKey);
+        $reservationIds = Redis::connection('bookings')->smembers($slotIndexKey);
 
         foreach ($reservationIds as $reservationId) {
             $reservation = $this->getReservation($reservationId);

@@ -6,9 +6,6 @@ use App\Drivers\Contracts\QueueDriverInterface;
 use App\Drivers\Contracts\StorageDriverInterface;
 use App\Drivers\Queue\LaravelQueueDriver;
 use App\Drivers\Storage\LaravelStorageDriver;
-use App\Events\PaymentSuccessEvent;
-use App\Listeners\PaymentSuccessListener;
-use Illuminate\Support\Facades\Event;
 use App\Repositories\Contracts\BookingRepositoryInterface;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 use App\Repositories\Contracts\OfferingDayRepositoryInterface;
@@ -51,10 +48,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        // Register event listeners
-        Event::listen(
-            PaymentSuccessEvent::class,
-            PaymentSuccessListener::class,
-        );
+        // Event listeners are auto-discovered by Laravel 12
     }
 }
