@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Enums\HealthStatus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Throwable;
 
 class HealthCheckService
@@ -20,15 +21,16 @@ class HealthCheckService
     {
         $services = [
             'database' => $this->checkDatabase(),
+            'redis' => $this->checkRedis(),
             'cache' => $this->checkCache(),
         ];
 
         $allHealthy = collect($services)->every(
-            fn($service) => $service['status'] === HealthStatus::HEALTHY->value
+            fn($service) => $service['healthy'] === true
         );
 
         return [
-            'status' => $allHealthy ? HealthStatus::HEALTHY->value : HealthStatus::UNHEALTHY->value,
+            'healthy' => $allHealthy,
             'timestamp' => now()->toIso8601String(),
             'services' => $services,
         ];
@@ -46,14 +48,70 @@ class HealthCheckService
             $responseTime = round((microtime(true) - $startTime) * 1000, 2);
 
             return [
-                'status' => HealthStatus::HEALTHY->value,
+                'healthy' => true,
                 'response_time' => "{$responseTime}ms",
                 'connection' => config('database.default'),
             ];
         } catch (Throwable $e) {
-            return [
-                'status' => HealthStatus::UNHEALTHY->value,
+            Log::channel('sentry')->error('Database health check failed', [
                 'error' => $e->getMessage(),
+                'connection' => config('database.default'),
+            ]);
+
+            return [
+                'healthy' => false,
+                'message' => 'Database service is unavailable',
+            ];
+        }
+    }
+
+    /**
+     * Check Redis connectivity
+     */
+    protected function checkRedis(): array
+    {
+        try {
+            $startTime = microtime(true);
+
+            // Test default connection
+            $pong = Redis::ping();
+
+            // Test bookings connection
+            $bookingsPong = Redis::connection('bookings')->ping();
+
+            $responseTime = round((microtime(true) - $startTime) * 1000, 2);
+
+            // Convert to string for comparison (predis returns Status object)
+            $pongStr = (string) $pong;
+            $bookingsPongStr = (string) $bookingsPong;
+
+            if ($pongStr !== 'PONG' || $bookingsPongStr !== 'PONG') {
+                Log::channel('sentry')->error('Redis health check failed', [
+                    'default_response' => $pongStr,
+                    'bookings_response' => $bookingsPongStr,
+                    'connections' => ['default', 'bookings'],
+                ]);
+
+                return [
+                    'healthy' => false,
+                    'message' => 'Redis service is unavailable',
+                ];
+            }
+
+            return [
+                'healthy' => true,
+                'response_time' => "{$responseTime}ms",
+                'connections' => ['default', 'bookings'],
+            ];
+        } catch (Throwable $e) {
+            Log::channel('sentry')->error('Redis health check failed', [
+                'error' => $e->getMessage(),
+                'connections' => ['default', 'bookings'],
+            ]);
+
+            return [
+                'healthy' => false,
+                'message' => 'Redis service is unavailable',
             ];
         }
     }
@@ -74,21 +132,33 @@ class HealthCheckService
             $responseTime = round((microtime(true) - $startTime) * 1000, 2);
 
             if ($retrieved !== self::CACHE_TEST_VALUE) {
+                Log::channel('sentry')->error('Cache health check failed', [
+                    'reason' => 'Cache read/write mismatch',
+                    'driver' => config('cache.default'),
+                    'expected' => self::CACHE_TEST_VALUE,
+                    'retrieved' => $retrieved,
+                ]);
+
                 return [
-                    'status' => HealthStatus::UNHEALTHY->value,
-                    'error' => 'Cache read/write mismatch',
+                    'healthy' => false,
+                    'message' => 'Cache service is unavailable',
                 ];
             }
 
             return [
-                'status' => HealthStatus::HEALTHY->value,
+                'healthy' => true,
                 'response_time' => "{$responseTime}ms",
                 'driver' => config('cache.default'),
             ];
         } catch (Throwable $e) {
-            return [
-                'status' => HealthStatus::UNHEALTHY->value,
+            Log::channel('sentry')->error('Cache health check failed', [
                 'error' => $e->getMessage(),
+                'driver' => config('cache.default'),
+            ]);
+
+            return [
+                'healthy' => false,
+                'message' => 'Cache service is unavailable',
             ];
         }
     }

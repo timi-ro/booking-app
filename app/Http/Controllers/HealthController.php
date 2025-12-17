@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\HealthStatus;
 use App\Services\HealthCheckService;
-use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -43,15 +41,25 @@ class HealthController extends Controller
     /**
      * Health check
      *
-     * Deep health check that verifies all critical services (database, cache, etc.). Used by readiness probes and monitoring.
+     * Deep health check that verifies all critical services (database, redis, cache, etc.). Used by readiness probes and monitoring.
      *
      * @unauthenticated
      * @response 200 {
-     *   "status": "healthy",
+     *   "healthy": true,
      *   "timestamp": "2025-12-15T10:30:00Z",
      *   "services": {
-     *     "database": "healthy",
-     *     "redis": "healthy"
+     *     "database": {
+     *       "healthy": true,
+     *       "response_time": "2.5ms"
+     *     },
+     *     "redis": {
+     *       "healthy": true,
+     *       "response_time": "1.0ms"
+     *     },
+     *     "cache": {
+     *       "healthy": true,
+     *       "response_time": "1.2ms"
+     *     }
      *   }
      * }
      */
@@ -59,12 +67,9 @@ class HealthController extends Controller
     {
         $health = $this->healthCheckService->checkAllServices();
 
-        $statusCode = $health['status'] === HealthStatus::HEALTHY->value
+        $statusCode = $health['healthy'] === true
             ? Response::HTTP_OK
             : Response::HTTP_SERVICE_UNAVAILABLE;
-
-        // TODO: add redis
-//        dd(Redis::ping());
 
         return response()->json($health, $statusCode);
     }
