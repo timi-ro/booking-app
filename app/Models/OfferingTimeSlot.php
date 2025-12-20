@@ -51,28 +51,4 @@ class OfferingTimeSlot extends Model
     {
         return $this->belongsTo(Offering::class);
     }
-
-    /**
-     * Check if this time slot is available for booking.
-     */
-    public function isAvailable(): bool
-    {
-        return $this->booked_count < $this->capacity;
-    }
-
-    /**
-     * Check if this time slot is fully booked.
-     */
-    public function isFullyBooked(): bool
-    {
-        return $this->booked_count >= $this->capacity;
-    }
-
-    /**
-     * Get the number of available spots.
-     */
-    public function availableSpots(): int
-    {
-        return max(0, $this->capacity - $this->booked_count);
-    }
 }

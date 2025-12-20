@@ -7,7 +7,6 @@ use App\Exceptions\OfferingDay\OfferingDayNotFoundException;
 use App\Exceptions\OfferingTimeSlot\OfferingTimeSlotNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -40,16 +39,6 @@ class Handler extends ExceptionHandler
                     'message' => $e->getMessage(),
                     'data' => []
                 ], 404);
-            }
-        });
-
-        $this->renderable(function (UnauthorizedAccessException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'code' => 403,
-                    'message' => $e->getMessage(),
-                    'data' => []
-                ], 403);
             }
         });
     }

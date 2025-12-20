@@ -42,14 +42,6 @@ class Booking extends Model
     ];
 
     /**
-     * Get the time slot for this booking.
-     */
-    public function timeSlot()
-    {
-        return $this->belongsTo(OfferingTimeSlot::class, 'offering_time_slot_id');
-    }
-
-    /**
      * Get the offering for this booking.
      */
     public function offering()
@@ -66,26 +58,10 @@ class Booking extends Model
     }
 
     /**
-     * Check if this booking is cancelled.
+     * Get the time slot for this booking.
      */
-    public function isCancelled(): bool
+    public function timeSlot()
     {
-        return $this->status === 'cancelled';
-    }
-
-    /**
-     * Check if this booking is confirmed.
-     */
-    public function isConfirmed(): bool
-    {
-        return $this->status === 'confirmed';
-    }
-
-    /**
-     * Check if payment is completed.
-     */
-    public function isPaid(): bool
-    {
-        return $this->payment_status === 'paid';
+        return $this->belongsTo(OfferingTimeSlot::class, 'offering_time_slot_id');
     }
 }

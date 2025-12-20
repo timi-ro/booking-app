@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Exceptions\OfferingDay\OfferingDayNotFoundException;
-use App\Exceptions\UnauthorizedAccessException;
+use App\Exceptions\User\AuthenticationException;
 use App\Repositories\Contracts\OfferingDayRepositoryInterface;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
 
@@ -53,7 +53,7 @@ class OfferingDayService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $this->offeringDayRepository->update($id, $data);
@@ -74,7 +74,7 @@ class OfferingDayService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $this->offeringDayRepository->delete($id);

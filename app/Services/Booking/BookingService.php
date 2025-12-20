@@ -4,12 +4,14 @@ namespace App\Services\Booking;
 
 use App\Exceptions\Booking\BookingAlreadyCancelledException;
 use App\Exceptions\Booking\BookingNotFoundException;
+use App\Exceptions\Booking\BookingTimeNotPassedException;
 use App\Exceptions\Booking\SlotFullyBookedException;
 use App\Exceptions\OfferingTimeSlot\OfferingTimeSlotNotFoundException;
-use App\Exceptions\UnauthorizedAccessException;
+use App\Exceptions\User\AuthenticationException;
 use App\Repositories\Contracts\BookingRepositoryInterface;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
 use App\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class BookingService
@@ -105,7 +107,7 @@ class BookingService
         }
 
         if ($offering['user_id'] != $agencyUserId) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         return $this->bookingRepository->findByOffering($offeringId, $filters);
@@ -143,7 +145,7 @@ class BookingService
         $isAgency = $booking['offering']['user_id'] == $userId;
 
         if (!$isCustomer && !$isAgency) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         return $booking;
@@ -169,7 +171,7 @@ class BookingService
         $isAgency = $booking['offering']['user_id'] == $userId;
 
         if (!$isCustomer && !$isAgency) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         // Cancel booking
@@ -180,6 +182,51 @@ class BookingService
 
         // Mock refund (set payment status to refunded)
         $this->bookingRepository->update($bookingId, ['payment_status' => 'refunded']);
+    }
+
+    /**
+     * Mark a booking as no-show (agency only).
+     */
+    public function markAsNoShow(int $bookingId, int $agencyUserId): void
+    {
+        $booking = $this->bookingRepository->findById($bookingId);
+
+        if (!$booking) {
+            throw new BookingNotFoundException();
+        }
+
+        // Only agency can mark as no-show
+        $isAgency = $booking['offering']['user_id'] == $agencyUserId;
+
+        if (!$isAgency) {
+            throw new AuthenticationException();
+        }
+
+        // Can only mark confirmed bookings as no-show
+        if ($booking['status'] !== 'confirmed') {
+            throw new BookingAlreadyCancelledException('Cannot mark a ' . $booking['status'] . ' booking as no-show');
+        }
+
+        // Booking time must have passed (customer should have shown up by now)
+        $bookingStartTime = $booking['time_slot']['start_time'];
+        $bookingDate = $booking['time_slot']['offering_day']['date'];
+
+        // Extract just the date part (YYYY-MM-DD) and combine with time
+        $dateOnly = Carbon::parse($bookingDate)->format('Y-m-d');
+        $bookingDateTime = Carbon::parse($dateOnly . ' ' . $bookingStartTime);
+
+        if ($bookingDateTime->isFuture()) {
+            throw new BookingTimeNotPassedException();
+        }
+
+        // Update status to no_show
+        $this->bookingRepository->update($bookingId, [
+            'status' => 'no_show',
+        ]);
+
+        // Payment remains (no refund for no-shows)
+        // Capacity is freed up since customer didn't use the slot
+        $this->timeSlotRepository->decrementBookedCount($booking['offering_time_slot_id']);
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Exceptions\OfferingDay\OfferingDayNotFoundException;
 use App\Exceptions\OfferingTimeSlot\OfferingTimeSlotNotFoundException;
-use App\Exceptions\UnauthorizedAccessException;
+use App\Exceptions\User\AuthenticationException;
 use App\Repositories\Contracts\OfferingDayRepositoryInterface;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
 use App\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
@@ -34,7 +34,7 @@ class OfferingTimeSlotService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $data['offering_id'] = $offeringDay['offering_id'];
@@ -57,7 +57,7 @@ class OfferingTimeSlotService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $slotsToCreate = array_map(function ($slot) use ($offeringDayId, $offeringDay) {
@@ -89,7 +89,7 @@ class OfferingTimeSlotService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         return $this->offeringTimeSlotRepository->findByOfferingDay($offeringDayId);
@@ -110,7 +110,7 @@ class OfferingTimeSlotService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $this->offeringTimeSlotRepository->update($id, $data);
@@ -131,7 +131,7 @@ class OfferingTimeSlotService
         }
 
         if (auth()->user()->id != $offering['user_id']) {
-            throw new UnauthorizedAccessException();
+            throw new AuthenticationException();
         }
 
         $this->offeringTimeSlotRepository->delete($id);

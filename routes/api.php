@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/bookings', [AgencyBookingController::class, 'index']);
         Route::get('/bookings/{id}', [AgencyBookingController::class, 'show']);
         Route::delete('/bookings/{id}', [AgencyBookingController::class, 'cancel']);
+        Route::post('/bookings/{id}/mark-no-show', [AgencyBookingController::class, 'markNoShow']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {

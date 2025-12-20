@@ -131,6 +131,7 @@ class BookingController extends Controller
         $page = (int) $request->query('page', 1);
         $pageSize = (int) $request->query('page_size', 15);
 
+        // TODO: implement caching like the way we implemented for bookingService
         $bookings = $this->bookingService->getCustomerBookingsWithFilters(
             $userId,
             $filters,

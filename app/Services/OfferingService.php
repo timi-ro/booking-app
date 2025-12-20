@@ -114,15 +114,6 @@ class OfferingService
         return (bool)$offering;
     }
 
-    /**
-     * Clear all offerings list cache
-     *
-     * STEP 8: This method clears ALL cached offerings lists
-     * We use a wildcard pattern to clear all variations
-     * (different pages, filters, etc.)
-     *
-     * @return void
-     */
     protected function clearOfferingsCache(): void
     {
         // Get all cache keys that match our pattern

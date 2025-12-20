@@ -134,4 +134,36 @@ class BookingController extends Controller
 
         return ResponseHelper::generateResponse(['message' => 'Booking cancelled successfully']);
     }
+
+    /**
+     * Mark booking as no-show
+     *
+     * Agency can mark a booking as no-show when the customer doesn't show up for their appointment.
+     * This can only be done after the booking time has passed. The customer's payment is retained
+     * (no refund for no-shows), but the time slot capacity is freed up.
+     *
+     * @urlParam id integer required The booking ID to mark as no-show. Example: 1
+     *
+     * @response 200 {
+     *   "code": 200,
+     *   "message": "success",
+     *   "data": {
+     *     "message": "Booking marked as no-show successfully"
+     *   }
+     * }
+     *
+     * @response 400 {
+     *   "code": 400,
+     *   "message": "Cannot mark as no-show - booking time has not passed yet",
+     *   "data": null
+     * }
+     */
+    public function markNoShow(int $id)
+    {
+        $userId = auth()->id();
+
+        $this->bookingService->markAsNoShow($id, $userId);
+
+        return ResponseHelper::generateResponse(['message' => 'Booking marked as no-show successfully']);
+    }
 }
