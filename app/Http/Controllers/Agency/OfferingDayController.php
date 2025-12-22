@@ -39,7 +39,7 @@ class OfferingDayController extends Controller
 
         $offeringDays = $this->offeringDayService->getOfferingDays($offeringId);
 
-        return ResponseHelper::generateResponse($offeringDays, Response::HTTP_OK);
+        return ResponseHelper::generateResponse($offeringDays);
     }
 
     public function update(UpdateOfferingDayRequest $request, int $id)

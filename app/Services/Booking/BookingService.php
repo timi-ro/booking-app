@@ -234,6 +234,9 @@ class BookingService
      */
     public function generateBookingReference(): string
     {
-        return 'BOOK-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
+        $prefix = config('booking.reference.prefix');
+        $randomLength = config('booking.reference.random_length');
+
+        return $prefix . '-' . now()->format('Ymd') . '-' . strtoupper(Str::random($randomLength));
     }
 }

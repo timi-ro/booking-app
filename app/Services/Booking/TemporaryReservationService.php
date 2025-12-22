@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 
 class TemporaryReservationService
 {
-    protected const TTL = 600; // 10 minutes
     protected const KEY_PREFIX = 'temp_booking';
     protected const SLOT_INDEX_PREFIX = 'temp_booking_slot_index';
 
@@ -35,11 +34,12 @@ class TemporaryReservationService
         ]);
 
         // Store main reservation with TTL using dedicated bookings connection (no prefix)
-        Redis::connection('bookings')->setex($mainKey, self::TTL, $data);
+        $ttl = config('booking.reservation.ttl');
+        Redis::connection('bookings')->setex($mainKey, $ttl, $data);
 
         // Add reservation_id to slot index set with TTL
         Redis::connection('bookings')->sadd($slotIndexKey, $reservationId);
-        Redis::connection('bookings')->expire($slotIndexKey, self::TTL);
+        Redis::connection('bookings')->expire($slotIndexKey, $ttl);
 
         return $reservationId;
     }
@@ -140,6 +140,6 @@ class TemporaryReservationService
      */
     public function getTTL(): int
     {
-        return self::TTL;
+        return config('booking.reservation.ttl');
     }
 }

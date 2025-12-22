@@ -52,7 +52,7 @@ class OfferingTimeSlotController extends Controller
 
         $timeSlots = $this->offeringTimeSlotService->getTimeSlots($offeringDayId);
 
-        return ResponseHelper::generateResponse($timeSlots, Response::HTTP_OK);
+        return ResponseHelper::generateResponse($timeSlots);
     }
 
     public function update(UpdateTimeSlotRequest $request, int $id)
