@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\CancelBookingRequest;
 use App\Http\Requests\Booking\ConfirmPaymentRequest;
 use App\Http\Requests\Booking\CreateReservationRequest;
+use App\Http\Requests\Booking\ListBookingsRequest;
 use App\Services\Booking\BookingService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -119,25 +119,12 @@ class BookingController extends Controller
      *   }
      * }
      */
-    public function index(Request $request)
+    public function index(ListBookingsRequest $request)
     {
+        $validated = $request->validated();
         $userId = auth()->id();
 
-        $filters = $request->only([
-            'offering_id', 'status', 'payment_status',
-            'date_from', 'date_to', 'sort_by', 'sort_direction'
-        ]);
-
-        $page = (int) $request->query('page', 1);
-        $pageSize = (int) $request->query('page_size', 15);
-
-        // TODO: implement caching like the way we implemented for bookingService
-        $bookings = $this->bookingService->getCustomerBookingsWithFilters(
-            $userId,
-            $filters,
-            $page,
-            $pageSize
-        );
+        $bookings = $this->bookingService->getCustomerBookingsWithFilters($userId, $validated);
 
         return ResponseHelper::generateResponse($bookings);
     }

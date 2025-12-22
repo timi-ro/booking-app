@@ -116,16 +116,24 @@ class BookingService
     /**
      * Get all bookings for agency with filters and pagination.
      */
-    public function getAgencyBookingsWithFilters(int $agencyUserId, array $filters, int $page, int $pageSize): array
+    public function getAgencyBookingsWithFilters(int $agencyUserId, array $params): array
     {
+        $filters = array_diff_key($params, array_flip(['page', 'page_size']));
+        $page = $params['page'];
+        $pageSize = $params['page_size'];
+
         return $this->bookingRepository->listAllForAgencyWithFilters($agencyUserId, $filters, $page, $pageSize);
     }
 
     /**
      * Get all bookings for customer with filters and pagination.
      */
-    public function getCustomerBookingsWithFilters(int $userId, array $filters, int $page, int $pageSize): array
+    public function getCustomerBookingsWithFilters(int $userId, array $params): array
     {
+        $filters = array_diff_key($params, array_flip(['page', 'page_size']));
+        $page = $params['page'];
+        $pageSize = $params['page_size'];
+
         return $this->bookingRepository->listAllForCustomerWithFilters($userId, $filters, $page, $pageSize);
     }
 

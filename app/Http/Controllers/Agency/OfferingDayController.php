@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Agency;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferingDay\CreateOfferingDayRequest;
+use App\Http\Requests\OfferingDay\ListOfferingDaysRequest;
 use App\Http\Requests\OfferingDay\UpdateOfferingDayRequest;
 use App\Services\OfferingDayService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfferingDayController extends Controller
@@ -26,18 +26,11 @@ class OfferingDayController extends Controller
         return ResponseHelper::generateResponse($offeringDay, Response::HTTP_CREATED);
     }
 
-    public function index(Request $request)
+    public function index(ListOfferingDaysRequest $request)
     {
-        $offeringId = $request->query('offering_id');
+        $validated = $request->validated();
 
-        if (!$offeringId) {
-            return ResponseHelper::generateResponse(
-                ['error' => 'offering_id query parameter is required'],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        $offeringDays = $this->offeringDayService->getOfferingDays($offeringId);
+        $offeringDays = $this->offeringDayService->getOfferingDays($validated['offering_id']);
 
         return ResponseHelper::generateResponse($offeringDays);
     }

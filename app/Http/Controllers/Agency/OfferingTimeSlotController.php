@@ -6,9 +6,9 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferingTimeSlot\BulkCreateTimeSlotsRequest;
 use App\Http\Requests\OfferingTimeSlot\CreateTimeSlotRequest;
+use App\Http\Requests\OfferingTimeSlot\ListTimeSlotsRequest;
 use App\Http\Requests\OfferingTimeSlot\UpdateTimeSlotRequest;
 use App\Services\OfferingTimeSlotService;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfferingTimeSlotController extends Controller
@@ -39,18 +39,11 @@ class OfferingTimeSlotController extends Controller
         return ResponseHelper::generateResponse($timeSlots, Response::HTTP_CREATED);
     }
 
-    public function index(Request $request)
+    public function index(ListTimeSlotsRequest $request)
     {
-        $offeringDayId = $request->query('offering_day_id');
+        $validated = $request->validated();
 
-        if (!$offeringDayId) {
-            return ResponseHelper::generateResponse(
-                ['error' => 'offering_day_id query parameter is required'],
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        $timeSlots = $this->offeringTimeSlotService->getTimeSlots($offeringDayId);
+        $timeSlots = $this->offeringTimeSlotService->getTimeSlots($validated['offering_day_id']);
 
         return ResponseHelper::generateResponse($timeSlots);
     }
