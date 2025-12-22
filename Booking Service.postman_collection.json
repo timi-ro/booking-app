@@ -977,12 +977,12 @@
 							"formdata": [
 								{
 									"key": "offering_id",
-									"value": "1",
+									"value": "3",
 									"type": "text"
 								},
 								{
 									"key": "offering_day_id",
-									"value": "1",
+									"value": "5",
 									"type": "text"
 								},
 								{
@@ -992,7 +992,7 @@
 								},
 								{
 									"key": "end_time",
-									"value": "12:00",
+									"value": "10:00",
 									"type": "text"
 								},
 								{
@@ -1002,7 +1002,7 @@
 								},
 								{
 									"key": "price_override",
-									"value": "100",
+									"value": "120",
 									"type": "text"
 								}
 							]
@@ -1053,6 +1053,70 @@
 								"agency",
 								"time-slots",
 								"bulk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "31|b4LgOpfnHWO2VkZwxI10fSPdmuucPVxNHpttzDNjb9403448",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "offering_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "offering_day_id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "start_time",
+									"value": "09:00",
+									"type": "text"
+								},
+								{
+									"key": "end_time",
+									"value": "12:00",
+									"type": "text"
+								},
+								{
+									"key": "capacity",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "price_override",
+									"value": "100",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/agency/time-slots/1",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"agency",
+								"time-slots",
+								"1"
 							]
 						}
 					},
@@ -1467,14 +1531,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseURL}}api/customer/bookings/2",
+									"raw": "{{baseURL}}api/customer/bookings/3",
 									"host": [
 										"{{baseURL}}api"
 									],
 									"path": [
 										"customer",
 										"bookings",
-										"2"
+										"3"
 									]
 								},
 								"description": "Available Filters\n\nCustomers can now filter their bookings using:\n\n- offering_id - Filter by specific offering\n    \n- status - Filter by booking status (confirmed, cancelled, completed, no_show)\n    \n- payment_status - Filter by payment status (pending, paid, refunded)\n    \n- date_from - Filter bookings from this date\n    \n- date_to - Filter bookings until this date\n    \n- sort_by - Sort by field (created_at, confirmed_at, total_price, status)\n    \n- sort_direction - Sort direction (asc, desc)\n    \n- page - Page number (default: 1)\n    \n- page_size - Items per page (default: 15)\n    \n\nExample API Call\n\n``` json\nGET api/customer/bookings?status=confirmed&payment_status=paid&date_from=2025-01-01&date_to=2025-12-31&sort_by=created_at&sort_direction=desc&page=1&page_size=20\n\n ```"
@@ -1507,12 +1571,12 @@
 									"formdata": [
 										{
 											"key": "offering_time_slot_id",
-											"value": "2",
+											"value": "14",
 											"type": "text"
 										},
 										{
 											"key": "customer_notes",
-											"value": "Looking forward to this!",
+											"value": "Looking forward to this 14",
 											"type": "text"
 										}
 									]
@@ -1558,12 +1622,12 @@
 									"formdata": [
 										{
 											"key": "reservation_id",
-											"value": "5cfb2b47-6dec-476a-84d6-bfe7b419d42b",
+											"value": "a4e946fe-5a73-4452-b8d0-28247c0a6e73",
 											"type": "text"
 										},
 										{
 											"key": "payment_id",
-											"value": "MOCK-PAY-123455",
+											"value": "MOCK-PAY-123457",
 											"type": "text"
 										}
 									]
@@ -1605,14 +1669,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseURL}}api/customer/bookings/1",
+									"raw": "{{baseURL}}api/customer/bookings/13",
 									"host": [
 										"{{baseURL}}api"
 									],
 									"path": [
 										"customer",
 										"bookings",
-										"1"
+										"13"
 									]
 								},
 								"description": "Available Filters\n\nCustomers can now filter their bookings using:\n\n- offering_id - Filter by specific offering\n    \n- status - Filter by booking status (confirmed, cancelled, completed, no_show)\n    \n- payment_status - Filter by payment status (pending, paid, refunded)\n    \n- date_from - Filter bookings from this date\n    \n- date_to - Filter bookings until this date\n    \n- sort_by - Sort by field (created_at, confirmed_at, total_price, status)\n    \n- sort_direction - Sort direction (asc, desc)\n    \n- page - Page number (default: 1)\n    \n- page_size - Items per page (default: 15)\n    \n\nExample API Call\n\n``` json\nGET api/customer/bookings?status=confirmed&payment_status=paid&date_from=2025-01-01&date_to=2025-12-31&sort_by=created_at&sort_direction=desc&page=1&page_size=20\n\n ```"
@@ -1646,13 +1710,23 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseURL}}api/agency/bookings",
+									"raw": "{{baseURL}}api/agency/bookings?offering_id=1&status=confirmed",
 									"host": [
 										"{{baseURL}}api"
 									],
 									"path": [
 										"agency",
 										"bookings"
+									],
+									"query": [
+										{
+											"key": "offering_id",
+											"value": "1"
+										},
+										{
+											"key": "status",
+											"value": "confirmed"
+										}
 									]
 								},
 								"description": "Available Filters\n\nAgancies can now filter their bookings using:\n\n_ offering_id: Filter by specific offering  \n\\- status: confirmed | cancelled | completed | no_show  \n\\- payment_status: pending | paid | refunded  \n\\- date_from: 2025-12-01 (filter bookings from this date)  \n\\- date_to: 2025-12-31 (filter bookings until this date)  \n\\- sort_by: created_at | confirmed_at | total_price | status  \n\\- sort_direction: asc | desc  \n\\- page: 1  \n\\- page_size: 15 notionvc: 0392d4ce-06bb-4a2e-85f2-3e4b0db9a64c"
@@ -1681,17 +1755,54 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseURL}}api/agency/bookings/1",
+									"raw": "{{baseURL}}api/agency/bookings/3",
 									"host": [
 										"{{baseURL}}api"
 									],
 									"path": [
 										"agency",
 										"bookings",
-										"1"
+										"3"
 									]
 								},
 								"description": "_Query Parameters (all optional):  \n_\\- offering_id: Filter by specific offering  \n\\- status: confirmed | cancelled | completed | no_show  \n\\- payment_status: pending | paid | refunded  \n\\- date_from: 2025-12-01 (filter bookings from this date)  \n\\- date_to: 2025-12-31 (filter bookings until this date)  \n\\- sort_by: created_at | confirmed_at | total_price | status  \n\\- sort_direction: asc | desc  \n\\- page: 1  \n\\- page_size: 15 notionvc: 0392d4ce-06bb-4a2e-85f2-3e4b0db9a64c"
+							},
+							"response": []
+						},
+						{
+							"name": "no-show",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "32|Kbjh6e9HRGVjRGpnUbo9tr77rzb1ToYxBPMGGG7zb72eb8d2",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}api/agency/bookings/16/mark-no-show",
+									"host": [
+										"{{baseURL}}api"
+									],
+									"path": [
+										"agency",
+										"bookings",
+										"16",
+										"mark-no-show"
+									]
+								},
+								"description": "Available Filters\n\nAgancies can now filter their bookings using:\n\n_ offering_id: Filter by specific offering  \n\\- status: confirmed | cancelled | completed | no_show  \n\\- payment_status: pending | paid | refunded  \n\\- date_from: 2025-12-01 (filter bookings from this date)  \n\\- date_to: 2025-12-31 (filter bookings until this date)  \n\\- sort_by: created_at | confirmed_at | total_price | status  \n\\- sort_direction: asc | desc  \n\\- page: 1  \n\\- page_size: 15 notionvc: 0392d4ce-06bb-4a2e-85f2-3e4b0db9a64c"
 							},
 							"response": []
 						},
