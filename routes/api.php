@@ -1,10 +1,13 @@
 <?php
 
 use App\Constants\UserRoles;
-use App\Http\Controllers\Agency\AvailabilityController;
+use App\Http\Controllers\Agency\BookingController as AgencyBookingController;
 use App\Http\Controllers\Agency\MediaController;
 use App\Http\Controllers\Agency\OfferingController;
+use App\Http\Controllers\Agency\OfferingDayController;
+use App\Http\Controllers\Agency\OfferingTimeSlotController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Customer\OfferingController as CustomerOfferingController;
 use App\Http\Controllers\HealthController;
 use App\Http\Middleware\AdminArea;
@@ -25,6 +28,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/test-customer-area', [AuthController::class, 'testCustomerArea']);
         Route::get('/offerings', [CustomerOfferingController::class, 'index']);
         Route::get('/offerings/{id}', [CustomerOfferingController::class, 'show']);
+
+        // Bookings
+        Route::post('/bookings/reserve', [CustomerBookingController::class, 'reserve']);
+        Route::post('/bookings/confirm-payment', [CustomerBookingController::class, 'confirmPayment']);
+        Route::get('/bookings', [CustomerBookingController::class, 'index']);
+        Route::get('/bookings/{id}', [CustomerBookingController::class, 'show']);
+        Route::delete('/bookings/{id}', [CustomerBookingController::class, 'cancel']);
     });
 
     Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {
@@ -38,7 +48,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
         Route::get('/medias/{uuid}', [MediaController::class, 'delete']);
 
-        Route::post('/availabilities', [AvailabilityController::class, 'create']);
+        // Offering Days
+        Route::post('/offering-days', [OfferingDayController::class, 'create']);
+        Route::get('/offering-days', [OfferingDayController::class, 'index']);
+        Route::put('/offering-days/{id}', [OfferingDayController::class, 'update']);
+        Route::delete('/offering-days/{id}', [OfferingDayController::class, 'delete']);
+
+        // Time Slots
+        Route::post('/time-slots', [OfferingTimeSlotController::class, 'create']);
+        Route::post('/time-slots/bulk', [OfferingTimeSlotController::class, 'bulkCreate']);
+        Route::get('/time-slots', [OfferingTimeSlotController::class, 'index']);
+        Route::put('/time-slots/{id}', [OfferingTimeSlotController::class, 'update']);
+        Route::delete('/time-slots/{id}', [OfferingTimeSlotController::class, 'delete']);
+
+        // Bookings
+        Route::get('/bookings', [AgencyBookingController::class, 'index']);
+        Route::get('/bookings/{id}', [AgencyBookingController::class, 'show']);
+        Route::delete('/bookings/{id}', [AgencyBookingController::class, 'cancel']);
+        Route::post('/bookings/{id}/mark-no-show', [AgencyBookingController::class, 'markNoShow']);
     });
 
     Route::group(['middleware' => AdminArea::class, 'prefix' => UserRoles::ADMIN], function () {
