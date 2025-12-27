@@ -24,9 +24,22 @@ return new class extends Migration
         });
 
         // Step 2: Populate uuid for existing rows
-        DB::table('media')->whereNull('uuid')->update([
-            'uuid' => DB::raw('(UUID())')
-        ]);
+        // Use different UUID generation based on database driver
+        $driver = DB::getDriverName();
+
+        if ($driver === 'mysql') {
+            DB::table('media')->whereNull('uuid')->update([
+                'uuid' => DB::raw('(UUID())')
+            ]);
+        } else {
+            // For SQLite and other databases, generate UUID in PHP
+            $media = DB::table('media')->whereNull('uuid')->get();
+            foreach ($media as $item) {
+                DB::table('media')
+                    ->where('id', $item->id)
+                    ->update(['uuid' => Str::uuid()->toString()]);
+            }
+        }
 
         // Step 3: Now add UNIQUE constraint safely
         Schema::table('media', function (Blueprint $table) {

@@ -116,24 +116,36 @@ class OfferingService
 
     protected function clearOfferingsCache(): void
     {
-        // Get all cache keys that match our pattern
-        // The asterisk (*) is a wildcard that matches any characters
-        $pattern = 'offerings:list:*';
+        // Get the cache driver name
+        $driver = config('cache.default');
 
-        // Laravel's cache doesn't support wildcard deletion out of the box
-        // So we use the Redis connection directly for pattern-based deletion
-        $keys = Cache::getRedis()->keys(config('cache.prefix') . ':' . $pattern);
+        // For array driver (testing), just flush all cache
+        if ($driver === 'array') {
+            Cache::flush();
+            return;
+        }
 
-        if (!empty($keys)) {
-            // Remove the Laravel cache prefix from keys
-            $prefix = config('cache.prefix') . ':';
-            $keysToDelete = array_map(function ($key) use ($prefix) {
-                return str_replace($prefix, '', $key);
-            }, $keys);
+        // For Redis, use pattern-based deletion
+        if ($driver === 'redis') {
+            // Get all cache keys that match our pattern
+            // The asterisk (*) is a wildcard that matches any characters
+            $pattern = 'offerings:list:*';
 
-            // Delete all matching keys
-            foreach ($keysToDelete as $key) {
-                Cache::forget($key);
+            // Laravel's cache doesn't support wildcard deletion out of the box
+            // So we use the Redis connection directly for pattern-based deletion
+            $keys = Cache::getRedis()->keys(config('cache.prefix') . ':' . $pattern);
+
+            if (!empty($keys)) {
+                // Remove the Laravel cache prefix from keys
+                $prefix = config('cache.prefix') . ':';
+                $keysToDelete = array_map(function ($key) use ($prefix) {
+                    return str_replace($prefix, '', $key);
+                }, $keys);
+
+                // Delete all matching keys
+                foreach ($keysToDelete as $key) {
+                    Cache::forget($key);
+                }
             }
         }
     }
