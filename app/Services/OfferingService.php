@@ -116,19 +116,14 @@ class OfferingService
 
     protected function clearOfferingsCache(): void
     {
-        // Get the cache driver name
         $driver = config('cache.default');
 
-        // For array driver (testing), just flush all cache
         if ($driver === 'array') {
             Cache::flush();
             return;
         }
 
-        // For Redis, use pattern-based deletion
         if ($driver === 'redis') {
-            // Get all cache keys that match our pattern
-            // The asterisk (*) is a wildcard that matches any characters
             $pattern = 'offerings:list:*';
 
             // Laravel's cache doesn't support wildcard deletion out of the box
@@ -142,7 +137,6 @@ class OfferingService
                     return str_replace($prefix, '', $key);
                 }, $keys);
 
-                // Delete all matching keys
                 foreach ($keysToDelete as $key) {
                     Cache::forget($key);
                 }

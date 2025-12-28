@@ -10,7 +10,8 @@ class LaravelStorageDriver implements StorageDriverInterface
 
     public function putFile(string $path, mixed $content, string $disk = "local"): string
     {
-        return Storage::disk($disk)->put($path, $content);
+        Storage::disk($disk)->put($path, $content);
+        return $path;
     }
 
     public function getFile(string $path, string $disk = "local"): string

@@ -13,7 +13,6 @@ use App\Jobs\ProcessMediaUpload;
 use App\Models\Offering;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 use App\Repositories\Contracts\OfferingRepositoryInterface;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class MediaService

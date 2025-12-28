@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\Traits;
 
-use App\Constants\UserRoles;
 use App\Models\Offering;
 use App\Models\OfferingDay;
 use App\Models\OfferingTimeSlot;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
-use Laravel\Sanctum\Sanctum;
 
 trait OfferingTestHelpers
 {
@@ -16,49 +14,7 @@ trait OfferingTestHelpers
     protected string $agencyOfferingsUrl = '/api/agency/offerings';
     protected string $customerOfferingsUrl = '/api/customer/offerings';
 
-    /**
-     * Create an agency user.
-     */
-    protected function createAgencyUser(array $attributes = []): User
-    {
-        return User::factory()->create(array_merge([
-            'role' => UserRoles::AGENCY,
-        ], $attributes));
-    }
 
-    /**
-     * Create a customer user.
-     */
-    protected function createCustomerUser(array $attributes = []): User
-    {
-        return User::factory()->create(array_merge([
-            'role' => UserRoles::CUSTOMER,
-        ], $attributes));
-    }
-
-    /**
-     * Act as an agency user with Sanctum token.
-     */
-    protected function actingAsAgency(?User $user = null): User
-    {
-        $agency = $user ?? $this->createAgencyUser();
-        Sanctum::actingAs($agency);
-        return $agency;
-    }
-
-    /**
-     * Act as a customer user with Sanctum token.
-     */
-    protected function actingAsCustomer(?User $user = null): User
-    {
-        $customer = $user ?? $this->createCustomerUser();
-        Sanctum::actingAs($customer);
-        return $customer;
-    }
-
-    /**
-     * Create an offering with related days and time slots.
-     */
     protected function createOfferingWithDaysAndSlots(User $agency, array $options = []): array
     {
         $offering = Offering::factory()
@@ -89,21 +45,6 @@ trait OfferingTestHelpers
         ];
     }
 
-    /**
-     * Assert standard response structure.
-     */
-    protected function assertStandardResponse($response, int $expectedStatus = 200): void
-    {
-        $response->assertStatus($expectedStatus);
-        $response->assertJsonStructure([
-            'errorMessage',
-            'data',
-        ]);
-    }
-
-    /**
-     * Assert offering JSON structure.
-     */
     protected function assertOfferingStructure($response): void
     {
         $response->assertJsonStructure([
@@ -120,17 +61,6 @@ trait OfferingTestHelpers
         ]);
     }
 
-    /**
-     * Clear all offerings cache.
-     */
-    protected function clearOfferingsCache(): void
-    {
-        Cache::flush();
-    }
-
-    /**
-     * Get valid offering data for creation.
-     */
     protected function getValidOfferingData(array $overrides = []): array
     {
         return array_merge([
@@ -141,9 +71,6 @@ trait OfferingTestHelpers
         ], $overrides);
     }
 
-    /**
-     * Create multiple offerings for a user with specific prices.
-     */
     protected function createOfferingsWithPrices(User $user, array $prices): array
     {
         return collect($prices)->map(function ($price) use ($user) {
@@ -153,9 +80,6 @@ trait OfferingTestHelpers
         })->all();
     }
 
-    /**
-     * Create offerings for a user with specific titles.
-     */
     protected function createOfferingsWithTitles(User $user, array $titles): array
     {
         return collect($titles)->map(function ($title) use ($user) {
@@ -165,17 +89,6 @@ trait OfferingTestHelpers
         })->all();
     }
 
-    /**
-     * Assert offering belongs to user.
-     */
-    protected function assertOfferingBelongsToUser(Offering $offering, User $user): void
-    {
-        $this->assertEquals($user->id, $offering->user_id);
-    }
-
-    /**
-     * Assert all offerings in response belong to user.
-     */
     protected function assertAllOfferingsBelongToUser(array $offerings, User $user): void
     {
         foreach ($offerings as $offering) {
@@ -183,28 +96,6 @@ trait OfferingTestHelpers
         }
     }
 
-    /**
-     * Assert pagination metadata.
-     */
-    protected function assertPaginationMetadata($response, int $currentPage, int $total, int $perPage): void
-    {
-        $data = $response->json('data');
-        $this->assertEquals($currentPage, $data['current_page']);
-        $this->assertEquals($total, $data['total']);
-        $this->assertEquals($perPage, $data['per_page']);
-    }
-
-    /**
-     * Build query string from parameters.
-     */
-    protected function buildQueryString(array $params): string
-    {
-        return '?' . http_build_query($params);
-    }
-
-    /**
-     * Get agency offering URL with optional ID.
-     */
     protected function agencyOfferingUrl(?int $id = null, array $query = []): string
     {
         $url = $this->agencyOfferingsUrl;
@@ -217,9 +108,6 @@ trait OfferingTestHelpers
         return $url;
     }
 
-    /**
-     * Get customer offering URL with optional ID.
-     */
     protected function customerOfferingUrl(?int $id = null, array $query = []): string
     {
         $url = $this->customerOfferingsUrl;

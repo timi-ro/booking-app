@@ -1,17 +1,19 @@
 <?php
 
-namespace Tests\Feature\Customer;
+namespace Tests\Feature\Offering;
 
 use App\Models\Offering;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Tests\Feature\Traits\AuthenticationHelpers;
 use Tests\Feature\Traits\OfferingTestHelpers;
+use Tests\Feature\Traits\ResponseHelpers;
 use Tests\TestCase;
 
-class OfferingTest extends TestCase
+class CustomerOfferingTest extends TestCase
 {
-    use RefreshDatabase, OfferingTestHelpers;
+    use RefreshDatabase, AuthenticationHelpers, OfferingTestHelpers, ResponseHelpers;
 
     protected User $customer;
     protected User $agency;
@@ -175,7 +177,7 @@ class OfferingTest extends TestCase
 
     public function test_customer_can_sort_by_title(): void
     {
-        $this->createOfferingsWithTitles($this->agency, ['Zebra Safari', 'Adventure Park', 'Mountain Trek']);
+        $offerings = $this->createOfferingsWithTitles($this->agency, ['Zebra Safari', 'Adventure Park', 'Mountain Trek']);
 
         $response = $this->getJson($this->customerOfferingUrl(null, [
             'sort_by' => 'title',
@@ -184,9 +186,9 @@ class OfferingTest extends TestCase
 
         $this->assertStandardResponse($response);
         $data = $response->json('data.data');
-        $this->assertEquals('Adventure Park', $data[0]['title']);
-        $this->assertEquals('Mountain Trek', $data[1]['title']);
-        $this->assertEquals('Zebra Safari', $data[2]['title']);
+        $this->assertEquals($offerings[1]['title'], $data[0]['title']);
+        $this->assertEquals($offerings[2]['title'], $data[1]['title']);
+        $this->assertEquals($offerings[0]['title'], $data[2]['title']);
     }
 
     public function test_customer_can_combine_multiple_filters(): void
@@ -221,7 +223,7 @@ class OfferingTest extends TestCase
         $this->assertStandardResponse($response);
         $data = $response->json('data.data');
         $this->assertCount(1, $data);
-        $this->assertEquals('Active', $data[0]['title']);
+        $this->assertEquals($offering1['title'], $data[0]['title']);
     }
 
     public function test_empty_offerings_list_returns_successfully(): void
@@ -298,7 +300,7 @@ class OfferingTest extends TestCase
 
     public function test_unauthenticated_user_cannot_browse_offerings(): void
     {
-        $this->app['auth']->forgetGuards();
+        $this->actingAsUnauthenticated();
 
         $this->getJson($this->customerOfferingsUrl)
             ->assertStatus(401);
@@ -306,7 +308,7 @@ class OfferingTest extends TestCase
 
     public function test_unauthenticated_user_cannot_view_offering_details(): void
     {
-        $this->app['auth']->forgetGuards();
+        $this->actingAsUnauthenticated();
 
         $this->getJson($this->customerOfferingUrl(1))
             ->assertStatus(401);

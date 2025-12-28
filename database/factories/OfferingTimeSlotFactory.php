@@ -13,17 +13,10 @@ class OfferingTimeSlotFactory extends Factory
 {
     protected $model = OfferingTimeSlot::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         static $slotCounter = 0;
 
-        // Generate unique time slots using a counter
-        // Each slot is 1 hour, starting from 9:00
         $startHour = 9 + ($slotCounter % 8); // 9:00 to 16:00
         $slotCounter++;
 
@@ -43,9 +36,6 @@ class OfferingTimeSlotFactory extends Factory
         ];
     }
 
-    /**
-     * Associate the time slot with a specific offering day.
-     */
     public function forOfferingDay(int $offeringDayId): static
     {
         return $this->state(function (array $attributes) use ($offeringDayId) {
@@ -58,9 +48,6 @@ class OfferingTimeSlotFactory extends Factory
         });
     }
 
-    /**
-     * Set a specific capacity for the time slot.
-     */
     public function withCapacity(int $capacity): static
     {
         return $this->state(fn (array $attributes) => [
@@ -68,9 +55,6 @@ class OfferingTimeSlotFactory extends Factory
         ]);
     }
 
-    /**
-     * Set a price override for the time slot.
-     */
     public function withPriceOverride(float $price): static
     {
         return $this->state(fn (array $attributes) => [
@@ -78,9 +62,6 @@ class OfferingTimeSlotFactory extends Factory
         ]);
     }
 
-    /**
-     * Mark the time slot as fully booked.
-     */
     public function fullyBooked(): static
     {
         return $this->state(fn (array $attributes) => [
@@ -88,9 +69,6 @@ class OfferingTimeSlotFactory extends Factory
         ]);
     }
 
-    /**
-     * Set specific time for the slot.
-     */
     public function withTime(string $startTime, string $endTime): static
     {
         return $this->state(fn (array $attributes) => [
