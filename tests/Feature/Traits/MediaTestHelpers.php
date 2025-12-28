@@ -40,7 +40,7 @@ trait MediaTestHelpers
 
     protected function assertMediaExists(string $uuid, ?string $disk = null): void
     {
-        $disk = $disk ?? config('media.default_disk', 'local');
+        $disk = $disk ?? config('filesystems.default');
 
         $media = Media::where('uuid', $uuid)->first();
         $this->assertNotNull($media, "Media with UUID {$uuid} not found in database");
@@ -59,7 +59,7 @@ trait MediaTestHelpers
 
     protected function assertMediaDeleted(string $uuid, ?string $disk = null): void
     {
-        $disk = $disk ?? config('media.default_disk', 'local');
+        $disk = $disk ?? config('filesystems.default');
 
         $media = Media::withTrashed()->where('uuid', $uuid)->first();
         $this->assertNotNull($media, "Media with UUID {$uuid} not found in database");
@@ -144,7 +144,7 @@ trait MediaTestHelpers
 
     protected function cleanupMediaFiles(): void
     {
-        $disk = config('media.default_disk', 'local');
+        $disk = config('filesystems.default');
 
         foreach ($this->uploadedMediaUuids as $uuid) {
             $media = Media::withTrashed()->where('uuid', $uuid)->first();
