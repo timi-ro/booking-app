@@ -46,7 +46,7 @@ class MediaService
             'uuid' => $uuid,
             'mediable_type' => $mediableType,
             'mediable_id' => $data['entity_id'],
-            'disk' => config('media.default_disk', 'local'),
+            'disk' => config('filesystems.default'),
             'path' => null,
             'mime_type' => $mimeType,
             'size' => $data['file']->getSize(),
@@ -80,6 +80,10 @@ class MediaService
     {
         $media = $this->getByUuid($uuid);
 
+        if ($media['path']) {
+            $this->storageDriver->deleteFile($media['path'], $media['disk']);
+        }
+
         $this->mediaRepository->delete($media['id']);
     }
 
@@ -104,6 +108,10 @@ class MediaService
         };
 
         if (!$entity) {
+            throw new MediableNotFoundException();
+        }
+
+        if ($entity['user_id'] !== auth()->user()->id) {
             throw new MediableNotFoundException();
         }
     }

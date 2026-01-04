@@ -33,18 +33,4 @@ class OfferingDayFactory extends Factory
             'offering_id' => $offeringId,
         ]);
     }
-
-    public function onDate(string $date): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'date' => $date,
-        ]);
-    }
-
-    public function withNotes(string $notes): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'notes' => $notes,
-        ]);
-    }
 }

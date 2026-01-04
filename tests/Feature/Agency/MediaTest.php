@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Media;
+namespace Tests\Feature\Agency;
 
 use App\Jobs\ProcessMediaUpload;
 use App\Models\Media;
@@ -12,7 +12,7 @@ use Tests\Feature\Traits\MediaTestHelpers;
 use Tests\Feature\Traits\ResponseHelpers;
 use Tests\TestCase;
 
-class AgencyMediaTest extends TestCase
+class MediaTest extends TestCase
 {
     use RefreshDatabase, AuthenticationHelpers, MediaTestHelpers, ResponseHelpers;
 
@@ -103,13 +103,8 @@ class AgencyMediaTest extends TestCase
         ]);
     }
 
-    // TODO: FIX DELETION BUG - MediaService::deleteByUuid() only deletes DB record, not the file
-    // The file should be removed from storage when media is deleted, but it's not happening.
-    // Need to add a model event or update the service to delete the file.
     public function test_deleting_media_removes_file_from_real_storage(): void
     {
-        $this->markTestSkipped('Deletion bug: files are not removed from storage when media is deleted');
-
         Queue::fake();
 
         $agency = $this->actingAsAgency();
@@ -179,18 +174,14 @@ class AgencyMediaTest extends TestCase
             'file' => $this->uploadFixture('test-photo.jpg'),
         ]);
 
-        $response2->assertStatus(409);  // Conflict - duplicate media
+        $response2->assertStatus(409);
+        $this->assertEquals("This entity already has a media file of type 'offering_image'.", $response2->json('errorMessage'));
     }
 
     // ===== AUTHORIZATION Tests =====
 
-    // TODO: FIX AUTHORIZATION BUG - Currently agencies can upload media to other agencies' offerings
-    // The MediaService::validateMediable() method only checks if the offering exists,
-    // but doesn't verify ownership. This is a security vulnerability.
     public function test_agency_cannot_upload_media_for_another_agencys_offering(): void
     {
-        $this->markTestSkipped('Authorization bug: agencies can upload to other agencies\' offerings');
-
         $agency1 = $this->actingAsAgency();
         $agency2 = $this->createAgencyUser();
         $offering = Offering::factory()->forUser($agency2->id)->create();
@@ -202,7 +193,8 @@ class AgencyMediaTest extends TestCase
             'file' => $this->uploadFixture('test-photo.jpg'),
         ]);
 
-        $response->assertStatus(404);  // Or 403
+        $response->assertStatus(404);
+        $this->assertEquals('mediable not found.', $response->json('errorMessage'));
     }
 
     public function test_unauthenticated_user_cannot_upload_media(): void
@@ -217,6 +209,7 @@ class AgencyMediaTest extends TestCase
         ]);
 
         $response->assertStatus(401);
+        $this->assertEquals('Unauthenticated.', $response->json('message'));
     }
 
     public function test_customer_cannot_upload_media(): void
@@ -231,5 +224,6 @@ class AgencyMediaTest extends TestCase
         ]);
 
         $response->assertStatus(401);
+        $this->assertEquals('You are not allowed to access this page.', $response->json('errorMessage'));
     }
 }

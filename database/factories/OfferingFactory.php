@@ -30,11 +30,4 @@ class OfferingFactory extends Factory
             'user_id' => $userId,
         ]);
     }
-
-    public function withPrice(float $price): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'price' => $price,
-        ]);
-    }
 }

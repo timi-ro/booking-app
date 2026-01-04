@@ -1,17 +1,18 @@
 <?php
 
-namespace Tests\Feature\Offering;
+namespace Tests\Feature\Customer;
 
 use App\Models\Offering;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Feature\Traits\AuthenticationHelpers;
 use Tests\Feature\Traits\OfferingTestHelpers;
 use Tests\Feature\Traits\ResponseHelpers;
 use Tests\TestCase;
 
-class CustomerOfferingTest extends TestCase
+class OfferingTest extends TestCase
 {
     use RefreshDatabase, AuthenticationHelpers, OfferingTestHelpers, ResponseHelpers;
 
@@ -324,39 +325,38 @@ class CustomerOfferingTest extends TestCase
 
     // ===== Validation Tests =====
 
-    public function test_browse_validates_page_is_integer(): void
+    #[DataProvider('invalidBrowseParametersProvider')]
+    public function test_browse_offerings_validation(array $params, array $expectedErrors): void
     {
-        $this->getJson($this->customerOfferingUrl(null, ['page' => 'abc']))
+        $this->getJson($this->customerOfferingUrl(null, $params))
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['page']);
+            ->assertJsonValidationErrors($expectedErrors);
     }
 
-    public function test_browse_validates_min_price_is_numeric(): void
+    public static function invalidBrowseParametersProvider(): array
     {
-        $this->getJson($this->customerOfferingUrl(null, ['min_price' => 'abc']))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['min_price']);
-    }
-
-    public function test_browse_validates_max_price_gte_min_price(): void
-    {
-        $this->getJson($this->customerOfferingUrl(null, ['min_price' => 200, 'max_price' => 100]))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['max_price']);
-    }
-
-    public function test_browse_validates_sort_by_allowed_values(): void
-    {
-        $this->getJson($this->customerOfferingUrl(null, ['sort_by' => 'invalid_field']))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['sort_by']);
-    }
-
-    public function test_browse_validates_sort_direction_allowed_values(): void
-    {
-        $this->getJson($this->customerOfferingUrl(null, ['sort_direction' => 'invalid']))
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['sort_direction']);
+        return [
+            'page not integer' => [
+                ['page' => 'abc'],
+                ['page']
+            ],
+            'min_price not numeric' => [
+                ['min_price' => 'abc'],
+                ['min_price']
+            ],
+            'max_price less than min_price' => [
+                ['min_price' => 200, 'max_price' => 100],
+                ['max_price']
+            ],
+            'invalid sort_by field' => [
+                ['sort_by' => 'invalid_field'],
+                ['sort_by']
+            ],
+            'invalid sort_direction' => [
+                ['sort_direction' => 'invalid'],
+                ['sort_direction']
+            ],
+        ];
     }
 
     // ===== Caching Tests =====

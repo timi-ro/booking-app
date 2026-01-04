@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Offering;
+namespace Tests\Feature\Agency;
 
 use App\Models\Offering;
 use App\Models\User;
@@ -11,7 +11,7 @@ use Tests\Feature\Traits\OfferingTestHelpers;
 use Tests\Feature\Traits\ResponseHelpers;
 use Tests\TestCase;
 
-class AgencyOfferingTest extends TestCase
+class OfferingTest extends TestCase
 {
     use RefreshDatabase, AuthenticationHelpers, OfferingTestHelpers, ResponseHelpers;
 
@@ -145,7 +145,7 @@ class AgencyOfferingTest extends TestCase
         ]);
     }
 
-    public function test_agency_cannot_update_another_agencies_offering(): void
+    public function test_agency_cannot_update_another_agencys_offering(): void
     {
         $otherOffering = Offering::factory()->forUser($this->createAgencyUser()->id)->create();
 
@@ -190,7 +190,7 @@ class AgencyOfferingTest extends TestCase
         $this->assertEquals($offering1['title'], $data[0]['title']);
     }
 
-    public function test_agency_cannot_delete_another_agencies_offering(): void
+    public function test_agency_cannot_delete_another_agencys_offering(): void
     {
         $otherOffering = Offering::factory()->forUser($this->createAgencyUser()->id)->create();
 
@@ -201,6 +201,7 @@ class AgencyOfferingTest extends TestCase
             'id' => $otherOffering->id,
             'deleted_at' => null,
         ]);
+        $this->assertEquals('Offering not found.', $response->json('errorMessage'));
     }
 
     // ===== Authorization Tests =====
