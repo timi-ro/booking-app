@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Exceptions\Offering\OfferingNotFoundException;
 use App\Exceptions\OfferingDay\OfferingDayNotFoundException;
 use App\Exceptions\OfferingTimeSlot\OfferingTimeSlotNotFoundException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 
@@ -41,6 +42,18 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
         });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'errorMessage' => 'Unauthenticated',
+                'data' => null
+            ], 401);
+        }
+
+        return redirect()->guest(route('login'));
     }
 
     protected function invalidJson($request, ValidationException $exception)

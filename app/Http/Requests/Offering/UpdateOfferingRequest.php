@@ -53,7 +53,7 @@ class UpdateOfferingRequest extends FormRequest
         return [
             'title' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'required', 'string', 'max:5000'],
-            'price' => ['sometimes', 'required', 'numeric', 'min:0'],
+            'price' => ['sometimes', 'required', 'numeric', 'min:0.01'],
             'address_info' => ['sometimes', 'required', 'string', 'max:5000'],
         ];
     }

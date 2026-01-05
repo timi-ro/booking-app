@@ -44,9 +44,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/offerings/{id}', [OfferingController::class, 'update']);
         Route::delete('/offerings/{id}', [OfferingController::class, 'delete']);
 
-        Route::post('/medias', [MediaController::class, 'upload']);
-        Route::get('/medias/validate/{uuid}', [MediaController::class, 'validate']);
-        Route::get('/medias/{uuid}', [MediaController::class, 'delete']);
+        Route::post('/media', [MediaController::class, 'upload']);
+        Route::get('/media/validate/{uuid}', [MediaController::class, 'validate']);
+        Route::get('/media/{uuid}', [MediaController::class, 'delete']);
 
         // Offering Days
         Route::post('/offering-days', [OfferingDayController::class, 'create']);

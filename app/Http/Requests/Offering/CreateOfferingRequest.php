@@ -24,7 +24,7 @@ class CreateOfferingRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:5000'],
-            'price' => ['required', 'numeric'],
+            'price' => ['required', 'numeric', 'min:0.01'],
             'address_info' => ['required', 'string', 'max:5000'],
         ];
     }

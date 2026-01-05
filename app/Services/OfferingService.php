@@ -116,24 +116,30 @@ class OfferingService
 
     protected function clearOfferingsCache(): void
     {
-        // Get all cache keys that match our pattern
-        // The asterisk (*) is a wildcard that matches any characters
-        $pattern = 'offerings:list:*';
+        $driver = config('cache.default');
 
-        // Laravel's cache doesn't support wildcard deletion out of the box
-        // So we use the Redis connection directly for pattern-based deletion
-        $keys = Cache::getRedis()->keys(config('cache.prefix') . ':' . $pattern);
+        if ($driver === 'array') {
+            Cache::flush();
+            return;
+        }
 
-        if (!empty($keys)) {
-            // Remove the Laravel cache prefix from keys
-            $prefix = config('cache.prefix') . ':';
-            $keysToDelete = array_map(function ($key) use ($prefix) {
-                return str_replace($prefix, '', $key);
-            }, $keys);
+        if ($driver === 'redis') {
+            $pattern = 'offerings:list:*';
 
-            // Delete all matching keys
-            foreach ($keysToDelete as $key) {
-                Cache::forget($key);
+            // Laravel's cache doesn't support wildcard deletion out of the box
+            // So we use the Redis connection directly for pattern-based deletion
+            $keys = Cache::getRedis()->keys(config('cache.prefix') . ':' . $pattern);
+
+            if (!empty($keys)) {
+                // Remove the Laravel cache prefix from keys
+                $prefix = config('cache.prefix') . ':';
+                $keysToDelete = array_map(function ($key) use ($prefix) {
+                    return str_replace($prefix, '', $key);
+                }, $keys);
+
+                foreach ($keysToDelete as $key) {
+                    Cache::forget($key);
+                }
             }
         }
     }
