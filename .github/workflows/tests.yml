@@ -21,6 +21,9 @@ jobs:
           extensions: mbstring, xml, curl, zip
           coverage: none
 
+      - name: Create Laravel cache directories
+        run: mkdir -p bootstrap/cache storage/framework/{sessions,views,cache}
+
       - name: Cache Composer dependencies
         uses: actions/cache@v4
         with:
@@ -49,6 +52,9 @@ jobs:
           php-version: '8.4'
           extensions: sqlite3, pdo_sqlite, mbstring, xml, curl, zip, bcmath, tokenizer
           coverage: none
+
+      - name: Create Laravel cache directories
+        run: mkdir -p bootstrap/cache storage/framework/{sessions,views,cache}
 
       - name: Cache Composer dependencies
         uses: actions/cache@v4
