@@ -10,9 +10,7 @@ use App\Services\OfferingService;
 
 class OfferingController extends Controller
 {
-    public function __construct(protected OfferingService $offeringService)
-    {
-    }
+    public function __construct(protected OfferingService $offeringService) {}
 
     public function index(BrowseOfferingsRequest $request)
     {
@@ -27,7 +25,7 @@ class OfferingController extends Controller
     {
         $offering = $this->offeringService->getOfferingDetails($id);
 
-        if (!$offering) {
+        if (! $offering) {
             throw new OfferingNotFoundException();
         }
 

@@ -6,14 +6,13 @@ use App\Models\Offering;
 use App\Models\OfferingDay;
 use App\Models\OfferingTimeSlot;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
 
 trait OfferingTestHelpers
 {
     // API Endpoints
     protected string $agencyOfferingsUrl = '/api/agency/offerings';
-    protected string $customerOfferingsUrl = '/api/customer/offerings';
 
+    protected string $customerOfferingsUrl = '/api/customer/offerings';
 
     protected function createOfferingWithDaysAndSlots(User $agency, array $options = []): array
     {
@@ -57,7 +56,7 @@ trait OfferingTestHelpers
                 'address_info',
                 'created_at',
                 'updated_at',
-            ]
+            ],
         ]);
     }
 
@@ -105,6 +104,7 @@ trait OfferingTestHelpers
         if ($query) {
             $url .= $this->buildQueryString($query);
         }
+
         return $url;
     }
 
@@ -117,6 +117,7 @@ trait OfferingTestHelpers
         if ($query) {
             $url .= $this->buildQueryString($query);
         }
+
         return $url;
     }
 }

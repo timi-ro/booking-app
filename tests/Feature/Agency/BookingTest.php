@@ -14,11 +14,14 @@ use Tests\TestCase;
 
 class BookingTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, ResponseHelpers;
+    use AuthenticationHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $agency;
+
     protected Offering $offering;
+
     protected OfferingDay $offeringDay;
+
     protected OfferingTimeSlot $timeSlot;
 
     protected function setUp(): void
@@ -156,7 +159,7 @@ class BookingTest extends TestCase
             ->forUser($customer->id)
             ->create();
 
-        $response = $this->getJson('/api/agency/bookings?offering_id=' . $this->offering->id);
+        $response = $this->getJson('/api/agency/bookings?offering_id='.$this->offering->id);
 
         $this->assertStandardResponse($response);
         $data = $response->json('data.data');
@@ -444,7 +447,6 @@ class BookingTest extends TestCase
             $this->assertEquals('Unauthenticated.', $response->json('message'));
         }
     }
-
 
     public function test_customer_cannot_access_agency_booking_endpoints(): void
     {

@@ -9,14 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-    public function __construct(protected UserRepositoryInterface $userRepository)
-    {
-    }
+    public function __construct(protected UserRepositoryInterface $userRepository) {}
 
     public function register(array $data): array
     {
         // Check for duplicate email
-        $duplicateEmail = !empty($this->userRepository->findWhere(['email' => $data['email']]));
+        $duplicateEmail = ! empty($this->userRepository->findWhere(['email' => $data['email']]));
 
         if ($duplicateEmail) {
             throw new DuplicateEmailException();
@@ -33,6 +31,6 @@ class AuthService
 
         $user = Auth::user();
 
-        return $user->createToken('api_' . $user->role)->plainTextToken;
+        return $user->createToken('api_'.$user->role)->plainTextToken;
     }
 }

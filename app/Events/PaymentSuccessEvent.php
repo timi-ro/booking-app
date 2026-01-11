@@ -13,6 +13,5 @@ class PaymentSuccessEvent
         public string $reservationId,
         public string $paymentId,
         public ?string $customerNotes = null,
-    ) {
-    }
+    ) {}
 }

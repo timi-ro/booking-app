@@ -21,8 +21,7 @@ class BookingService
         protected OfferingTimeSlotRepositoryInterface $timeSlotRepository,
         protected OfferingRepositoryInterface $offeringRepository,
         protected TemporaryReservationService $reservationService,
-    ) {
-    }
+    ) {}
 
     /**
      * Create a temporary reservation for a time slot.
@@ -31,12 +30,12 @@ class BookingService
     {
         $timeSlot = $this->timeSlotRepository->findById($offeringTimeSlotId);
 
-        if (!$timeSlot) {
+        if (! $timeSlot) {
             throw new OfferingTimeSlotNotFoundException();
         }
 
         // Check availability
-        if (!$this->isSlotAvailable($offeringTimeSlotId)) {
+        if (! $this->isSlotAvailable($offeringTimeSlotId)) {
             throw new SlotFullyBookedException();
         }
 
@@ -70,7 +69,7 @@ class BookingService
     {
         $timeSlot = $this->timeSlotRepository->findById($offeringTimeSlotId);
 
-        if (!$timeSlot) {
+        if (! $timeSlot) {
             return false;
         }
 
@@ -144,7 +143,7 @@ class BookingService
     {
         $booking = $this->bookingRepository->findById($bookingId);
 
-        if (!$booking) {
+        if (! $booking) {
             throw new BookingNotFoundException();
         }
 
@@ -152,7 +151,7 @@ class BookingService
         $isCustomer = $booking['user_id'] == $userId;
         $isAgency = $booking['offering']['user_id'] == $userId;
 
-        if (!$isCustomer && !$isAgency) {
+        if (! $isCustomer && ! $isAgency) {
             throw new AuthenticationException();
         }
 
@@ -166,7 +165,7 @@ class BookingService
     {
         $booking = $this->bookingRepository->findById($bookingId);
 
-        if (!$booking) {
+        if (! $booking) {
             throw new BookingNotFoundException();
         }
 
@@ -178,7 +177,7 @@ class BookingService
         $isCustomer = $booking['user_id'] == $userId;
         $isAgency = $booking['offering']['user_id'] == $userId;
 
-        if (!$isCustomer && !$isAgency) {
+        if (! $isCustomer && ! $isAgency) {
             throw new AuthenticationException();
         }
 
@@ -199,20 +198,20 @@ class BookingService
     {
         $booking = $this->bookingRepository->findById($bookingId);
 
-        if (!$booking) {
+        if (! $booking) {
             throw new BookingNotFoundException();
         }
 
         // Only agency can mark as no-show
         $isAgency = $booking['offering']['user_id'] == $agencyUserId;
 
-        if (!$isAgency) {
+        if (! $isAgency) {
             throw new AuthenticationException();
         }
 
         // Can only mark confirmed bookings as no-show
         if ($booking['status'] !== 'confirmed') {
-            throw new BookingAlreadyCancelledException('Cannot mark a ' . $booking['status'] . ' booking as no-show');
+            throw new BookingAlreadyCancelledException('Cannot mark a '.$booking['status'].' booking as no-show');
         }
 
         // Booking time must have passed (customer should have shown up by now)
@@ -221,7 +220,7 @@ class BookingService
 
         // Extract just the date part (YYYY-MM-DD) and combine with time
         $dateOnly = Carbon::parse($bookingDate)->format('Y-m-d');
-        $bookingDateTime = Carbon::parse($dateOnly . ' ' . $bookingStartTime);
+        $bookingDateTime = Carbon::parse($dateOnly.' '.$bookingStartTime);
 
         if ($bookingDateTime->isFuture()) {
             throw new BookingTimeNotPassedException();
@@ -245,6 +244,6 @@ class BookingService
         $prefix = config('booking.reference.prefix');
         $randomLength = config('booking.reference.random_length');
 
-        return $prefix . '-' . now()->format('Ymd') . '-' . strtoupper(Str::random($randomLength));
+        return $prefix.'-'.now()->format('Ymd').'-'.strtoupper(Str::random($randomLength));
     }
 }

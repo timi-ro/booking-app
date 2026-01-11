@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OfferingController extends Controller
 {
-    public function __construct(protected OfferingService $offeringService){
-    }
+    public function __construct(protected OfferingService $offeringService) {}
 
     public function create(CreateOfferingRequest $request)
     {
@@ -56,6 +55,7 @@ class OfferingController extends Controller
     public function delete(int $id)
     {
         $this->offeringService->deleteOffering($id);
+
         return ResponseHelper::generateResponse([], Response::HTTP_NO_CONTENT);
     }
 }

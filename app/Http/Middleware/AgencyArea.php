@@ -7,6 +7,7 @@ use App\Exceptions\User\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 class AgencyArea
 {
     /**
@@ -16,7 +17,7 @@ class AgencyArea
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role != UserRoles::AGENCY) {
+        if (auth()->user()->role != UserRoles::AGENCY) {
             throw new AuthenticationException();
         }
 

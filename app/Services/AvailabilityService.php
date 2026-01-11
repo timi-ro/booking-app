@@ -11,8 +11,7 @@ class AvailabilityService
     public function __construct(
         protected AvailabilityRepositoryInterface $availabilityRepository,
         protected OfferingRepositoryInterface $offeringRepository,
-    ) {
-    }
+    ) {}
 
     public function createAvailability(array $data): array
     {

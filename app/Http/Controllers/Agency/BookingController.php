@@ -18,8 +18,7 @@ class BookingController extends Controller
 {
     public function __construct(
         protected BookingService $bookingService,
-    ) {
-    }
+    ) {}
 
     /**
      * List agency's bookings
@@ -94,6 +93,7 @@ class BookingController extends Controller
      * Agency can cancel bookings for their offerings. The time slot capacity will be freed up and payment refunded.
      *
      * @urlParam id integer required The booking ID to cancel. Example: 1
+     *
      * @bodyParam cancellation_reason string Optional reason for cancellation. Example: Offering no longer available
      *
      * @response 200 {
@@ -134,7 +134,6 @@ class BookingController extends Controller
      *     "message": "Booking marked as no-show successfully"
      *   }
      * }
-     *
      * @response 400 {
      *   "code": 400,
      *   "message": "Cannot mark as no-show - booking time has not passed yet",

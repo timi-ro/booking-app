@@ -21,8 +21,7 @@ class BookingController extends Controller
 {
     public function __construct(
         protected BookingService $bookingService,
-    ) {
-    }
+    ) {}
 
     /**
      * Create a temporary reservation
@@ -165,6 +164,7 @@ class BookingController extends Controller
      * Cancel an existing booking and process refund. The time slot capacity will be freed up.
      *
      * @urlParam id integer required The booking ID to cancel. Example: 1
+     *
      * @bodyParam cancellation_reason string Optional reason for cancellation. Example: Change of plans
      *
      * @response 200 {

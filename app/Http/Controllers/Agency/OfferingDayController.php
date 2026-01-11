@@ -14,8 +14,7 @@ class OfferingDayController extends Controller
 {
     public function __construct(
         protected OfferingDayService $offeringDayService,
-    ) {
-    }
+    ) {}
 
     public function create(CreateOfferingDayRequest $request)
     {

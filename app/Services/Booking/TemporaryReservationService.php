@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 class TemporaryReservationService
 {
     protected const KEY_PREFIX = 'temp_booking';
+
     protected const SLOT_INDEX_PREFIX = 'temp_booking_slot_index';
 
     /**
@@ -63,7 +64,7 @@ class TemporaryReservationService
         // Get reservation data first to find the slot
         $reservation = $this->getReservation($reservationId);
 
-        if (!$reservation) {
+        if (! $reservation) {
             return false;
         }
 
@@ -124,7 +125,7 @@ class TemporaryReservationService
      */
     protected function makeMainKey(string $reservationId): string
     {
-        return self::KEY_PREFIX . ":{$reservationId}";
+        return self::KEY_PREFIX.":{$reservationId}";
     }
 
     /**
@@ -132,7 +133,7 @@ class TemporaryReservationService
      */
     protected function makeSlotIndexKey(int $offeringTimeSlotId): string
     {
-        return self::SLOT_INDEX_PREFIX . ":{$offeringTimeSlotId}";
+        return self::SLOT_INDEX_PREFIX.":{$offeringTimeSlotId}";
     }
 
     /**

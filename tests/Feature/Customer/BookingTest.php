@@ -17,12 +17,16 @@ use Tests\TestCase;
 
 class BookingTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, ResponseHelpers;
+    use AuthenticationHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $customer;
+
     protected User $agency;
+
     protected Offering $offering;
+
     protected OfferingDay $offeringDay;
+
     protected OfferingTimeSlot $timeSlot;
 
     protected function setUp(): void
@@ -106,11 +110,11 @@ class BookingTest extends TestCase
         return [
             'missing offering_time_slot_id' => [
                 [],
-                ['offering_time_slot_id']
+                ['offering_time_slot_id'],
             ],
             'nonexistent offering_time_slot_id' => [
                 ['offering_time_slot_id' => 99999],
-                ['offering_time_slot_id']
+                ['offering_time_slot_id'],
             ],
         ];
     }
@@ -185,11 +189,11 @@ class BookingTest extends TestCase
         return [
             'missing reservation_id' => [
                 ['payment_id' => 'pay_mock_123456'],
-                ['reservation_id']
+                ['reservation_id'],
             ],
             'missing payment_id' => [
                 ['reservation_id' => 'some-uuid'],
-                ['payment_id']
+                ['payment_id'],
             ],
         ];
     }

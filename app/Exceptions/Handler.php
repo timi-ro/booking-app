@@ -18,7 +18,7 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'code' => 404,
                     'message' => $e->getMessage(),
-                    'data' => []
+                    'data' => [],
                 ], 404);
             }
         });
@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'code' => 404,
                     'message' => $e->getMessage(),
-                    'data' => []
+                    'data' => [],
                 ], 404);
             }
         });
@@ -38,7 +38,7 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'code' => 404,
                     'message' => $e->getMessage(),
-                    'data' => []
+                    'data' => [],
                 ], 404);
             }
         });
@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
         if ($request->expectsJson()) {
             return response()->json([
                 'errorMessage' => 'Unauthenticated',
-                'data' => null
+                'data' => null,
             ], 401);
         }
 
@@ -64,9 +64,8 @@ class Handler extends ExceptionHandler
             'data' => [
                 'errors' => $exception->errors(),
                 'exception' => in_array(config('app.env'), ['local', 'dev']) ? $this->convertExceptionToArray($exception) : [],
-                'request' => $request->all()
-            ]
+                'request' => $request->all(),
+            ],
         ], $exception->status);
     }
-
 }

@@ -13,9 +13,10 @@ use Tests\TestCase;
 
 class OfferingDayTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, ResponseHelpers;
+    use AuthenticationHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $agency;
+
     protected Offering $offering;
 
     protected function setUp(): void
@@ -72,7 +73,7 @@ class OfferingDayTest extends TestCase
     public function test_create_offering_day_validation(array $invalidData, array $expectedErrors): void
     {
         // Merge with offering_id if we're not testing offering_id validation
-        if (!in_array('offering_id', $expectedErrors) && !isset($invalidData['offering_id'])) {
+        if (! in_array('offering_id', $expectedErrors) && ! isset($invalidData['offering_id'])) {
             $invalidData['offering_id'] = $this->offering->id;
         }
 
@@ -87,27 +88,27 @@ class OfferingDayTest extends TestCase
         return [
             'missing offering_id' => [
                 ['date' => date('Y-m-d', strtotime('+1 day'))],
-                ['offering_id']
+                ['offering_id'],
             ],
             'nonexistent offering_id' => [
                 ['offering_id' => 99999, 'date' => date('Y-m-d', strtotime('+1 day'))],
-                ['offering_id']
+                ['offering_id'],
             ],
             'missing date' => [
                 [],
-                ['date']
+                ['date'],
             ],
             'invalid date format' => [
                 ['date' => 'not-a-date'],
-                ['date']
+                ['date'],
             ],
             'date in past' => [
                 ['date' => date('Y-m-d', strtotime('-1 day'))],
-                ['date']
+                ['date'],
             ],
             'notes too long' => [
                 ['date' => date('Y-m-d', strtotime('+1 day')), 'notes' => str_repeat('a', 1001)],
-                ['notes']
+                ['notes'],
             ],
         ];
     }
@@ -128,7 +129,7 @@ class OfferingDayTest extends TestCase
     {
         OfferingDay::factory()->forOffering($this->offering->id)->count(3)->create();
 
-        $response = $this->getJson('/api/agency/offering-days?offering_id=' . $this->offering->id);
+        $response = $this->getJson('/api/agency/offering-days?offering_id='.$this->offering->id);
 
         $this->assertStandardResponse($response);
         $this->assertCount(3, $response->json('data'));
@@ -150,7 +151,7 @@ class OfferingDayTest extends TestCase
         OfferingDay::factory()->forOffering($this->offering->id)->count(3)->create();
         OfferingDay::factory()->forOffering($otherOffering->id)->count(2)->create();
 
-        $response = $this->getJson('/api/agency/offering-days?offering_id=' . $this->offering->id);
+        $response = $this->getJson('/api/agency/offering-days?offering_id='.$this->offering->id);
 
         $this->assertStandardResponse($response);
         $this->assertCount(3, $response->json('data'));
@@ -289,7 +290,7 @@ class OfferingDayTest extends TestCase
         $otherAgency = $this->createAgencyUser();
         $otherOffering = Offering::factory()->forUser($otherAgency->id)->create();
 
-        $response = $this->getJson('/api/agency/offering-days?offering_id=' . $otherOffering->id);
+        $response = $this->getJson('/api/agency/offering-days?offering_id='.$otherOffering->id);
 
         $response->assertStatus(404);
         $this->assertEquals('Offering not found.', $response->json('errorMessage'));

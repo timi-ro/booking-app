@@ -21,11 +21,11 @@ class BookingFactory extends Factory
             'offering_time_slot_id' => OfferingTimeSlot::factory(),
             'offering_id' => Offering::factory(),
             'user_id' => User::factory(),
-            'booking_reference' => 'BOOK-' . now()->format('Ymd') . '-' . strtoupper($this->faker->bothify('???###')),
+            'booking_reference' => 'BOOK-'.now()->format('Ymd').'-'.strtoupper($this->faker->bothify('???###')),
             'status' => 'confirmed',
             'total_price' => $this->faker->randomFloat(2, 50, 500),
             'payment_status' => 'paid',
-            'payment_id' => 'pay_' . $this->faker->uuid(),
+            'payment_id' => 'pay_'.$this->faker->uuid(),
             'customer_notes' => $this->faker->optional()->sentence(),
             'cancellation_reason' => null,
             'cancelled_at' => null,
@@ -37,6 +37,7 @@ class BookingFactory extends Factory
     {
         return $this->state(function () use ($timeSlotId) {
             $timeSlot = OfferingTimeSlot::find($timeSlotId);
+
             return [
                 'offering_time_slot_id' => $timeSlotId,
                 'offering_id' => $timeSlot->offering_id,

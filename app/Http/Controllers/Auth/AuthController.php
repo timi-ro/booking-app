@@ -18,8 +18,7 @@ class AuthController extends Controller
 {
     public function __construct(
         protected AuthService $authService
-    ) {
-    }
+    ) {}
 
     /**
      * Register a new user
@@ -57,6 +56,7 @@ class AuthController extends Controller
      * Authenticate a user and receive an access token.
      *
      * @unauthenticated
+     *
      * @bodyParam email string required User's email address. Example: john@example.com
      * @bodyParam password string required User's password. Example: password123
      *
@@ -79,6 +79,6 @@ class AuthController extends Controller
 
     public function testCustomerArea()
     {
-        dd("ok");
+        dd('ok');
     }
 }

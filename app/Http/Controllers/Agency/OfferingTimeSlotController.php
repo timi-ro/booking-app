@@ -15,8 +15,7 @@ class OfferingTimeSlotController extends Controller
 {
     public function __construct(
         protected OfferingTimeSlotService $offeringTimeSlotService,
-    ) {
-    }
+    ) {}
 
     public function create(CreateTimeSlotRequest $request)
     {

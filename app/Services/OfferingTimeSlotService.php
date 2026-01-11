@@ -16,14 +16,13 @@ class OfferingTimeSlotService
         protected OfferingTimeSlotRepositoryInterface $offeringTimeSlotRepository,
         protected OfferingDayRepositoryInterface $offeringDayRepository,
         protected OfferingRepositoryInterface $offeringRepository,
-    ) {
-    }
+    ) {}
 
     public function createTimeSlot(array $data): array
     {
         $offeringDay = $this->offeringDayRepository->findById($data['offering_day_id']);
 
-        if (!$offeringDay) {
+        if (! $offeringDay) {
             throw new OfferingDayNotFoundException();
         }
 
@@ -46,7 +45,7 @@ class OfferingTimeSlotService
     {
         $offeringDay = $this->offeringDayRepository->findById($offeringDayId);
 
-        if (!$offeringDay) {
+        if (! $offeringDay) {
             throw new OfferingDayNotFoundException();
         }
 
@@ -78,7 +77,7 @@ class OfferingTimeSlotService
     {
         $offeringDay = $this->offeringDayRepository->findById($offeringDayId);
 
-        if (!$offeringDay) {
+        if (! $offeringDay) {
             throw new OfferingDayNotFoundException();
         }
 
@@ -99,7 +98,7 @@ class OfferingTimeSlotService
     {
         $timeSlot = $this->offeringTimeSlotRepository->findById($id);
 
-        if (!$timeSlot) {
+        if (! $timeSlot) {
             throw new OfferingTimeSlotNotFoundException();
         }
 
@@ -120,7 +119,7 @@ class OfferingTimeSlotService
     {
         $timeSlot = $this->offeringTimeSlotRepository->findById($id);
 
-        if (!$timeSlot) {
+        if (! $timeSlot) {
             throw new OfferingTimeSlotNotFoundException();
         }
 

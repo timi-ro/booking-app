@@ -32,6 +32,6 @@ trait ResponseHelpers
 
     protected function buildQueryString(array $params): string
     {
-        return '?' . http_build_query($params);
+        return '?'.http_build_query($params);
     }
 }

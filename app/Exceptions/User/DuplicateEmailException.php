@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DuplicateEmailException extends Exception
 {
-    public function __construct(protected $message = "User already exists", protected int $httpStatusCode = Response::HTTP_UNPROCESSABLE_ENTITY)
+    public function __construct(protected $message = 'User already exists', protected int $httpStatusCode = Response::HTTP_UNPROCESSABLE_ENTITY)
     {
         parent::__construct($message);
     }

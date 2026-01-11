@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //repositories
+        // repositories
         $this->app->bind(UserRepositoryInterface::class, UserEloquentRepository::class);
         $this->app->bind(OfferingRepositoryInterface::class, OfferingEloquentRepository::class);
         $this->app->bind(MediaRepositoryInterface::class, MediaEloquentRepository::class);
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OfferingTimeSlotRepositoryInterface::class, OfferingTimeSlotEloquentRepository::class);
         $this->app->bind(BookingRepositoryInterface::class, BookingEloquentRepository::class);
 
-        //drivers
+        // drivers
         $this->app->bind(StorageDriverInterface::class, LaravelStorageDriver::class);
         $this->app->bind(QueueDriverInterface::class, LaravelQueueDriver::class);
     }

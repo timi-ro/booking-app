@@ -5,13 +5,14 @@ namespace App\Constants;
 class MediaCollections
 {
     public const OFFERING_IMAGE = 'offering_image';
+
     public const OFFERING_VIDEO = 'offering_video';
 
     public static function allOfferingCollections(): array
     {
         return [
             self::OFFERING_IMAGE,
-            self::OFFERING_VIDEO
+            self::OFFERING_VIDEO,
         ];
     }
 

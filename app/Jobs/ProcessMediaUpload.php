@@ -15,7 +15,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
+class ProcessMediaUpload implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -85,7 +85,7 @@ class ProcessMediaUpload implements ShouldQueue, ShouldBeUnique
         $contents = base64_decode($this->encodedFileContent, true);
 
         if ($contents === false) {
-            throw new MediaUploadFailedException("Failed to decode file content");
+            throw new MediaUploadFailedException('Failed to decode file content');
         }
 
         return $contents;

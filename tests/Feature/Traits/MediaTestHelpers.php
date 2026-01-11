@@ -23,7 +23,7 @@ trait MediaTestHelpers
      * Upload a real file from test fixtures.
      * Fixture files should be placed in tests/Fixtures/media/
      *
-     * @param string $filename The fixture filename (e.g., 'test-photo.jpg', 'test-video.mp4')
+     * @param  string  $filename  The fixture filename (e.g., 'test-photo.jpg', 'test-video.mp4')
      */
     protected function uploadFixture(string $filename): UploadedFile
     {
@@ -79,7 +79,7 @@ trait MediaTestHelpers
     {
         $diskRoot = config("filesystems.disks.{$disk}.root");
 
-        return $diskRoot . '/' . ltrim($relativePath, '/');
+        return $diskRoot.'/'.ltrim($relativePath, '/');
     }
 
     protected function assertMediaStructure($response): void
@@ -87,7 +87,7 @@ trait MediaTestHelpers
         $response->assertJsonStructure([
             'data' => [
                 'uuid',
-            ]
+            ],
         ]);
     }
 
@@ -110,7 +110,7 @@ trait MediaTestHelpers
     {
         $media = Media::where('uuid', $uuid)->first();
 
-        if (!$media) {
+        if (! $media) {
             throw new \Exception("Media with UUID {$uuid} not found");
         }
 

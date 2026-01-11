@@ -11,7 +11,9 @@ use Throwable;
 class HealthCheckService
 {
     private const CACHE_TEST_KEY_PREFIX = 'health_check_';
+
     private const CACHE_TEST_VALUE = 'test';
+
     private const CACHE_TEST_TTL = 10;
 
     /**
@@ -26,7 +28,7 @@ class HealthCheckService
         ];
 
         $allHealthy = collect($services)->every(
-            fn($service) => $service['healthy'] === true
+            fn ($service) => $service['healthy'] === true
         );
 
         return [
@@ -123,7 +125,7 @@ class HealthCheckService
     {
         try {
             $startTime = microtime(true);
-            $testKey = self::CACHE_TEST_KEY_PREFIX . time();
+            $testKey = self::CACHE_TEST_KEY_PREFIX.time();
 
             Cache::put($testKey, self::CACHE_TEST_VALUE, self::CACHE_TEST_TTL);
             $retrieved = Cache::get($testKey);

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReservationExpiredException extends Exception
 {
-    public function __construct(protected $message = "Your reservation has expired. Please try booking again", protected int $httpStatusCode = Response::HTTP_GONE)
+    public function __construct(protected $message = 'Your reservation has expired. Please try booking again', protected int $httpStatusCode = Response::HTTP_GONE)
     {
         Log::channel('sentry')->error($this->message);
         parent::__construct($message);

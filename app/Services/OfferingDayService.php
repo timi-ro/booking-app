@@ -13,8 +13,7 @@ class OfferingDayService
     public function __construct(
         protected OfferingDayRepositoryInterface $offeringDayRepository,
         protected OfferingRepositoryInterface $offeringRepository,
-    ) {
-    }
+    ) {}
 
     public function createOfferingDay(array $data): array
     {
@@ -42,7 +41,7 @@ class OfferingDayService
     {
         $offeringDay = $this->offeringDayRepository->findById($id);
 
-        if (!$offeringDay) {
+        if (! $offeringDay) {
             throw new OfferingDayNotFoundException();
         }
 
@@ -63,7 +62,7 @@ class OfferingDayService
     {
         $offeringDay = $this->offeringDayRepository->findById($id);
 
-        if (!$offeringDay) {
+        if (! $offeringDay) {
             throw new OfferingDayNotFoundException();
         }
 

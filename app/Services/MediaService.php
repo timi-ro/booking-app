@@ -22,14 +22,13 @@ class MediaService
         protected StorageDriverInterface $storageDriver,
         protected QueueDriverInterface $queueDriver,
         protected OfferingRepositoryInterface $offeringRepository,
-    ) {
-    }
+    ) {}
 
     public function upload(array $data): string
     {
         $mediableType = $this->getMediableType($data['entity']);
 
-        if (!$mediableType) {
+        if (! $mediableType) {
             throw new InvalidMediaEntityException();
         }
 
@@ -107,7 +106,7 @@ class MediaService
             default => throw new MediableNotFoundException("Unknown entity type: {$entityType}")
         };
 
-        if (!$entity) {
+        if (! $entity) {
             throw new MediableNotFoundException();
         }
 

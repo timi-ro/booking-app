@@ -9,3 +9,8 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+
+# Test fixtures (binary files)
+tests/Fixtures/media/* binary
+tests/Fixtures/media/*.jpg binary
+tests/Fixtures/media/*.mp4 binary

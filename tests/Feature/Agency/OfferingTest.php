@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class OfferingTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, OfferingTestHelpers, ResponseHelpers;
+    use AuthenticationHelpers, OfferingTestHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $agency;
 

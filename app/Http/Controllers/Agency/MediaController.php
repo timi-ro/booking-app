@@ -12,9 +12,7 @@ class MediaController extends Controller
 {
     public function __construct(
         protected MediaService $mediaService,
-    )
-    {
-    }
+    ) {}
 
     public function upload(CreateMediaRequest $request)
     {
@@ -31,7 +29,7 @@ class MediaController extends Controller
     {
         $media = $this->mediaService->getByUuid($uuid);
 
-        if (!$media) {
+        if (! $media) {
             throw new MediableNotFoundException();
         }
 
@@ -48,7 +46,7 @@ class MediaController extends Controller
     {
         $media = $this->mediaService->getByUuid($uuid);
 
-        if (!$media) {
+        if (! $media) {
             throw new MediableNotFoundException();
         }
 
