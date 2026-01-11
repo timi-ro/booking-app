@@ -10,6 +10,11 @@
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
 
+# GitHub language statistics - exclude vendor files
+/vendor/** linguist-vendored
+/public/docs/** linguist-documentation
+/resources/views/scribe/** linguist-documentation
+
 # Test fixtures (binary files)
 tests/Fixtures/media/* binary
 tests/Fixtures/media/*.jpg binary
