@@ -26,6 +26,7 @@ trait AuthenticationHelpers
     {
         $agency = $user ?? $this->createAgencyUser();
         Sanctum::actingAs($agency);
+
         return $agency;
     }
 
@@ -33,6 +34,7 @@ trait AuthenticationHelpers
     {
         $customer = $user ?? $this->createCustomerUser();
         Sanctum::actingAs($customer);
+
         return $customer;
     }
 

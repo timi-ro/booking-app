@@ -112,15 +112,15 @@ class AuthTest extends TestCase
         return [
             'missing email' => [
                 ['password' => 'password123'],
-                ['email']
+                ['email'],
             ],
             'invalid email format' => [
                 ['email' => 'not-an-email', 'password' => 'password123'],
-                ['email']
+                ['email'],
             ],
             'missing password' => [
                 ['email' => 'user@example.com'],
-                ['password']
+                ['password'],
             ],
         ];
     }
@@ -164,7 +164,7 @@ class AuthTest extends TestCase
         // Check that token was created with role in name
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $customer->id,
-            'name' => 'api_' . UserRoles::CUSTOMER,
+            'name' => 'api_'.UserRoles::CUSTOMER,
         ]);
     }
 }

@@ -12,8 +12,7 @@ class SortFilter implements FilterInterface
         protected string $sortBy = 'created_at',
         protected string $sortDirection = 'desc',
         protected array $allowedFields = ['created_at']
-    ) {
-    }
+    ) {}
 
     public function handle(Builder $query, Closure $next): Builder
     {

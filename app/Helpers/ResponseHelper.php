@@ -6,11 +6,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseHelper
 {
-    public static function generateResponse($data, int $status = Response::HTTP_OK, string $errorMessage = "")
+    public static function generateResponse($data, int $status = Response::HTTP_OK, string $errorMessage = '')
     {
         return response()->json([
             'errorMessage' => $errorMessage,
-            'data' => $data
+            'data' => $data,
         ], $status);
     }
 
@@ -18,7 +18,7 @@ class ResponseHelper
     {
         return response()->json([
             'errorMessage' => $exception->getMessage(),
-            'data' => $data
+            'data' => $data,
         ], $status);
     }
 }

@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class MediaTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, MediaTestHelpers, ResponseHelpers;
+    use AuthenticationHelpers, MediaTestHelpers, RefreshDatabase, ResponseHelpers;
 
     protected function tearDown(): void
     {

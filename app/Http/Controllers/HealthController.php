@@ -16,8 +16,7 @@ class HealthController extends Controller
 
     public function __construct(
         protected HealthCheckService $healthCheckService
-    ) {
-    }
+    ) {}
 
     /**
      * Ping
@@ -25,6 +24,7 @@ class HealthController extends Controller
      * Shallow health check that confirms the application is running. Used by load balancers and liveness probes.
      *
      * @unauthenticated
+     *
      * @response 200 {
      *   "status": "ok",
      *   "timestamp": "2025-12-15T10:30:00Z"
@@ -44,6 +44,7 @@ class HealthController extends Controller
      * Deep health check that verifies all critical services (database, redis, cache, etc.). Used by readiness probes and monitoring.
      *
      * @unauthenticated
+     *
      * @response 200 {
      *   "healthy": true,
      *   "timestamp": "2025-12-15T10:30:00Z",

@@ -6,8 +6,8 @@ use App\Constants\UserRoles;
 use App\Exceptions\User\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+
 class AdminArea
 {
     /**
@@ -17,7 +17,7 @@ class AdminArea
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role != UserRoles::ADMIN) {
+        if (auth()->user()->role != UserRoles::ADMIN) {
             throw new AuthenticationException();
         }
 

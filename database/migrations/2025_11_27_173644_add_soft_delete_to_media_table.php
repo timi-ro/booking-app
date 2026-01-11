@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class() extends Migration
 {
     /**
      * Run the migrations.
@@ -29,7 +29,7 @@ return new class extends Migration
 
         if ($driver === 'mysql') {
             DB::table('media')->whereNull('uuid')->update([
-                'uuid' => DB::raw('(UUID())')
+                'uuid' => DB::raw('(UUID())'),
             ]);
         } else {
             // For SQLite and other databases, generate UUID in PHP
@@ -46,7 +46,6 @@ return new class extends Migration
             $table->unique('uuid');
         });
     }
-
 
     /**
      * Reverse the migrations.

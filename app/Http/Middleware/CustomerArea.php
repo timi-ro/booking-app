@@ -7,6 +7,7 @@ use App\Exceptions\User\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 class CustomerArea
 {
     /**
@@ -16,7 +17,7 @@ class CustomerArea
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role != UserRoles::CUSTOMER) {
+        if (auth()->user()->role != UserRoles::CUSTOMER) {
             throw new AuthenticationException();
         }
 

@@ -78,7 +78,7 @@ class OfferingEloquentRepository implements OfferingRepositoryInterface
 
     public function update(int $id, array $data): void
     {
-         Offering::where(['id' => $id])->update($data);
+        Offering::where(['id' => $id])->update($data);
     }
 
     public function delete(int $id): void

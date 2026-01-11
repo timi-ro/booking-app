@@ -12,9 +12,7 @@ class OfferingService
     public function __construct(
         protected OfferingRepositoryInterface $offeringRepository,
         protected StorageDriverInterface $storageDriver,
-    )
-    {
-    }
+    ) {}
 
     public function createOffering(array $data): array
     {
@@ -50,11 +48,6 @@ class OfferingService
 
     /**
      * Generate a unique cache key for offerings list
-     *
-     * @param array $filters
-     * @param int $page
-     * @param int $pageSize
-     * @return string
      */
     protected function generateOfferingsCacheKey(array $filters, int $page, int $pageSize): string
     {
@@ -90,7 +83,7 @@ class OfferingService
         $this->clearOfferingsCache();
     }
 
-    public function deleteOffering(int $id):void
+    public function deleteOffering(int $id): void
     {
         $offering = $this->offeringRepository->findWhere(['id' => $id]);
 
@@ -99,9 +92,9 @@ class OfferingService
         }
 
         collect(['video', 'image'])
-            ->map(fn($field) => $offering[$field] ?? null)
+            ->map(fn ($field) => $offering[$field] ?? null)
             ->filter()
-            ->each(fn($path) => $this->storageDriver->deleteFile($path));
+            ->each(fn ($path) => $this->storageDriver->deleteFile($path));
 
         $this->offeringRepository->delete($id);
 
@@ -110,8 +103,9 @@ class OfferingService
 
     public function exist(int $id): bool
     {
-        $offering  = $this->offeringRepository->findWhere(['id' => $id]);
-        return (bool)$offering;
+        $offering = $this->offeringRepository->findWhere(['id' => $id]);
+
+        return (bool) $offering;
     }
 
     protected function clearOfferingsCache(): void
@@ -120,6 +114,7 @@ class OfferingService
 
         if ($driver === 'array') {
             Cache::flush();
+
             return;
         }
 
@@ -128,11 +123,11 @@ class OfferingService
 
             // Laravel's cache doesn't support wildcard deletion out of the box
             // So we use the Redis connection directly for pattern-based deletion
-            $keys = Cache::getRedis()->keys(config('cache.prefix') . ':' . $pattern);
+            $keys = Cache::getRedis()->keys(config('cache.prefix').':'.$pattern);
 
-            if (!empty($keys)) {
+            if (! empty($keys)) {
                 // Remove the Laravel cache prefix from keys
-                $prefix = config('cache.prefix') . ':';
+                $prefix = config('cache.prefix').':';
                 $keysToDelete = array_map(function ($key) use ($prefix) {
                     return str_replace($prefix, '', $key);
                 }, $keys);

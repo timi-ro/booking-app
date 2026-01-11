@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['middleware' => AgencyArea::class, 'prefix' => UserRoles::AGENCY], function () {
-        //TODO: add caching mechanism for list
+        // TODO: add caching mechanism for list
         Route::get('/offerings', [OfferingController::class, 'index']);
         Route::post('/offerings', [OfferingController::class, 'create']);
         Route::put('/offerings/{id}', [OfferingController::class, 'update']);

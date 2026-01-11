@@ -20,7 +20,7 @@ class OfferingFactory extends Factory
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(4),
             'price' => fake()->randomFloat(2, 10, 500),
-            'address_info' => fake()->address() . ', ' . fake()->city() . ' ' . fake()->postcode(),
+            'address_info' => fake()->address().', '.fake()->city().' '.fake()->postcode(),
         ];
     }
 

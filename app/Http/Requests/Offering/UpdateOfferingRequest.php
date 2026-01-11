@@ -36,7 +36,7 @@ class UpdateOfferingRequest extends FormRequest
             }
         }
 
-        if (!$hasUpdatableField) {
+        if (! $hasUpdatableField) {
             throw new InvalidRequestException();
         }
 

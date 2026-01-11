@@ -3,7 +3,6 @@
 namespace App\Repositories\MySql\Media;
 
 use App\Models\Media;
-use App\Models\Offering;
 use App\Repositories\Contracts\MediaRepositoryInterface;
 
 class MediaEloquentRepository implements MediaRepositoryInterface

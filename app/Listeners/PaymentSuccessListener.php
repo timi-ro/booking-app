@@ -19,8 +19,7 @@ class PaymentSuccessListener
         protected BookingRepositoryInterface $bookingRepository,
         protected OfferingTimeSlotRepositoryInterface $timeSlotRepository,
         protected BookingService $bookingService,
-    ) {
-    }
+    ) {}
 
     /**
      * Handle the event.
@@ -52,7 +51,7 @@ class PaymentSuccessListener
             'found' => $reservation !== null,
         ]);
 
-        if (!$reservation) {
+        if (! $reservation) {
             Log::error('Reservation not found or expired', [
                 'reservation_id' => $event->reservationId,
                 'payment_id' => $event->paymentId,

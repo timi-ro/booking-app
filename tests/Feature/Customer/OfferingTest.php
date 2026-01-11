@@ -14,9 +14,10 @@ use Tests\TestCase;
 
 class OfferingTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, OfferingTestHelpers, ResponseHelpers;
+    use AuthenticationHelpers, OfferingTestHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $customer;
+
     protected User $agency;
 
     protected function setUp(): void
@@ -55,7 +56,7 @@ class OfferingTest extends TestCase
         $this->createOfferingsWithTitles($this->agency, [
             'Desert Safari Adventure',
             'Mountain Hiking',
-            'Beach Relaxation'
+            'Beach Relaxation',
         ]);
 
         $response = $this->getJson($this->customerOfferingUrl(null, ['search' => 'desert']));
@@ -70,11 +71,11 @@ class OfferingTest extends TestCase
     {
         Offering::factory()->forUser($this->agency->id)->create([
             'title' => 'Activity One',
-            'description' => 'Experience the thrill of desert dunes'
+            'description' => 'Experience the thrill of desert dunes',
         ]);
         Offering::factory()->forUser($this->agency->id)->create([
             'title' => 'Activity Two',
-            'description' => 'Enjoy mountain views'
+            'description' => 'Enjoy mountain views',
         ]);
 
         $response = $this->getJson($this->customerOfferingUrl(null, ['search' => 'thrill']));
@@ -131,7 +132,7 @@ class OfferingTest extends TestCase
 
         $response = $this->getJson($this->customerOfferingUrl(null, [
             'min_price' => 100,
-            'max_price' => 300
+            'max_price' => 300,
         ]));
 
         $this->assertStandardResponse($response);
@@ -150,7 +151,7 @@ class OfferingTest extends TestCase
 
         $response = $this->getJson($this->customerOfferingUrl(null, [
             'sort_by' => 'price',
-            'sort_direction' => 'asc'
+            'sort_direction' => 'asc',
         ]));
 
         $this->assertStandardResponse($response);
@@ -166,7 +167,7 @@ class OfferingTest extends TestCase
 
         $response = $this->getJson($this->customerOfferingUrl(null, [
             'sort_by' => 'price',
-            'sort_direction' => 'desc'
+            'sort_direction' => 'desc',
         ]));
 
         $this->assertStandardResponse($response);
@@ -182,7 +183,7 @@ class OfferingTest extends TestCase
 
         $response = $this->getJson($this->customerOfferingUrl(null, [
             'sort_by' => 'title',
-            'sort_direction' => 'asc'
+            'sort_direction' => 'asc',
         ]));
 
         $this->assertStandardResponse($response);
@@ -203,7 +204,7 @@ class OfferingTest extends TestCase
             'min_price' => 100,
             'max_price' => 200,
             'sort_by' => 'price',
-            'sort_direction' => 'asc'
+            'sort_direction' => 'asc',
         ]));
 
         $this->assertStandardResponse($response);
@@ -267,7 +268,7 @@ class OfferingTest extends TestCase
     {
         $data = $this->createOfferingWithDaysAndSlots($this->agency, [
             'days_count' => 2,
-            'slots_per_day' => 3
+            'slots_per_day' => 3,
         ]);
         $offering = $data['offering'];
 
@@ -338,23 +339,23 @@ class OfferingTest extends TestCase
         return [
             'page not integer' => [
                 ['page' => 'abc'],
-                ['page']
+                ['page'],
             ],
             'min_price not numeric' => [
                 ['min_price' => 'abc'],
-                ['min_price']
+                ['min_price'],
             ],
             'max_price less than min_price' => [
                 ['min_price' => 200, 'max_price' => 100],
-                ['max_price']
+                ['max_price'],
             ],
             'invalid sort_by field' => [
                 ['sort_by' => 'invalid_field'],
-                ['sort_by']
+                ['sort_by'],
             ],
             'invalid sort_direction' => [
                 ['sort_direction' => 'invalid'],
-                ['sort_direction']
+                ['sort_direction'],
             ],
         ];
     }

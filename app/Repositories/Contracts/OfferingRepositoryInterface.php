@@ -2,11 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Models\Offering;
-
 interface OfferingRepositoryInterface
 {
-    public function create(array $data) : array;
+    public function create(array $data): array;
 
     public function index(int $userId, int $page, int $pageSize): array;
 

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReservationAlreadyPaidException extends Exception
 {
-    public function __construct(protected $message = "This reservation has already been paid and processed", protected int $httpStatusCode = Response::HTTP_CONFLICT)
+    public function __construct(protected $message = 'This reservation has already been paid and processed', protected int $httpStatusCode = Response::HTTP_CONFLICT)
     {
         Log::channel('sentry')->error($this->message);
         parent::__construct($message);

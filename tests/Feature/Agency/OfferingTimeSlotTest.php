@@ -14,10 +14,12 @@ use Tests\TestCase;
 
 class OfferingTimeSlotTest extends TestCase
 {
-    use RefreshDatabase, AuthenticationHelpers, ResponseHelpers;
+    use AuthenticationHelpers, RefreshDatabase, ResponseHelpers;
 
     protected User $agency;
+
     protected Offering $offering;
+
     protected OfferingDay $offeringDay;
 
     protected function setUp(): void
@@ -170,55 +172,55 @@ class OfferingTimeSlotTest extends TestCase
         return [
             'missing offering_day_id' => [
                 ['offering_day_id' => null],
-                ['offering_day_id']
+                ['offering_day_id'],
             ],
             'nonexistent offering_day_id' => [
                 ['offering_day_id' => 99999],
-                ['offering_day_id']
+                ['offering_day_id'],
             ],
             'missing start_time' => [
                 ['start_time' => null],
-                ['start_time']
+                ['start_time'],
             ],
             'invalid start_time format: 9am' => [
                 ['start_time' => '9am'],
-                ['start_time']
+                ['start_time'],
             ],
             'invalid start_time format: 9:00am' => [
                 ['start_time' => '9:00am'],
-                ['start_time']
+                ['start_time'],
             ],
             'invalid start_time format: 09:00:00' => [
                 ['start_time' => '09:00:00'],
-                ['start_time']
+                ['start_time'],
             ],
             'invalid start_time format: invalid' => [
                 ['start_time' => 'invalid'],
-                ['start_time']
+                ['start_time'],
             ],
             'missing end_time' => [
                 ['end_time' => null],
-                ['end_time']
+                ['end_time'],
             ],
             'end_time before start_time' => [
                 ['start_time' => '10:00', 'end_time' => '09:00'],
-                ['end_time']
+                ['end_time'],
             ],
             'end_time equals start_time' => [
                 ['start_time' => '09:00', 'end_time' => '09:00'],
-                ['end_time']
+                ['end_time'],
             ],
             'capacity less than 1' => [
                 ['capacity' => 0],
-                ['capacity']
+                ['capacity'],
             ],
             'capacity exceeds maximum' => [
                 ['capacity' => 1001],
-                ['capacity']
+                ['capacity'],
             ],
             'negative price_override' => [
                 ['price_override' => -10.00],
-                ['price_override']
+                ['price_override'],
             ],
         ];
     }
@@ -241,7 +243,7 @@ class OfferingTimeSlotTest extends TestCase
     {
         OfferingTimeSlot::factory()->forOfferingDay($this->offeringDay->id)->count(3)->create();
 
-        $response = $this->getJson('/api/agency/time-slots?offering_day_id=' . $this->offeringDay->id);
+        $response = $this->getJson('/api/agency/time-slots?offering_day_id='.$this->offeringDay->id);
 
         $this->assertStandardResponse($response);
         $this->assertCount(3, $response->json('data'));
@@ -264,7 +266,7 @@ class OfferingTimeSlotTest extends TestCase
         OfferingTimeSlot::factory()->forOfferingDay($this->offeringDay->id)->count(3)->create();
         OfferingTimeSlot::factory()->forOfferingDay($otherDay->id)->count(2)->create();
 
-        $response = $this->getJson('/api/agency/time-slots?offering_day_id=' . $this->offeringDay->id);
+        $response = $this->getJson('/api/agency/time-slots?offering_day_id='.$this->offeringDay->id);
 
         $this->assertStandardResponse($response);
         $this->assertCount(3, $response->json('data'));
@@ -432,7 +434,7 @@ class OfferingTimeSlotTest extends TestCase
         $otherOffering = Offering::factory()->forUser($otherAgency->id)->create();
         $otherDay = OfferingDay::factory()->forOffering($otherOffering->id)->create();
 
-        $response = $this->getJson('/api/agency/time-slots?offering_day_id=' . $otherDay->id);
+        $response = $this->getJson('/api/agency/time-slots?offering_day_id='.$otherDay->id);
 
         $response->assertStatus(401);
         $this->assertEquals('You are not allowed to access this page.', $response->json('errorMessage'));

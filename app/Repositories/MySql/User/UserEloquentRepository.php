@@ -16,7 +16,7 @@ class UserEloquentRepository implements UserRepositoryInterface
             'role' => $data['role'],
         ]);
 
-        $token = $user->createToken('api_' . $data['role'])->plainTextToken;
+        $token = $user->createToken('api_'.$data['role'])->plainTextToken;
         $arrayUser = $user->toArray();
         $arrayUser['token'] = $token;
 
@@ -30,13 +30,7 @@ class UserEloquentRepository implements UserRepositoryInterface
         return $user ? $user->toArray() : [];
     }
 
-    public function update(array $data): void
-    {
+    public function update(array $data): void {}
 
-    }
-
-    public function delete(int $id): void
-    {
-
-    }
+    public function delete(int $id): void {}
 }

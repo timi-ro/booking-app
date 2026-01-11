@@ -11,8 +11,7 @@ class EloquentOfferingPriceRangeFilter implements FilterInterface
     public function __construct(
         protected ?float $minPrice,
         protected ?float $maxPrice
-    ) {
-    }
+    ) {}
 
     public function handle(Builder $query, Closure $next): Builder
     {
