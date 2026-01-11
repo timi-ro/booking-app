@@ -1,6 +1,6 @@
 # Booking Application
 
-![Tests](https://github.com/timi-ro/booking-app/actions/workflows/tests.yml/badge.svg?branch=master)
+[![Tests](https://github.com/timi-ro/booking-app/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/timi-ro/booking-app/actions/workflows/tests.yml)
 
 A booking platform connecting service agencies with customers. Agencies can list their offerings (tours, experiences, services) with rich media, while customers can browse and book.
 
