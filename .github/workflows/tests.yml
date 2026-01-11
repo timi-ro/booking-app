@@ -77,9 +77,15 @@ jobs:
 
       - name: Run migrations
         run: php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
 
       - name: Run tests with Paratest
         run: ./vendor/bin/paratest --processes=4
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
 
       - name: Upload test results
         if: failure()
