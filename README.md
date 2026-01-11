@@ -31,9 +31,6 @@ This project uses automated testing with GitHub Actions CI.
 # Run all tests
 composer test
 
-# Run tests in parallel (faster)
-./vendor/bin/paratest
-
 # Run specific test file
 php artisan test tests/Feature/Agency/OfferingTest.php
 
