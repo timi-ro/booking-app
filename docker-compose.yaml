@@ -24,6 +24,8 @@ services:
         depends_on:
             - mysql
             - redis
+        # TODO: add healthcheck for my service
+        # TODO: If service failed it reboots the service (maybe related to healthcheck) read here: https://stackoverflow.com/questions/42216017/docker-compose-restart-policy
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
