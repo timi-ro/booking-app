@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Offering;
-use App\Models\User;
+use App\Offering\Models\Offering;
+use App\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Offering>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Offering\Models\Offering>
  */
 class OfferingFactory extends Factory
 {

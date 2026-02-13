@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Offering;
 
-use App\Exceptions\Offering\InvalidRequestException;
+use App\Offering\Exceptions\InvalidRequestException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOfferingRequest extends FormRequest

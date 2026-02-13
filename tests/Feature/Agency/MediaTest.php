@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Agency;
 
-use App\Jobs\ProcessMediaUpload;
-use App\Models\Media;
-use App\Models\Offering;
+use App\Media\Jobs\ProcessMediaUpload;
+use App\Media\Models\Media;
+use App\Offering\Models\Offering;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Tests\Feature\Traits\AuthenticationHelpers;

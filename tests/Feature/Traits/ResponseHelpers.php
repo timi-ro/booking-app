@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Traits;
 
-use App\Models\User;
+use App\Auth\Models\User;
 
 trait ResponseHelpers
 {

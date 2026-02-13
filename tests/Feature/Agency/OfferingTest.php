@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Agency;
 
-use App\Models\Offering;
-use App\Models\User;
+use App\Offering\Models\Offering;
+use App\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Feature\Traits\AuthenticationHelpers;

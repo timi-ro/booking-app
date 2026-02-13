@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Constants\UserRoles;
-use App\Exceptions\User\AuthenticationException;
+use App\Auth\Constants\UserRoles;
+use App\Auth\Exceptions\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

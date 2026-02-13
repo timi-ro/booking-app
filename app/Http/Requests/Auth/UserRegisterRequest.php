@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Constants\UserRoles;
+use App\Auth\Constants\UserRoles;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRegisterRequest extends FormRequest

@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\OfferingDay;
-use App\Models\OfferingTimeSlot;
+use App\Offering\Models\OfferingDay;
+use App\Offering\Models\OfferingTimeSlot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OfferingTimeSlot>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Offering\Models\OfferingTimeSlot>
  */
 class OfferingTimeSlotFactory extends Factory
 {
