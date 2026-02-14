@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Constants\UserRoles;
-use App\Models\User;
+use App\Auth\Constants\UserRoles;
+use App\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\DataProvider;

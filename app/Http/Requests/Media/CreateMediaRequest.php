@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Media;
 
-use App\Constants\MediaCollections;
-use App\Constants\MediaEntities;
+use App\Media\Constants\MediaCollections;
+use App\Media\Constants\MediaEntities;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateMediaRequest extends FormRequest

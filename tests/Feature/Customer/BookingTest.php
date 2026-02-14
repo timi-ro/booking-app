@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Customer;
 
-use App\Models\Booking;
-use App\Models\Offering;
-use App\Models\OfferingDay;
-use App\Models\OfferingTimeSlot;
-use App\Models\User;
+use App\Booking\Models\Booking;
+use App\Offering\Models\Offering;
+use App\Offering\Models\OfferingDay;
+use App\Offering\Models\OfferingTimeSlot;
+use App\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Redis;

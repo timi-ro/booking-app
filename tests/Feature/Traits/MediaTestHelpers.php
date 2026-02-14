@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Traits;
 
-use App\Drivers\Contracts\StorageDriverInterface;
-use App\Jobs\ProcessMediaUpload;
-use App\Models\Media;
-use App\Repositories\Contracts\MediaRepositoryInterface;
+use App\Shared\Drivers\Contracts\StorageDriverInterface;
+use App\Media\Jobs\ProcessMediaUpload;
+use App\Media\Models\Media;
+use App\Media\Repositories\Contracts\MediaRepositoryInterface;
 use Illuminate\Http\UploadedFile;
 
 trait MediaTestHelpers

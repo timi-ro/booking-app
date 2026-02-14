@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Offering;
-use App\Models\OfferingDay;
+use App\Offering\Models\Offering;
+use App\Offering\Models\OfferingDay;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OfferingDay>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Offering\Models\OfferingDay>
  */
 class OfferingDayFactory extends Factory
 {

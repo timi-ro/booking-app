@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Traits;
 
-use App\Constants\UserRoles;
-use App\Models\User;
+use App\Auth\Constants\UserRoles;
+use App\Auth\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 trait AuthenticationHelpers

@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Booking;
-use App\Models\Offering;
-use App\Models\OfferingTimeSlot;
-use App\Models\User;
+use App\Booking\Models\Booking;
+use App\Offering\Models\Offering;
+use App\Offering\Models\OfferingTimeSlot;
+use App\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Booking>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Booking\Models\Booking>
  */
 class BookingFactory extends Factory
 {
