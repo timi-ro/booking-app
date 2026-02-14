@@ -1,18 +1,18 @@
 <?php
 
 use App\Auth\Constants\UserRoles;
+use App\Auth\Controllers\AuthController;
 use App\Booking\Controllers\Agency\BookingController as AgencyBookingController;
+use App\Booking\Controllers\Customer\BookingController as CustomerBookingController;
+use App\Http\Middleware\AdminArea;
+use App\Http\Middleware\AgencyArea;
+use App\Http\Middleware\CustomerArea;
 use App\Media\Controllers\Agency\MediaController;
 use App\Offering\Controllers\Agency\OfferingController;
 use App\Offering\Controllers\Agency\OfferingDayController;
 use App\Offering\Controllers\Agency\OfferingTimeSlotController;
-use App\Auth\Controllers\AuthController;
-use App\Booking\Controllers\Customer\BookingController as CustomerBookingController;
 use App\Offering\Controllers\Customer\OfferingController as CustomerOfferingController;
 use App\Shared\Controllers\HealthController;
-use App\Http\Middleware\AdminArea;
-use App\Http\Middleware\AgencyArea;
-use App\Http\Middleware\CustomerArea;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/ping', [HealthController::class, 'ping']);

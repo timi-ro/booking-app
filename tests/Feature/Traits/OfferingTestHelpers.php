@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Traits;
 
+use App\Auth\Models\User;
 use App\Offering\Models\Offering;
 use App\Offering\Models\OfferingDay;
 use App\Offering\Models\OfferingTimeSlot;
-use App\Auth\Models\User;
 
 trait OfferingTestHelpers
 {

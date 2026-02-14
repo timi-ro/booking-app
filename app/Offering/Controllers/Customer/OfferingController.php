@@ -2,11 +2,11 @@
 
 namespace App\Offering\Controllers\Customer;
 
-use App\Offering\Exceptions\OfferingNotFoundException;
-use App\Shared\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\BrowseOfferingsRequest;
+use App\Offering\Exceptions\OfferingNotFoundException;
 use App\Offering\Services\OfferingService;
+use App\Shared\Helpers\ResponseHelper;
 
 class OfferingController extends Controller
 {

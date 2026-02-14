@@ -2,8 +2,8 @@
 
 namespace App\Shared\Drivers\Queue;
 
-use App\Shared\Drivers\Contracts\QueueDriverInterface;
 use App\Media\Jobs\ProcessMediaUpload;
+use App\Shared\Drivers\Contracts\QueueDriverInterface;
 
 class LaravelQueueDriver implements QueueDriverInterface
 {

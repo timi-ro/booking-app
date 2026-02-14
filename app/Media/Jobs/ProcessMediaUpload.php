@@ -4,9 +4,9 @@ namespace App\Media\Jobs;
 
 use App\Media\Constants\MediaFilePaths;
 use App\Media\Constants\MediaStatuses;
-use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use App\Media\Exceptions\MediaUploadFailedException;
 use App\Media\Repositories\Contracts\MediaRepositoryInterface;
+use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;

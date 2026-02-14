@@ -2,11 +2,11 @@
 
 namespace App\Media\Controllers\Agency;
 
-use App\Media\Exceptions\MediableNotFoundException;
-use App\Shared\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Media\CreateMediaRequest;
+use App\Media\Exceptions\MediableNotFoundException;
 use App\Media\Services\MediaService;
+use App\Shared\Helpers\ResponseHelper;
 
 class MediaController extends Controller
 {

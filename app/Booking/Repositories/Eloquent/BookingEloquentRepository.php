@@ -6,9 +6,9 @@ use App\Booking\Filters\EloquentBookingDateRangeFilter;
 use App\Booking\Filters\EloquentBookingOfferingIdFilter;
 use App\Booking\Filters\EloquentBookingPaymentStatusFilter;
 use App\Booking\Filters\EloquentBookingStatusFilter;
-use App\Shared\Filters\SortFilter;
 use App\Booking\Models\Booking;
 use App\Booking\Repositories\Contracts\BookingRepositoryInterface;
+use App\Shared\Filters\SortFilter;
 use Illuminate\Pipeline\Pipeline;
 
 class BookingEloquentRepository implements BookingRepositoryInterface

@@ -2,13 +2,13 @@
 
 namespace App\Offering\Controllers\Agency;
 
-use App\Offering\Exceptions\OfferingNotFoundException;
-use App\Shared\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Offering\CreateOfferingRequest;
 use App\Http\Requests\Offering\ListOfferingRequest;
 use App\Http\Requests\Offering\UpdateOfferingRequest;
+use App\Offering\Exceptions\OfferingNotFoundException;
 use App\Offering\Services\OfferingService;
+use App\Shared\Helpers\ResponseHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfferingController extends Controller

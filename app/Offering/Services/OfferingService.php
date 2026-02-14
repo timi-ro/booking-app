@@ -2,9 +2,9 @@
 
 namespace App\Offering\Services;
 
-use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use App\Offering\Exceptions\OfferingNotFoundException;
 use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
+use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use Illuminate\Support\Facades\Cache;
 
 class OfferingService

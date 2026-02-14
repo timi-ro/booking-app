@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Customer;
 
-use App\Offering\Models\Offering;
 use App\Auth\Models\User;
+use App\Offering\Models\Offering;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use PHPUnit\Framework\Attributes\DataProvider;

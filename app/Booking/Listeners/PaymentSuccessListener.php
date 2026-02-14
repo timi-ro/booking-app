@@ -6,9 +6,9 @@ use App\Booking\Events\PaymentSuccessEvent;
 use App\Booking\Exceptions\ReservationAlreadyPaidException;
 use App\Booking\Exceptions\ReservationExpiredException;
 use App\Booking\Repositories\Contracts\BookingRepositoryInterface;
-use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
 use App\Booking\Services\BookingService;
 use App\Booking\Services\TemporaryReservationService;
+use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 

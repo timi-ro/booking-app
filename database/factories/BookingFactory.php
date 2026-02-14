@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Auth\Models\User;
 use App\Booking\Models\Booking;
 use App\Offering\Models\Offering;
 use App\Offering\Models\OfferingTimeSlot;
-use App\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

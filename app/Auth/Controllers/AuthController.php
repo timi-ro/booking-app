@@ -2,11 +2,11 @@
 
 namespace App\Auth\Controllers;
 
-use App\Shared\Helpers\ResponseHelper;
+use App\Auth\Services\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
-use App\Auth\Services\AuthService;
+use App\Shared\Helpers\ResponseHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

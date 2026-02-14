@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
+use App\Auth\Repositories\Contracts\UserRepositoryInterface;
+use App\Auth\Repositories\Eloquent\UserEloquentRepository;
+use App\Booking\Repositories\Contracts\BookingRepositoryInterface;
+use App\Booking\Repositories\Eloquent\BookingEloquentRepository;
+use App\Media\Repositories\Contracts\MediaRepositoryInterface;
+use App\Media\Repositories\Eloquent\MediaEloquentRepository;
+use App\Offering\Repositories\Contracts\OfferingDayRepositoryInterface;
+use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
+use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
+use App\Offering\Repositories\Eloquent\OfferingDayEloquentRepository;
+use App\Offering\Repositories\Eloquent\OfferingEloquentRepository;
+use App\Offering\Repositories\Eloquent\OfferingTimeSlotEloquentRepository;
 use App\Shared\Drivers\Contracts\QueueDriverInterface;
 use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use App\Shared\Drivers\Queue\LaravelQueueDriver;
 use App\Shared\Drivers\Storage\LaravelStorageDriver;
-use App\Booking\Repositories\Contracts\BookingRepositoryInterface;
-use App\Media\Repositories\Contracts\MediaRepositoryInterface;
-use App\Offering\Repositories\Contracts\OfferingDayRepositoryInterface;
-use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
-use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
-use App\Auth\Repositories\Contracts\UserRepositoryInterface;
-use App\Booking\Repositories\Eloquent\BookingEloquentRepository;
-use App\Media\Repositories\Eloquent\MediaEloquentRepository;
-use App\Offering\Repositories\Eloquent\OfferingEloquentRepository;
-use App\Offering\Repositories\Eloquent\OfferingDayEloquentRepository;
-use App\Offering\Repositories\Eloquent\OfferingTimeSlotEloquentRepository;
-use App\Auth\Repositories\Eloquent\UserEloquentRepository;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;

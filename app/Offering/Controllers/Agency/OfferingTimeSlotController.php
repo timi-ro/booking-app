@@ -2,13 +2,13 @@
 
 namespace App\Offering\Controllers\Agency;
 
-use App\Shared\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferingTimeSlot\BulkCreateTimeSlotsRequest;
 use App\Http\Requests\OfferingTimeSlot\CreateTimeSlotRequest;
 use App\Http\Requests\OfferingTimeSlot\ListTimeSlotsRequest;
 use App\Http\Requests\OfferingTimeSlot\UpdateTimeSlotRequest;
 use App\Offering\Services\OfferingTimeSlotService;
+use App\Shared\Helpers\ResponseHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 class OfferingTimeSlotController extends Controller

@@ -3,13 +3,13 @@
 namespace App\Booking\Controllers\Customer;
 
 use App\Booking\Events\PaymentSuccessEvent;
-use App\Shared\Helpers\ResponseHelper;
+use App\Booking\Services\BookingService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\CancelBookingRequest;
 use App\Http\Requests\Booking\ConfirmPaymentRequest;
 use App\Http\Requests\Booking\CreateReservationRequest;
 use App\Http\Requests\Booking\ListBookingsRequest;
-use App\Booking\Services\BookingService;
+use App\Shared\Helpers\ResponseHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

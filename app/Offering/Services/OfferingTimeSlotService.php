@@ -2,10 +2,10 @@
 
 namespace App\Offering\Services;
 
-use App\Offering\Exceptions\OfferingNotFoundException;
-use App\Offering\Exceptions\OfferingDayNotFoundException;
-use App\Offering\Exceptions\OfferingTimeSlotNotFoundException;
 use App\Auth\Exceptions\AuthenticationException;
+use App\Offering\Exceptions\OfferingDayNotFoundException;
+use App\Offering\Exceptions\OfferingNotFoundException;
+use App\Offering\Exceptions\OfferingTimeSlotNotFoundException;
 use App\Offering\Repositories\Contracts\OfferingDayRepositoryInterface;
 use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
 use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;

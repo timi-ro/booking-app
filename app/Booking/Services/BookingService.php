@@ -2,13 +2,13 @@
 
 namespace App\Booking\Services;
 
+use App\Auth\Exceptions\AuthenticationException;
 use App\Booking\Exceptions\BookingAlreadyCancelledException;
 use App\Booking\Exceptions\BookingNotFoundException;
 use App\Booking\Exceptions\BookingTimeNotPassedException;
 use App\Booking\Exceptions\SlotFullyBookedException;
-use App\Offering\Exceptions\OfferingTimeSlotNotFoundException;
-use App\Auth\Exceptions\AuthenticationException;
 use App\Booking\Repositories\Contracts\BookingRepositoryInterface;
+use App\Offering\Exceptions\OfferingTimeSlotNotFoundException;
 use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
 use App\Offering\Repositories\Contracts\OfferingTimeSlotRepositoryInterface;
 use Carbon\Carbon;

@@ -2,8 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Offering\Exceptions\OfferingNotFoundException;
 use App\Offering\Exceptions\OfferingDayNotFoundException;
+use App\Offering\Exceptions\OfferingNotFoundException;
 use App\Offering\Exceptions\OfferingTimeSlotNotFoundException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Agency;
 
+use App\Auth\Models\User;
 use App\Booking\Models\Booking;
 use App\Offering\Models\Offering;
 use App\Offering\Models\OfferingDay;
 use App\Offering\Models\OfferingTimeSlot;
-use App\Auth\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Traits\AuthenticationHelpers;
 use Tests\Feature\Traits\ResponseHelpers;

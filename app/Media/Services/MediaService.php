@@ -4,15 +4,15 @@ namespace App\Media\Services;
 
 use App\Media\Constants\MediaEntities;
 use App\Media\Constants\MediaStatuses;
-use App\Shared\Drivers\Contracts\QueueDriverInterface;
-use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use App\Media\Exceptions\DuplicateMediaException;
 use App\Media\Exceptions\InvalidMediaEntityException;
 use App\Media\Exceptions\MediableNotFoundException;
 use App\Media\Jobs\ProcessMediaUpload;
-use App\Offering\Models\Offering;
 use App\Media\Repositories\Contracts\MediaRepositoryInterface;
+use App\Offering\Models\Offering;
 use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
+use App\Shared\Drivers\Contracts\QueueDriverInterface;
+use App\Shared\Drivers\Contracts\StorageDriverInterface;
 use Illuminate\Support\Str;
 
 class MediaService

@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Offering\Models\Offering;
 use App\Auth\Models\User;
+use App\Offering\Models\Offering;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

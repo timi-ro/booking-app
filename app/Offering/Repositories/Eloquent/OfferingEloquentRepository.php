@@ -4,9 +4,9 @@ namespace App\Offering\Repositories\Eloquent;
 
 use App\Offering\Filters\EloquentOfferingPriceRangeFilter;
 use App\Offering\Filters\EloquentOfferingSearchFilter;
-use App\Shared\Filters\SortFilter;
 use App\Offering\Models\Offering;
 use App\Offering\Repositories\Contracts\OfferingRepositoryInterface;
+use App\Shared\Filters\SortFilter;
 use Illuminate\Pipeline\Pipeline;
 
 class OfferingEloquentRepository implements OfferingRepositoryInterface
