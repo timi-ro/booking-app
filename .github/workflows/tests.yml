@@ -28,9 +28,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-composer-v2-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-v2-
+            ${{ runner.os }}-composer-v3-
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
@@ -71,9 +71,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-composer-v2-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-v3-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-v2-
+            ${{ runner.os }}-composer-v3-
 
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
